@@ -1,4 +1,4 @@
-# Rootstrap: WordPress Theme Framework
+# Rootstrap: a WordPress Development Toolkit
 
 Rootstrap is a collection of utilities for managing WordPress Customizer controls, settings, responsive breakpoints and styles. 
 
@@ -8,7 +8,7 @@ Rootstrap is a collection of utilities for managing WordPress Customizer control
 * PHP 5.6+ (7.0+ recommended).
 * [Composer](https://getcomposer.org/) for managing PHP dependencies.
 
-The framework is coded to work on PHP 5.6+, but only 7.0+ is officially supported.
+This package is will work with PHP 5.6+, but only 7.0+ is officially supported.
 
 ## Features
 
@@ -72,9 +72,12 @@ A preview:
 
 // what's up doc?
 
+## Notes and Gratitude
+
+Thanks to Justin Tadlock for the Collections class. 
 
 ## Copyright and License
 
 This project is licensed under the [GNU GPL](http://www.gnu.org/licenses/old-licenses/gpl-2.0.html), version 2 or later.
 
-2014-2018 &copy; [Sky Shabatura](https://sky.camp).
+2014-2018 &copy; [Sky Shabatura]
