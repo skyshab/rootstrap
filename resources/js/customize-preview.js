@@ -1,210 +1,164 @@
-/**
- * Utility module for use when adding customizer live styles.
- * Loaded at the 'customize_preview_init' action hook.
- */
-var rootstrapPreview = ( function($) {
+"use strict";
 
-    /**
-     * Stores wp.customize object
-     */
-    var api;
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
-    /**
-     * Stores rootstrap registered devices
-     */
-    var devices;
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
 
-    /**
-     * Get list of device names
-     */
-    var getDeviceList = function() {
-        return Object.keys(parent.rootstrapDevices);
-    };
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-    /**
-     * Updates live preview styleblock for a specified setting
-     *
-     * @param  object styleObj - contains styleblock id, screen and styles
-     */
-    var style = function( styleObj = false ) {
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-        if( ! styleObj || ! styleObj.id ) return;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-        var device = 'default';
-        var andUp = false;
-        var andUnder = false;
-        var styleContent = false;
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-        // if device has 'and up' flag
-        if( styleObj.device && styleObj.device.endsWith( '-and-up') ) {
-            andUp = true;
-            device = styleObj.device.replace( '-and-up', '' );
-        }
-        // if device has 'and under' flag
-        else if( styleObj.device && styleObj.device.endsWith( '-and-under') ) {
-            andUnder = true;
-            device = styleObj.device.replace( '-and-under', '' );
-        }
-        // no flags
-        else if( styleObj.device ){
-            device = styleObj.device;
-        }
-
-        // define styleblock id
-        var outputId = ( device != 'default' ) ? styleObj.id + '-' + device : styleObj.id;
-
-        // if a value was supplied, replace all instances in styles.
-        if( styleObj.value && styleObj.styles ) {
-            styleContent = styleObj.styles.replace( /{{value}}/g, styleObj.value );
-        }
-        // otherise, just get the styles
-        else if( styleObj.styles && styleObj.styles.indexOf("{{value}}") < 0 ) {
-            styleContent = styleObj.styles;              
-        }
-        // no styles at all? outta here
-        else return;
-
-        // create our styleblock
-        var output = $('<style></style>');
-
-        // get media query
-        var query = getMediaQuery( device, andUnder, andUp );
-
-        // wrap styles in media query
-        output.html( query.open + styleContent + query.close );
-
-        // get device hook id
-        var hookId = getStyleHookId( device );
-
-        // define style hook element
-        var hook = $( hookId );
-
-        // remove any existing version of the styleblock
-        $( '#' + outputId  ).remove();
-
-        // add id to new styleblock
-        output.attr( 'id', outputId );
-
-        // add new styleblock before device hook
-        output.insertBefore( hook );
-
-    }; // end style
-
-    /**
-     * Create a media query object for a specified screen
-     *
-     * @param  string theDevice - the device id to build the query from
-     * @param  bool andUnder - flag for device state min width
-     * @param  bool current - flag for device state max width
-     */
-    var getMediaQuery = function( theDevice = false, andUnder = false, andUp = false ) {
-
-        var query = {};
-
-        if( theDevice && isDevice( theDevice ) ){
-            var device = devices[theDevice];
-            var min = ( device['min'] && ! andUnder ) ? device['min'] : false;
-            var max = ( device['max'] && ! andUp ) ? device['max'] : false;
-            query['open'] = '@media screen and ';
-
-            if( min ){
-                query['open'] += '(min-width: ' + min + ')';
-
-                if( max ){
-                    query['open'] += ' and (max-width: ' + max + ')';
-                }
-            }
-            else if( max ){
-                query['open'] += '(max-width: ' + max + ')';
-            }
-            else return {"open": '', "close": ''};
-            
-            query['open'] += '{';
-            query['close'] = '}';
-        }
-        else {
-            query['open'] = '';
-            query['close'] = '';
-        }
-
-        return query;
-
-    }; // end getMediaQuery
-
-    /**
-     * Checks to see if specified device is registered
-     *
-     * @param  string device - the device id to check
-     */
-    var isDevice = function( device ) {
-
-        return ( devices[device] ) ? true : false;
-
-    }; // end isDevice
-
-    /**
-     * Assembles style hook id string from specified device
-     *
-     * @param  string device - the device to create placeholder id for
-     */
-    var getStyleHookId = function( device ){
-
-        return "#rootstrap-style-hook-" + device;
-
-    }; // end getStyleHookId
-
-    /**
-     * Adds placeholder hooks to header for keeping responsive styles in order
-     */
-    var hooksInit = function() {
-
-        // add default hook
-        $('<meta id="rootstrap-style-hook-default" name="rootstrap-style-hook-default">').appendTo('head');
-
-        // create hook for each registered device
-        $.each( devices, function(d, atts) {
-            var hookId = 'rootstrap-style-hook' + '-' + d;
-            var hook = $('<meta>');
-            hook.attr( 'id', hookId );
-            hook.attr( 'name', hookId );
-            hook.appendTo('head');
-        });
-
-    }; // end hooksInit
-
-    /**
-     * Initialize our module
-     */
-    var init = function() {
-
-      // define api attribute
-      api = wp.customize;
-
-      // if wp.customize is not defined, return
-      if( ! api ) return false;
-
-      // define registered devices
-      devices = parent.rootstrapDevices;
-
-      // add style hooks to head
-      hooksInit();
-
-    }; // end init
-
-    /**
-     * Expose public methods
-     */
-    return {
-        init: init,
-        style: style,
-        getDeviceList: getDeviceList
-    };
-
-})( jQuery ); // end rootstrapPreview
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 /**
- * Initialize our module on document ready
+ * Scripts for working with customizer preview actions
+ *
+ * @package   Rootstrap
+ * @author    Sky Shabatura
+ * @copyright Copyright (c) 2018, Sky Shabatura
+ * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
-jQuery(document).ready(function($) {
-    rootstrapPreview.init();
+
+/*
+ * Class for adding styles
+ */
+var Styles =
+/*#__PURE__*/
+function () {
+  function Styles(data) {
+    _classCallCheck(this, Styles);
+
+    if (!data.id || !data.selector) return false;
+    this.screen = data.screen;
+    this.id = this.screen ? "".concat(data.id, "--").concat(data.screen) : data.id;
+    this.selector = data.selector;
+    this.styles = data.styles;
+    this.init();
+  }
+
+  _createClass(Styles, [{
+    key: "init",
+    value: function init() {
+      this.removeStyleblock();
+      this.insertStyleblock();
+    }
+  }, {
+    key: "removeStyleblock",
+    value: function removeStyleblock() {
+      var oldBlock = document.getElementById(this.getHook());
+      if (oldBlock !== null) oldBlock.remove();
+    }
+  }, {
+    key: "insertStyleblock",
+    value: function insertStyleblock() {
+      document.head.insertBefore(this.getStyleBlock(), this.getHook());
+    }
+  }, {
+    key: "openQuery",
+    value: function openQuery() {
+      if (!this.screen) return '';
+      var screens = parent.rootstrapData.screens;
+      var screen = screens[this.screen];
+      var query = '';
+
+      if (screen.min || screen.max) {
+        query += '@media ';
+        if (screen.min) query += "(min-width: ".concat(screen.min, ")");
+        if (screen.max) query += ' and ';
+        if (screen.max) query += "(max-width: ".concat(screen.max, ")");
+        query += '{';
+      }
+
+      return query;
+    }
+  }, {
+    key: "getStyles",
+    value: function getStyles() {
+      var styles = this.selector + '{';
+
+      var _arr = Object.entries(this.styles);
+
+      for (var _i = 0; _i < _arr.length; _i++) {
+        var _arr$_i = _slicedToArray(_arr[_i], 2),
+            property = _arr$_i[0],
+            value = _arr$_i[1];
+
+        if (!property || !value) continue;
+        styles += "".concat(property, ": ").concat(value, ";");
+      }
+
+      styles += '}';
+      return styles;
+    }
+  }, {
+    key: "closeQuery",
+    value: function closeQuery() {
+      return this.screen ? '}' : '';
+    }
+  }, {
+    key: "getStyleBlock",
+    value: function getStyleBlock() {
+      var styleblock = document.createElement("style");
+      styleblock.setAttribute("id", this.id);
+      styleblock.textContent = this.openQuery() + this.getStyles() + this.closeQuery();
+      return styleblock;
+    }
+  }, {
+    key: "getHook",
+    value: function getHook() {
+      return document.getElementById("rootstrap-style-hook--" + this.screen);
+    }
+  }]);
+
+  return Styles;
+}();
+/*
+ * Object for interfacing with rootstrap
+ */
+
+
+var rootstrap = {
+  screens: function screens() {
+    return Object.entries(parent.rootstrapData.screens);
+  },
+  style: function style(data) {
+    var style = new Styles(data);
+  }
+};
+/*
+ * Add style hooks on document ready
+ */
+
+document.addEventListener("DOMContentLoaded", function () {
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = rootstrap.screens()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var screen = _step.value;
+      var hook = document.createElement("meta");
+      var hookID = "rootstrap-style-hook--".concat(screen[0]);
+      hook.setAttribute("id", hookID);
+      hook.setAttribute("name", hookID);
+      document.head.appendChild(hook);
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return != null) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
 });

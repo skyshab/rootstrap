@@ -19,17 +19,12 @@ if ( ! defined( 'ROOTSTRAP_DIR' ) ) {
 }
 
 // Check if the framework has been bootstrapped. 
-// If not, load the bootstrap files and get the framework set up.
+// If not, define the roostrapped constant and load functions files.
 if ( ! defined( 'ROOTSTRAPPED' ) ) {
 
 	define( 'ROOTSTRAPPED', true );
 
 	// Load our custom functions files that are not loaded via the class loader.
 	require_once( 'Core/functions-rootstrap.php');
-	require_once( 'Tools/functions-utilities.php');
-	require_once( 'Modules/Screens/functions-screens.php');
-	require_once( 'Modules/Screens/functions-customize.php');
-	require_once( 'Modules/Customize_Defaults/functions-customize-defaults.php' );
-	require_once( 'Modules/Post_Customizer/functions-post-customizer.php' );
-
+	require_once( 'Utilities/functions-utilities.php');
 }

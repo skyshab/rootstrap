@@ -14,7 +14,7 @@
 
 namespace Rootstrap\Modules\Screens;
 
-use Rootstrap\Tools\Collection;
+use Rootstrap\Utilities\Collection;
 use Rootstrap\Modules\Screens\Device;
 
 

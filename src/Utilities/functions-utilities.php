@@ -22,3 +22,23 @@ namespace Rootstrap;
 function get_post_meta_value( $id, $default = false ) {
 	return ( get_post_meta( get_the_ID(), $id, true ) ) ?: $default;
 }
+
+
+/**
+ * Utility section used to hide proceeding sections.
+ * Any sections with priority > 999 will be hidden. 
+ *
+ * @since 1.0.0
+ * @return string
+ */
+function section_hider( $customize, $panel ) {
+
+	$id = sprintf( 'rootstrap-section-hider-%s', $panel );
+
+	$customize->add_section( $id, [
+		'priority' => 999,
+		'panel' => $panel,
+	]);
+}
+
+

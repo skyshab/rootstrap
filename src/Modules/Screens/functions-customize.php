@@ -46,7 +46,7 @@ function print_customize_controls_styles() {
         $styles->add([
             'selector' => sprintf( 'body .preview-%s #customize-preview iframe', $name ),
             'styles' => [
-                'max-width' => $device->max() . '!important'
+                'width' => $device->max() . '!important'
             ],
             'callback' => $device->max()
         ]);

@@ -14,7 +14,7 @@
 
 namespace Rootstrap\Core;
 
-use Rootstrap\Tools\Collection;
+use Rootstrap\Utilities\Collection;
 
 
 /**

@@ -15,6 +15,9 @@
 namespace Rootstrap\Core;
 
 use Rootstrap\Core\Rootstrap_Contract as Contract;
+use Rootstrap\Core\Manager as Manager;
+
+use function Rootstrap\Modules\Screens\get_devices_array;
 
 
 /**
@@ -35,6 +38,14 @@ class Rootstrap implements Contract {
     private $config;
 
     /**
+     * Stores resources uri
+     * 
+     * @since 1.0.0
+     * @var array
+     */ 
+    private $resources = false;
+
+    /**
      * Stores Modules object
      * 
      * @since 1.0.0
@@ -49,6 +60,14 @@ class Rootstrap implements Contract {
      * @var array
      */ 
     private $instances = array();     
+
+    /**
+     * Stores preview data
+     * 
+     * @since 1.0.0
+     * @var array
+     */ 
+    private $js_data = array();     
 
 
     /**
@@ -76,9 +95,10 @@ class Rootstrap implements Contract {
 	 * @return void
 	 */
 	public function __construct() {
-
         $this->register_modules();
         $this->register_instances();
+        $this->register_includes();
+        $this->register_boots();
         $this->boot();
     }
 
@@ -116,6 +136,8 @@ class Rootstrap implements Contract {
 
         foreach ( $modules as $module ) {
 
+            if( !$module->instances() ) continue;
+
             $namespace = $module->namespace();
 
             foreach ( $module->instances() as $instance ) {
@@ -129,12 +151,36 @@ class Rootstrap implements Contract {
 
 
     /**
+     * Instantiate and store module Class instances 
+     * 
+     * @since 1.0.0
+     * @return void
+     */
+    private function register_includes() {
+
+        $modules = $this->modules->all();
+
+        foreach ( $modules as $module ) {
+
+            if( !$module->includes() ) continue;
+
+            foreach ( $module->includes() as $include ) {
+                
+                $file = sprintf( '%s/Modules/%s/%s.php', ROOTSTRAP_DIR, $module, $include );
+
+                require_once( $file );      
+            }
+        }     
+    }
+
+
+    /**
      * Boot any classes needed by our modules
      * 
      * @since 1.0.0
      * @return void
      */
-    private function boot() {
+    private function register_boots() {
 
         $modules = $this->modules->all();
 
@@ -149,6 +195,30 @@ class Rootstrap implements Contract {
                 ( $boot::instance() )->boot();                 
             }
         }       
+    }
+
+
+    /*
+     * Add our actions
+     * 
+     * @since 1.0.0
+     * @return void
+     */
+    private function boot() {
+        add_action('init', [$this, 'register_resources' ], 100 );
+    }
+
+
+    /*
+     * Initiate the class that loads our resources
+     * 
+     * @since 1.0.0
+     * @return void
+     */
+    public function register_resources() {
+        if( !$this->get_resources() ) return false;
+        $manager = Manager::instance();
+        $manager->boot( $this->get_resources(), $this->get_js_data() );
     }
 
 
@@ -171,14 +241,36 @@ class Rootstrap implements Contract {
      * @return array
      */
     public function get_config( $data = false ) {
-
-        if( $data ) {
+        if( $data )
             if( !isset( $this->config[$data] ) ) return [];
             return $this->config[$data];
-        }
 
         return $this->config;
     }
+
+
+    /**
+     * Set resources URI.
+     * Used to load module scripts and styles.
+     * 
+     * @since 1.0.0
+     * @return array
+     */
+    public function set_resources( $uri ) {
+        $this->resources = $uri;
+    }
+
+    
+    /**
+     * Get resources URI.
+     * Used to load module scripts and styles.
+     * 
+     * @since 1.0.0
+     * @return array
+     */
+    public function get_resources() {
+        return $this->resources;
+    }    
 
 
     /**
@@ -191,4 +283,25 @@ class Rootstrap implements Contract {
         return $this->instances[$class];
     } 
 
+
+    /**
+     * Get Preview Data
+     * 
+     * @since 1.0.0
+     * @return object
+     */
+    public function get_js_data() {
+        return $this->js_data;
+    } 
+
+
+    /**
+     * Set Preview Data
+     * 
+     * @since 1.0.0
+     * @return void
+     */
+    public function add_js_data( $key = false, $data ) {
+        if( $key ) $this->js_data[$key] = $data;        
+    }     
 } 

@@ -8,14 +8,12 @@ Rootstrap is a collection of utilities for managing WordPress Customizer control
 * PHP 5.6+ (7.0+ recommended).
 * [Composer](https://getcomposer.org/) for managing PHP dependencies.
 
-This package is will work with PHP 5.6+, but only 7.0+ is officially supported.
 
 ## Features
 
-Rootstrap allows theme or plugin developers to define certain project variables in 
-a configuration file, and have them applied in the Customizer and admin. It also 
-includes a collection of tools for managing customizer controls, settings,
-responsive breakpoints and styles. 
+Rootstrap is a collection of tools for use when implementing the WordPress Customize API in 
+your theme or plugin. Certain project variables can be defined within a config file and utilized 
+when creating customizer sections and controls or rendering out the related styles.
 
 * Devices
 
@@ -34,7 +32,8 @@ responsive breakpoints and styles.
 
   Styles for customizer settings can be created cleanly within PHP, organized by screen, 
   and stored in a variable or echoed out when needed. Each style can be associated with a Screen, 
-  and all styles of each screen will be output together in a single media query. 
+  and all styles of each screen will be output together in a single media query. There is also a
+  javascript api for controlling responsive styles in the customize preview.
 
 * Customizer defaults
 
@@ -49,30 +48,33 @@ responsive breakpoints and styles.
   the post values will supercede the customizer settings. This functionality can be enabled 
   on any post types, but is set to posts only by default.
 
+* Customizer Section Tabs 
+
+  Allows you to create a tabbed interface within sections in the customizer control panel, 
+ with the ption to add a preview device trigger when opening a tab. 
+
+* Customizer Section Sequences 
+
+  Allows you to add a navigation bar with arrow navigation to the top of customizer sections. 
+  Has options to show or hide the sections in the panel, reverse the order of the navigation, display 
+  prev/next labels, and add a preview device trigger. 
+
 
 ### Installation
 
-Use the following command from your preferred command line utility to install the package.
+Use the following command from your command line to install the package.
 
-```bash
+```
 composer require skyshab/rootstrap
 ```
 
-### Using Rootstrap in your theme
-
-A preview:
-
-* How to load the javascript
-* Define Laravel Mix alias 
-* Creating a Rootstrap config file
-* Working with Styles and Screens
-* Define supported post types for the Post Customizer
-
 ## Documentation
 
-// what's up doc?
+Read the project wiki:
+(https://github.com/skyshab/rootstrap/wiki)
 
-## Notes and Gratitude
+
+## Notes
 
 Thanks to Justin Tadlock for the Collections class. 
 

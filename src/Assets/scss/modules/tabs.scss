@@ -1,0 +1,37 @@
+/*
+ * Styles for tab navigation controls
+ */
+
+.customize-control.customize-control-rootstrap-tabs {
+    border-bottom: 1px solid #EEEEEE;
+    margin: -15px -12px 12px -12px;
+    padding-top: 12px;
+    width: calc(100% + 24px);
+    background-color: #fff;
+    text-align: right;
+}
+  
+.rootstrap-tab {
+    background: #ccc;
+    border: 1px solid transparent;
+    color: white;
+    padding: .6em 1em;
+    margin: 0;
+    margin-right: 12px;
+    z-index: 2;
+    position: relative;
+    display: inline-block;
+    text-transform: capitalize;
+    transition: color 0.5s ease-in-out;
+    text-decoration: none;
+
+    &:hover {
+        color: inherit;
+    }
+        
+    &.current-tab {
+        background: #EEEEEE;
+        color: inherit;
+        cursor: default;    
+    }
+}

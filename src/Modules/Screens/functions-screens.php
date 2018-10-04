@@ -67,6 +67,26 @@ function get_screens() {
 
 
 /**
+ * Get Screens Array
+ *
+ * @since  1.0.0
+ * @access public
+ * @return array
+ */
+function get_screens_array() {
+
+	$array = [];
+
+	foreach( get_screens() as $name => $device ) {
+		$array[$name]['min'] = $device->min();
+		$array[$name]['max'] = $device->max();		
+	}
+
+	return $array;
+}
+
+
+/**
  * Get site Devices instance.
  *
  * @since  1.0.0
