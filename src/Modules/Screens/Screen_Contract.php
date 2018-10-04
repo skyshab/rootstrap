@@ -13,6 +13,7 @@
 
 namespace Rootstrap\Modules\Screens;
 
+
 /**
  * Screen interface.
  *
@@ -21,31 +22,31 @@ namespace Rootstrap\Modules\Screens;
  */
 interface Screen_Contract {
 
-	/**
-	 * Returns the screen name.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return string
-	 */
-	public function name();
+    /**
+     * Returns the screen name.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return string
+     */
+    public function name();
 
-	/**
-	 * Returns the screen min width.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return string
-	 */
-	public function min();
+    /**
+     * Returns the screen min width.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return string
+     */
+    public function min();
 
-	/**
-	 * Returns the screen max width.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return string
-	 */
-	public function max();
+    /**
+     * Returns the screen max width.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return string
+     */
+    public function max();
 
 }

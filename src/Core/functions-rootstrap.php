@@ -22,7 +22,7 @@ use Rootstrap\Core\Rootstrap;
  * @return Rootstrap
  */
 function rootstrap() {
-	return Rootstrap::instance();
+    return Rootstrap::instance();
 }
 
 
@@ -34,7 +34,7 @@ function rootstrap() {
  * @return array
  */
 function get_config( $data = false ) {
-	return rootstrap()->get_config( $data );
+    return rootstrap()->get_config( $data );
 }
 
 
@@ -47,7 +47,7 @@ function get_config( $data = false ) {
  * @return void
  */
 function set_config( $config ) {
-	rootstrap()->set_config( $config );
+    rootstrap()->set_config( $config );
 }
 
 
@@ -59,7 +59,7 @@ function set_config( $config ) {
  * @return object
  */
 function get_instance( $class ) {
-	return rootstrap()->get_instance( $class );
+    return rootstrap()->get_instance( $class );
 }
 
 /**
@@ -72,7 +72,7 @@ function get_instance( $class ) {
  * @return void
  */
 function set_resources_uri( $uri ) {
-	rootstrap()->set_resources( $uri );
+    rootstrap()->set_resources( $uri );
 }
 
 
@@ -85,7 +85,7 @@ function set_resources_uri( $uri ) {
  * @return string
  */
 function get_resources_uri() {
-	return rootstrap()->get_resources();
+    return rootstrap()->get_resources();
 }
 
 
@@ -99,7 +99,7 @@ function get_resources_uri() {
  * @return string
  */
 function get_js_data() {
-	return rootstrap()->get_js_data();
+    return rootstrap()->get_js_data();
 }
 
 
@@ -112,5 +112,5 @@ function get_js_data() {
  * @return void
  */
 function add_js_data( $key, $data ) {
-	rootstrap()->add_js_data( $key, $data );
+    rootstrap()->add_js_data( $key, $data );
 }

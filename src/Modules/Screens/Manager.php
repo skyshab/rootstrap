@@ -45,29 +45,29 @@ class Manager {
 
     /**
      * Private constructor 
-	 * 
-	 * @since  1.0.0
-	 * @access private
+     * 
+     * @since  1.0.0
+     * @access private
      */
     private function __construct(){}
 
 
-	/**
-	 * Sets up the screens manager actions and filters.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return void
-	 */
-	public function boot() {
+    /**
+     * Sets up the screens manager actions and filters.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return void
+     */
+    public function boot() {
 
-		// Add registration callback for devices.
+        // Add registration callback for devices.
         add_action( 'init', [ $this, 'register_devices' ], 95 );
         
-		// Add registration callback for screens.
+        // Add registration callback for screens.
         add_action( 'init', [ $this, 'register_screens' ], 100 );    
         
-		// Add registration callback for screens.
+        // Add registration callback for screens.
         add_action( 'init', [ $this, 'register_js_data' ], 100 );            
 
         // Set Customizer Devices
@@ -76,64 +76,64 @@ class Manager {
         // Add Customizer Screen Styles
         add_action( 'customize_controls_print_styles', [ $this, 'customize_controls_print_styles' ] ); 
 
-	}
+    }
 
 
-	/**
-	 * Creates intial devices as defined in Rootstrap config
-	 * Executes the action hook for plugins or themes to register their devices.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return void
-	 */
-	public function register_devices() {
+    /**
+     * Creates intial devices as defined in Rootstrap config
+     * Executes the action hook for plugins or themes to register their devices.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return void
+     */
+    public function register_devices() {
 
         $devices = rootstrap()->get_config( 'devices' );
 
-		// create our intial screens as defined in Rootstrap config
-		foreach( $devices as $device => $args ) {
-			add_device( $device, [ 'min' => $args['min'], 'max'=> $args['max'], 'icon' => $args['icon'] ] );
-		}
+        // create our intial screens as defined in Rootstrap config
+        foreach( $devices as $device => $args ) {
+            add_device( $device, [ 'min' => $args['min'], 'max'=> $args['max'], 'icon' => $args['icon'] ] );
+        }
 
-		// action hook for plugins and child themes to add or remove devices
+        // action hook for plugins and child themes to add or remove devices
         do_action( 'rootstrap/devices/register', devices() );        
-	}
+    }
 
 
-	/**
-	 * Creates intial screens from registered devices.
-	 * Executes the action hook for plugins or themes to register their screens.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return void
-	 */
-	public function register_screens() {
+    /**
+     * Creates intial screens from registered devices.
+     * Executes the action hook for plugins or themes to register their screens.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return void
+     */
+    public function register_screens() {
 
         $screens = $this->screens();
 
-		// create our intial screens as defined in Rootstrap config
-		foreach( $screens as $screen => $args ) {
-			add_screen( $screen, [ 'min' => $args['min'], 'max'=> $args['max'] ] );
-		}
+        // create our intial screens as defined in Rootstrap config
+        foreach( $screens as $screen => $args ) {
+            add_screen( $screen, [ 'min' => $args['min'], 'max'=> $args['max'] ] );
+        }
 
-		// action hook for plugins and child themes to add or remove screens
-		do_action( 'rootstrap/screens/register', screens() );
-	}
+        // action hook for plugins and child themes to add or remove screens
+        do_action( 'rootstrap/screens/register', screens() );
+    }
 
 
-	/**
-	 * Registers devices and screens in our customizer js
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return void
-	 */
-	public function register_js_data() {        
+    /**
+     * Registers devices and screens in our customizer js
+     *
+     * @since  1.0.0
+     * @access public
+     * @return void
+     */
+    public function register_js_data() {        
         add_js_data( 'devices', get_devices_array() );
         add_js_data( 'screens', get_screens_array() );
-	}
+    }
 
 
     /**
@@ -141,7 +141,7 @@ class Manager {
      * 
      * @since 1.0.0   
      * @access private
-	 * @return array
+     * @return array
      */
     private function screens() {
 
@@ -257,5 +257,5 @@ class Manager {
     public function customize_controls_print_styles() {
         print_customize_controls_styles();
     }
-	
+    
 }

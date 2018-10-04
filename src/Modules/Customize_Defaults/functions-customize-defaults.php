@@ -24,7 +24,7 @@ use function Rootstrap\rootstrap;
  * @return object
  */
 function customize_defaults() {
-	return rootstrap()->get_instance( 'Customize_Defaults');
+    return rootstrap()->get_instance( 'Customize_Defaults');
 }
 
 
@@ -38,7 +38,7 @@ function customize_defaults() {
  * @return void
  */
 function add_customize_default( $id, $value ) {
-	customize_defaults()->add( $id, $value );
+    customize_defaults()->add( $id, $value );
 }
 
 
@@ -51,7 +51,7 @@ function add_customize_default( $id, $value ) {
  * @return object
  */
 function get_customize_default( $id ) {
-	return customize_defaults()->get( $id );;
+    return customize_defaults()->get( $id );;
 }
 
 
@@ -64,7 +64,7 @@ function get_customize_default( $id ) {
  * @return string|array
  */
 function get_customize_default_value( $id ) {
-	return get_customize_default( $id )->value();
+    return get_customize_default( $id )->value();
 }
 
 
@@ -76,7 +76,7 @@ function get_customize_default_value( $id ) {
  * @return array
  */
 function get_customize_defaults() {
-	return customize_defaults()->get_all();
+    return customize_defaults()->get_all();
 }
 
 
@@ -88,5 +88,5 @@ function get_customize_defaults() {
  * @return array
  */
 function get_defaults() {
-	return rootstrap()->get_config( 'defaults' );
+    return rootstrap()->get_config( 'defaults' );
 }

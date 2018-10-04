@@ -15,16 +15,16 @@
 
 // Define the directory path to the src directory
 if ( ! defined( 'ROOTSTRAP_DIR' ) ) {
-	define( 'ROOTSTRAP_DIR', __DIR__ );
+    define( 'ROOTSTRAP_DIR', __DIR__ );
 }
 
 // Check if the framework has been bootstrapped. 
 // If not, define the roostrapped constant and load functions files.
 if ( ! defined( 'ROOTSTRAPPED' ) ) {
 
-	define( 'ROOTSTRAPPED', true );
+    define( 'ROOTSTRAPPED', true );
 
-	// Load our custom functions files that are not loaded via the class loader.
-	require_once( 'Core/functions-rootstrap.php');
-	require_once( 'Utilities/functions-utilities.php');
+    // Load our custom functions files that are not loaded via the class loader.
+    require_once( 'Core/functions-rootstrap.php');
+    require_once( 'Utilities/functions-utilities.php');
 }

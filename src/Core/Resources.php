@@ -20,7 +20,7 @@ namespace Rootstrap\Core;
  * @since  1.0.0
  * @access public
  */
-class Manager {
+class Resources {
 
 
     /**
@@ -57,15 +57,15 @@ class Manager {
     }
 
 
-	/**
-	 * Private contruct.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @param  array   $config
-	 * @return void
-	 */
-	private function __construct(){}
+    /**
+     * Private contruct.
+     *
+     * @since  1.0.0
+     * @access public
+     * @param  array   $config
+     * @return void
+     */
+    private function __construct(){}
 
 
     /**
@@ -102,9 +102,7 @@ class Manager {
      * @since 1.0.0
      */
     public function customize_resources() {
-
-        if ( !$this->resources ) return;
-        
+        if ( !$this->resources ) return;        
         wp_enqueue_script( 'rootstrap-customize-controls', $this->resources . '/js/customize-controls.min.js' );
         wp_localize_script( 'rootstrap-customize-controls', 'rootstrapData', $this->js_data );   
         wp_enqueue_style( 'rootstrap-customize-controls', $this->resources . '/css/customize-controls.min.css' );    

@@ -24,7 +24,7 @@ use function Rootstrap\rootstrap;
  * @return Post_Customizer
  */
 function post_customizer() {
-	return rootstrap()->get_instance( 'Post_Customizer');
+    return rootstrap()->get_instance( 'Post_Customizer');
 }
 
 
@@ -37,7 +37,7 @@ function post_customizer() {
  * @return void
  */
 function add_post_type_support( $post_type ) {
-	post_customizer()->add_post_type( $post_type );
+    post_customizer()->add_post_type( $post_type );
 }
 
 
@@ -50,5 +50,5 @@ function add_post_type_support( $post_type ) {
  * @return void
  */
 function remove_post_type_support( $post_type ) {
-	post_customizer()->remove_post_type( $post_type );
+    post_customizer()->remove_post_type( $post_type );
 }

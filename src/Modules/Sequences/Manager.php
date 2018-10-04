@@ -26,8 +26,8 @@ class Manager {
     /**
      * Call this method to get singleton
      *
-	 * @since  1.0.0
-	 * @access public
+     * @since  1.0.0
+     * @access public
      * @return Manager
      */
     public static function instance() {
@@ -43,33 +43,31 @@ class Manager {
 
     /**
      * Private constructor 
-	 * 
-	 * @since  1.0.0
-	 * @access private
+     * 
+     * @since  1.0.0
+     * @access private
      * @return void
      */
     private function __construct(){}
 
 
-	/**
-	 * Sets up the sequence manager actions and filters.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return void
-	 */
-	public function boot() {
-
-		// Add registration callback for devices.
+    /**
+     * Sets up the sequence manager actions and filters.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return void
+     */
+    public function boot() {
         add_action( 'customize_register', [ $this, 'load' ] );
-	}
+    }
 
 
     /**
      * Load classes and functions in customizer
      *
      * @since 1.0.0
-	 * @access public
+     * @access public
      * @param object $wp_customize - the WordPress customizer object
      */
     public function load( $wp_customize ) {

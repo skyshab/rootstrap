@@ -25,45 +25,43 @@ use Rootstrap\Utilities\Collection;
  */
 class Modules extends Collection {
 
-	/**
-	 * Add a new screen.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @param  string  $name
-	 * @param  mixed   $value
-	 * @return void
-	 */
-	 public function add( $name, $components ) {
 
-		parent::add( $name, new Module( $name, $components ) );
-	}
+    /**
+     * Add a new screen.
+     *
+     * @since  1.0.0
+     * @access public
+     * @param  string  $name
+     * @param  mixed   $value
+     * @return void
+     */
+     public function add( $name, $components ) {
+        parent::add( $name, new Module( $name, $components ) );
+    }
 
-	
-	/**
-	 * Get the screen.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @param  string  $name
-	 * @return object
-	 */
-	public function get( $name  ) {
+    
+    /**
+     * Get the screen.
+     *
+     * @since  1.0.0
+     * @access public
+     * @param  string  $name
+     * @return object
+     */
+    public function get( $name  ) {
+        return parent::get( $name );
+    }
 
-		return parent::get( $name );
-	}
 
-
-	/**
-	 * Get all screens.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return array
-	 */
-	public function all() {
-
-		return parent::all();
-	}	
+    /**
+     * Get all screens.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return array
+     */
+    public function all() {
+        return parent::all();
+    }    
 
 }

@@ -54,70 +54,70 @@ class Post_Customizer {
 
     /**
      * Public constructor 
-	 * 
-	 * @since  1.0.0
-	 * @access public
+     * 
+     * @since  1.0.0
+     * @access public
      */
     public function __construct(){}
 
 
-	/**
-	 * Sets up the post customizer manager actions and filters.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return void
-	 */
-	public function boot() {
-        add_action( 'wp', [ $this, 'customizer_filters' ], 500 );   		
+    /**
+     * Sets up the post customizer manager actions and filters.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return void
+     */
+    public function boot() {
+        add_action( 'wp', [ $this, 'customizer_filters' ], 500 );           
     }
     
 
-	/**
-	 * Add a supported post type.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return void
-	 */
-	public function add_post_type($post_type) {
-        $this->post_types[] = $post_type; 		
+    /**
+     * Add a supported post type.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return void
+     */
+    public function add_post_type($post_type) {
+        $this->post_types[] = $post_type;         
     }    
     
 
-	/**
-	 * Remove post type from supported types.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return void
-	 */
-	public function remove_post_type($post_type) {
-        unset( $this->post_types[$post_type] ); 		
+    /**
+     * Remove post type from supported types.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return void
+     */
+    public function remove_post_type($post_type) {
+        unset( $this->post_types[$post_type] );         
     }    
     
 
-	/**
-	 * Get array of supported post types.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return array
-	 */
-	public function get_post_types() {
-        return $this->post_types; 		
+    /**
+     * Get array of supported post types.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return array
+     */
+    public function get_post_types() {
+        return $this->post_types;         
     }  
     
 
     /**
-	 * Is a supported post type.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return bool
-	 */
-	public function is_supported_post_type( $post_type ) {
-        return ( in_array( $post_type, $this->post_types ) ) ? true : false;		
+     * Is a supported post type.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return bool
+     */
+    public function is_supported_post_type( $post_type ) {
+        return ( in_array( $post_type, $this->post_types ) ) ? true : false;        
     }  
 
 
@@ -152,5 +152,5 @@ class Post_Customizer {
 
         } // end foreach
     }
-	
+    
 }

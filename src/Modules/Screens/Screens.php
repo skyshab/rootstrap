@@ -27,42 +27,42 @@ use Rootstrap\Modules\Screens\Screen;
 class Screens extends Collection {
 
 
-	/**
-	 * Add a new screen.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @param  string  $name
-	 * @param  mixed   $value
-	 * @return void
-	 */
-	 public function add( $name, $value ) {
-		parent::add( $name, new Screen( $name, $value ) );
-	}
+    /**
+     * Add a new screen.
+     *
+     * @since  1.0.0
+     * @access public
+     * @param  string  $name
+     * @param  mixed   $value
+     * @return void
+     */
+     public function add( $name, $value ) {
+        parent::add( $name, new Screen( $name, $value ) );
+    }
 
-	
-	/**
-	 * Get the screen.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @param  string  $name
-	 * @return object
-	 */
-	public function get( $name  ) {
-		return parent::get( $name );
-	}
+    
+    /**
+     * Get the screen.
+     *
+     * @since  1.0.0
+     * @access public
+     * @param  string  $name
+     * @return object
+     */
+    public function get( $name  ) {
+        return parent::get( $name );
+    }
 
 
-	/**
-	 * Get all screens.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return array
-	 */
-	public function all( ) {
-		return parent::all();
-	}	
+    /**
+     * Get all screens.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return array
+     */
+    public function all( ) {
+        return parent::all();
+    }    
 
 }

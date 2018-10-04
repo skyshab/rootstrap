@@ -24,8 +24,9 @@ use function Rootstrap\rootstrap;
  * @return Screens
  */
 function screens() {
-	return rootstrap()->get_instance( 'Screens');
+    return rootstrap()->get_instance( 'Screens');
 }
+
 
 /**
  * Add a screen
@@ -37,7 +38,7 @@ function screens() {
  * @return void
  */
 function add_screen( $name, $args ) {
-	screens()->add( $name, $args );
+    screens()->add( $name, $args );
 }
 
 
@@ -50,7 +51,7 @@ function add_screen( $name, $args ) {
  * @return void
  */
 function get_screen( $name ) {
-	return screens()->get( $name );
+    return screens()->get( $name );
 }
 
 
@@ -62,7 +63,7 @@ function get_screen( $name ) {
  * @return array
  */
 function get_screens() {
-	return screens()->all();
+    return screens()->all();
 }
 
 
@@ -74,15 +75,12 @@ function get_screens() {
  * @return array
  */
 function get_screens_array() {
-
-	$array = [];
-
-	foreach( get_screens() as $name => $device ) {
-		$array[$name]['min'] = $device->min();
-		$array[$name]['max'] = $device->max();		
-	}
-
-	return $array;
+    $array = [];
+    foreach( get_screens() as $name => $device ) {
+        $array[$name]['min'] = $device->min();
+        $array[$name]['max'] = $device->max();        
+    }
+    return $array;
 }
 
 
@@ -94,7 +92,7 @@ function get_screens_array() {
  * @return Devices
  */
 function devices() {
-	return rootstrap()->get_instance( 'Devices');
+    return rootstrap()->get_instance( 'Devices');
 }
 
 
@@ -108,7 +106,7 @@ function devices() {
  * @return void
  */
 function add_device( $name, $args ) {
-	devices()->add( $name, $args );
+    devices()->add( $name, $args );
 }
 
 
@@ -121,7 +119,7 @@ function add_device( $name, $args ) {
  * @return object
  */
 function get_device( $name ) {
-	return devices()->get( $name );
+    return devices()->get( $name );
 }
 
 
@@ -133,7 +131,7 @@ function get_device( $name ) {
  * @return array
  */
 function get_devices() {
-	return devices()->all();
+    return devices()->all();
 }
 
 
@@ -145,15 +143,12 @@ function get_devices() {
  * @return array
  */
 function get_devices_array() {
-
-	$array = [];
-
-	foreach( get_devices() as $name => $device ) {
-		$array[$name]['min'] = $device->min();
-		$array[$name]['max'] = $device->max();		
-	}
-
-	return $array;
+    $array = [];
+    foreach( get_devices() as $name => $device ) {
+        $array[$name]['min'] = $device->min();
+        $array[$name]['max'] = $device->max();        
+    }
+    return $array;
 }
 
 
@@ -165,7 +160,7 @@ function get_devices_array() {
  * @return array
  */
 function get_devices_list() {
-	return array_keys( get_devices_array() );
+    return array_keys( get_devices_array() );
 }
 
 
@@ -177,9 +172,9 @@ function get_devices_list() {
  * @return string
  */
 function get_previous_device( $current ) {
-	$devices = get_devices_list();
-	$index = array_search( $current, $devices );
-	return ( isset( $devices[$index - 1] ) ) ? $devices[$index - 1] : false;
+    $devices = get_devices_list();
+    $index = array_search( $current, $devices );
+    return ( isset( $devices[$index - 1] ) ) ? $devices[$index - 1] : false;
 }
 
 
@@ -191,9 +186,9 @@ function get_previous_device( $current ) {
  * @return string
  */
 function get_next_device( $current ) {
-	$devices = get_devices_list();
-	$index = array_search( $current, $devices );
-	return ( isset( $devices[$index + 1] ) ) ? $devices[$index + 1] : false;
+    $devices = get_devices_list();
+    $index = array_search( $current, $devices );
+    return ( isset( $devices[$index + 1] ) ) ? $devices[$index + 1] : false;
 }
 
 
@@ -205,8 +200,8 @@ function get_next_device( $current ) {
  * @return string
  */
 function get_device_min( $device ) {
-	$device = get_device( $device );
-	return $device->min();
+    $device = get_device( $device );
+    return $device->min();
 }
 
 
@@ -218,6 +213,6 @@ function get_device_min( $device ) {
  * @return string
  */
 function get_device_max( $device ) {
-	$device = get_device( $device );
-	return $device->max();
+    $device = get_device( $device );
+    return $device->max();
 }

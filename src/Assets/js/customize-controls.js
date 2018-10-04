@@ -7,11 +7,12 @@
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
-/*
+/**
  * Main Rootstrap Class
  */
 class Rootstrap {
 
+    
     constructor() {
         // define api attribute
         this.api = wp.customize;
@@ -27,7 +28,7 @@ class Rootstrap {
     }
 
 
-    /*
+    /**
      * Let's get to it
      */    
     init() {
@@ -38,8 +39,8 @@ class Rootstrap {
         this.setDeviceData();        
     }
 
-    
-    /*
+
+    /**
      * Get list of device names
      */
     getDeviceList() {
@@ -47,7 +48,7 @@ class Rootstrap {
     }
 
 
-    /*
+    /**
      * Get a device id from a specified width
      */
     getDevice( width ) {
@@ -69,7 +70,7 @@ class Rootstrap {
     }
 
 
-    /*
+    /**
      * Get the device id that matches the current preview screen width
      */
     getCurrentDevice() {
@@ -77,7 +78,7 @@ class Rootstrap {
     }
 
 
-    /*
+    /**
      * Get the current preview screen width
      */
     getPreviewWidth() {
@@ -87,7 +88,7 @@ class Rootstrap {
     }
 
 
-    /*
+    /**
      * When opening a section, open the associated device in preview.This requires 
      * the section "type" to be set to a specific value, which is then used to determine 
      * the device by its class name. This is sloppy. We need to figure out how to add 
@@ -110,7 +111,7 @@ class Rootstrap {
     }
 
 
-    /*
+    /**
      * Add click handler to rootstrap tabs controls in the customizer
      */
     initializeNavLink() {
@@ -139,7 +140,7 @@ class Rootstrap {
 }
 
  
-/*
+/**
  * Create our Rootstrap Instance on document ready
  */
 document.addEventListener( "DOMContentLoaded", function() {

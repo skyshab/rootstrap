@@ -27,42 +27,42 @@ use Rootstrap\Utilities\Collection;
 class Customize_Defaults extends Collection {
 
 
-	/**
-	 * Add a new customize_default.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @param  string  $id
-	 * @param  mixed   $value
-	 * @return void
-	 */
-	 public function add( $id, $value ) {
-		parent::add( $id, new Customize_Default( $id, $value ) );
-	}
+    /**
+     * Add a new customize_default.
+     *
+     * @since  1.0.0
+     * @access public
+     * @param  string  $id
+     * @param  mixed   $value
+     * @return void
+     */
+     public function add( $id, $value ) {
+        parent::add( $id, new Customize_Default( $id, $value ) );
+    }
 
 
-	/**
-	 * Get the customize_default.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @param  string  $id
-	 * @return object
-	 */
-	public function get( $id  ) {
-		return parent::get( $id );
-	}
+    /**
+     * Get the customize_default.
+     *
+     * @since  1.0.0
+     * @access public
+     * @param  string  $id
+     * @return object
+     */
+    public function get( $id  ) {
+        return parent::get( $id );
+    }
 
-	
-	/**
-	 * Get all customize_defaults.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return array
-	 */
-	public function get_all( ) {
-		return parent::all();
-	}	
+    
+    /**
+     * Get all customize_defaults.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return array
+     */
+    public function get_all( ) {
+        return parent::all();
+    }    
 
 }

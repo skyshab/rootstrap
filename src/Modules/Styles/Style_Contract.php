@@ -23,22 +23,22 @@ namespace Rootstrap\Modules\Styles;
 interface Style_Contract {
 
 
-	/**
-	 * Returns the screen name.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return string
-	 */
-	public function screen();
+    /**
+     * Returns the screen name.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return string
+     */
+    public function screen();
 
-	/**
-	 * Returns the styleblock.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return string
-	 */
-	public function get();
+    /**
+     * Returns the styleblock.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return string
+     */
+    public function get();
 
 }

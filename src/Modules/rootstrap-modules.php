@@ -7,11 +7,11 @@
  */
 
 
-/* define rootstrap modules array */
+// define rootstrap modules array 
 $rootstrap_modules = [];
 
 
-/* Configure Screens Module */
+// Configure Screens Module 
 $rootstrap_modules['Screens'] = [
     'boot' => ['Manager'],
     'includes' => [
@@ -25,7 +25,7 @@ $rootstrap_modules['Screens'] = [
 ];
 
 
-/* Configure Customize Defaults Module */
+// Configure Customize Defaults Module 
 $rootstrap_modules['Customize_Defaults'] = [
     'boot' => ['Manager'],
     'includes' => ['functions-customize-defaults'],
@@ -33,7 +33,7 @@ $rootstrap_modules['Customize_Defaults'] = [
 ];
 
 
-/* Configure Post Customizer Module */
+// Configure Post Customizer Module 
 $rootstrap_modules['Post_Customizer'] = [
     'boot' => ['Post_Customizer'],  
     'includes' => ['functions-post-customizer'],
@@ -41,13 +41,13 @@ $rootstrap_modules['Post_Customizer'] = [
 ];
 
 
-/* Configure Tabs Module */
+// Configure Tabs Module 
 $rootstrap_modules['Tabs'] = [
     'boot' => ['Manager']
 ];
 
 
-/* Configure Sequences Module */
+// Configure Sequences Module 
 $rootstrap_modules['Sequences'] = [
     'boot' => ['Manager']
 ];

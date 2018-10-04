@@ -7,11 +7,12 @@
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
-/*
+/**
  * Class for adding styles
  */
 class Styles {
 
+    
     constructor( data ) {
         if ( !data.id || !data.selector ) return false;
         this.screen = data.screen;
@@ -99,7 +100,7 @@ class Styles {
 }
 
 
-/*
+/**
  * Object for interfacing with rootstrap
  */
 const rootstrap = {
@@ -112,7 +113,7 @@ const rootstrap = {
 };
 
 
-/*
+/**
  * Add style hooks on document ready
  */
 document.addEventListener( "DOMContentLoaded", function() {

@@ -26,5 +26,5 @@ use Rootstrap\Modules\Tabs\Tabs;
  * @return void
  */
 function tabs( $wp_customize, $args ) {
-	$tabs = new Tabs( $wp_customize, $args );
+    $tabs = new Tabs( $wp_customize, $args );
 }

@@ -15,8 +15,7 @@
 namespace Rootstrap\Core;
 
 use Rootstrap\Core\Rootstrap_Contract as Contract;
-use Rootstrap\Core\Manager as Manager;
-
+use Rootstrap\Core\Resources as Resources;
 use function Rootstrap\Modules\Screens\get_devices_array;
 
 
@@ -86,15 +85,15 @@ class Rootstrap implements Contract {
     }
 
 
-	/**
-	 * Register a new Rootstrap object.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @param  array   $config
-	 * @return void
-	 */
-	public function __construct() {
+    /**
+     * Register a new Rootstrap object.
+     *
+     * @since  1.0.0
+     * @access public
+     * @param  array   $config
+     * @return void
+     */
+    public function __construct() {
         $this->register_modules();
         $this->register_instances();
         $this->register_includes();
@@ -141,9 +140,7 @@ class Rootstrap implements Contract {
             $namespace = $module->namespace();
 
             foreach ( $module->instances() as $instance ) {
-                
                 $Class = $namespace . "\\" . $instance;
-        
                 $this->instances[ $instance ] = new $Class;         
             }
         }     
@@ -165,9 +162,7 @@ class Rootstrap implements Contract {
             if( !$module->includes() ) continue;
 
             foreach ( $module->includes() as $include ) {
-                
                 $file = sprintf( '%s/Modules/%s/%s.php', ROOTSTRAP_DIR, $module, $include );
-
                 require_once( $file );      
             }
         }     
@@ -189,16 +184,14 @@ class Rootstrap implements Contract {
             $namespace = $module->namespace();
 
             foreach ( $module->boot() as $class ) {
-                
                 $boot = $namespace . "\\" . $class;
-        
                 ( $boot::instance() )->boot();                 
             }
         }       
     }
 
 
-    /*
+    /** 
      * Add our actions
      * 
      * @since 1.0.0
@@ -217,8 +210,8 @@ class Rootstrap implements Contract {
      */
     public function register_resources() {
         if( !$this->get_resources() ) return false;
-        $manager = Manager::instance();
-        $manager->boot( $this->get_resources(), $this->get_js_data() );
+        $resources = Resources::instance();
+        $resources->boot( $this->get_resources(), $this->get_js_data() );
     }
 
 
@@ -244,7 +237,6 @@ class Rootstrap implements Contract {
         if( $data )
             if( !isset( $this->config[$data] ) ) return [];
             return $this->config[$data];
-
         return $this->config;
     }
 

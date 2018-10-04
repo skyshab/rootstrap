@@ -25,107 +25,110 @@ use Rootstrap\Modules\Screens\Screen_Contract as Contract;
  */
 class Screen implements Contract {
 
-	/**
-	 * Screen name.
-	 *
-	 * @since  1.0.0
-	 * @access protected
-	 * @var    string
-	 */
-	protected $name = '';
 
-	/**
-	 * Min screen width.
-	 *
-	 * @since  1.0.0
-	 * @access protected
-	 * @var    string
-	 */
-	protected $min = false;
+    /**
+     * Screen name.
+     *
+     * @since  1.0.0
+     * @access protected
+     * @var    string
+     */
+    protected $name = '';
 
-	/**
-	 * Max screen width.
-	 *
-	 * @since  1.0.0
-	 * @access protected
-	 * @var    string
-	 */
-	protected $max = false;
+    /**
+     * Min screen width.
+     *
+     * @since  1.0.0
+     * @access protected
+     * @var    string
+     */
+    protected $min = false;
 
+    /**
+     * Max screen width.
+     *
+     * @since  1.0.0
+     * @access protected
+     * @var    string
+     */
+    protected $max = false;
 
-	/**
-	 * Styles that may be attached to this screen.
-	 * Used by the Styles object
-	 *
-	 * @since  1.0.0
-	 * @access protected
-	 * @var    string
-	 */
-	protected $styles;	
-	
+    /**
+     * Styles that may be attached to this screen.
+     * Used by the Styles object
+     *
+     * @since  1.0.0
+     * @access protected
+     * @var    string
+     */
+    protected $styles;    
+    
 
-	/**
-	 * Register a new screen object.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @param  string  $name
-	 * @param  array   $args
-	 * @return void
-	 */
-	public function __construct( $name = false, array $args = [] ) {
+    /**
+     * Register a new screen object.
+     *
+     * @since  1.0.0
+     * @access public
+     * @param  string  $name
+     * @param  array   $args
+     * @return void
+     */
+    public function __construct( $name = false, array $args = [] ) {
 
-		if( ! $name ) return false;
+        if( ! $name ) return false;
 
-		$this->name = $name;
-		$this->min = ( isset( $args['min'] ) ) ? $args['min'] : false;
-		$this->max = ( isset( $args['max'] ) ) ? $args['max'] : false;
-	}
-
-	/**
-	 * Returns the screen name.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return string
-	 */
-	public function name() {
-		return $this->name;
-	}
-
-	/**
-	 * Returns the screen min width.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return string
-	 */
-	public function min() {
-		return $this->min;
-	}
-
-	/**
-	 * Returns the screen max width.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return bool
-	 */
-	public function max() {
-		return $this->max;
-	}
+        $this->name = $name;
+        $this->min = ( isset( $args['min'] ) ) ? $args['min'] : false;
+        $this->max = ( isset( $args['max'] ) ) ? $args['max'] : false;
+    }
 
 
-	/**
-	 * Magic method to use in case someone tries to output the object as a
-	 * string. We'll just return the name.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return string
-	 */
-	public function __toString() {
-		return $this->name();
-	}	
+    /**
+     * Returns the screen name.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return string
+     */
+    public function name() {
+        return $this->name;
+    }
+
+
+    /**
+     * Returns the screen min width.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return string
+     */
+    public function min() {
+        return $this->min;
+    }
+
+    
+    /**
+     * Returns the screen max width.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return bool
+     */
+    public function max() {
+        return $this->max;
+    }
+
+
+    /**
+     * Magic method to use in case someone tries to output the object as a
+     * string. We'll just return the name.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return string
+     */
+    public function __toString() {
+        return $this->name();
+    }    
 
 }

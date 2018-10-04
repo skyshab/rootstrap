@@ -20,7 +20,7 @@ namespace Rootstrap;
  * @return string
  */
 function get_post_meta_value( $id, $default = false ) {
-	return ( get_post_meta( get_the_ID(), $id, true ) ) ?: $default;
+    return ( get_post_meta( get_the_ID(), $id, true ) ) ?: $default;
 }
 
 
@@ -33,12 +33,10 @@ function get_post_meta_value( $id, $default = false ) {
  */
 function section_hider( $customize, $panel ) {
 
-	$id = sprintf( 'rootstrap-section-hider-%s', $panel );
+    $id = sprintf( 'rootstrap-section-hider-%s', $panel );
 
-	$customize->add_section( $id, [
-		'priority' => 999,
-		'panel' => $panel,
-	]);
+    $customize->add_section( $id, [
+        'priority' => 999,
+        'panel' => $panel,
+    ]);
 }
-
-

@@ -23,23 +23,23 @@ namespace Rootstrap\Modules\Customize_Defaults;
 interface Customize_Default_Contract {
 
 
-	/**
-	 * Returns the customizer default id.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return string
-	 */
-	public function id();
+    /**
+     * Returns the customizer default id.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return string
+     */
+    public function id();
 
 
-	/**
-	 * Returns the customizer default value.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 * @return string
-	 */
-	public function value();
+    /**
+     * Returns the customizer default value.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return string
+     */
+    public function value();
 
 }
