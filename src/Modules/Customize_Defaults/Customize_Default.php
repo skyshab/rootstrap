@@ -13,7 +13,7 @@
 
 namespace Rootstrap\Modules\Customize_Defaults;
 
-use Rootstrap\Modules\Customize_Defaults\Customize_Default_Contract as Contract;
+use Rootstrap\Abstracts\Customize_Default_Interface;
 
 
 /**
@@ -22,7 +22,7 @@ use Rootstrap\Modules\Customize_Defaults\Customize_Default_Contract as Contract;
  * @since  1.0.0
  * @access public
  */
-class Customize_Default implements Contract {
+class Customize_Default implements Customize_Default_Interface {
 
 
     /**

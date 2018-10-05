@@ -11,7 +11,7 @@
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
-namespace Rootstrap\Modules\Customize_Defaults;
+namespace Rootstrap\Abstracts;
 
 
 /**
@@ -20,7 +20,7 @@ namespace Rootstrap\Modules\Customize_Defaults;
  * @since  1.0.0
  * @access public
  */
-interface Customize_Default_Contract {
+interface Customize_Default_Interface {
 
 
     /**
