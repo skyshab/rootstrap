@@ -38,31 +38,6 @@ class Customize_Defaults extends Collection {
      */
      public function add( $id, $value ) {
         parent::add( $id, new Customize_Default( $id, $value ) );
-    }
-
-
-    /**
-     * Get the customize_default.
-     *
-     * @since  1.0.0
-     * @access public
-     * @param  string  $id
-     * @return object
-     */
-    public function get( $id  ) {
-        return parent::get( $id );
-    }
-
-    
-    /**
-     * Get all customize_defaults.
-     *
-     * @since  1.0.0
-     * @access public
-     * @return array
-     */
-    public function get_all( ) {
-        return parent::all();
     }    
 
 }

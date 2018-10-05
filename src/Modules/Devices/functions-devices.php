@@ -1,8 +1,8 @@
 <?php
 /**
- * Screens functions.
+ * Devices functions.
  *
- * Helper functions related to screens.
+ * Helper functions related to devices.
  *
  * @package   Rootstrap
  * @author    Sky Shabatura

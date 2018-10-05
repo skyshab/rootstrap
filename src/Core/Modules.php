@@ -1,9 +1,8 @@
 <?php
 /**
- * Screens manager.
+ * Modules.
  *
- * This class is just a wrapper around the `Collection` class for adding 
- * a new screen. 
+ * This class is a wrapper around the `Collection` class for modules 
  *
  * @package   Rootstrap
  * @author    Sky Shabatura
@@ -27,7 +26,7 @@ class Modules extends Collection {
 
 
     /**
-     * Add a new screen.
+     * Add a new module.
      *
      * @since  1.0.0
      * @access public
@@ -37,31 +36,6 @@ class Modules extends Collection {
      */
      public function add( $name, $components ) {
         parent::add( $name, new Module( $name, $components ) );
-    }
-
-    
-    /**
-     * Get the screen.
-     *
-     * @since  1.0.0
-     * @access public
-     * @param  string  $name
-     * @return object
-     */
-    public function get( $name  ) {
-        return parent::get( $name );
-    }
-
-
-    /**
-     * Get all screens.
-     *
-     * @since  1.0.0
-     * @access public
-     * @return array
-     */
-    public function all() {
-        return parent::all();
-    }    
+    }   
 
 }

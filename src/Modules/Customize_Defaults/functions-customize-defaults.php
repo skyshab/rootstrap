@@ -76,7 +76,7 @@ function get_customize_default_value( $id ) {
  * @return array
  */
 function get_customize_defaults() {
-    return customize_defaults()->get_all();
+    return customize_defaults()->all();
 }
 
 

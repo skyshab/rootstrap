@@ -38,30 +38,5 @@ class Devices extends Collection {
      public function add( $name, $args ) {
         parent::add( $name, new Device( $name, $args ) );
     }
-
-    
-    /**
-     * Get the device.
-     *
-     * @since  1.0.0
-     * @access public
-     * @param  string  $name
-     * @return object
-     */
-    public function get( $name  ) {
-        return parent::get( $name );
-    }
-
-
-    /**
-     * Get all devices.
-     *
-     * @since  1.0.0
-     * @access public
-     * @return array
-     */
-    public function all() {
-        return parent::all();
-    }    
-
+   
 }

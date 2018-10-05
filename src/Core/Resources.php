@@ -1,6 +1,6 @@
 <?php
 /**
- * Rootstrap Manager class.
+ * Rootstrap Resources class.
  *
  * This class handles loading the Rootstrap resources
  *
@@ -15,7 +15,7 @@ namespace Rootstrap\Core;
 
 
 /**
- * Manager class.
+ * Resources class.
  *
  * @since  1.0.0
  * @access public
@@ -24,7 +24,7 @@ class Resources {
 
 
     /**
-     * Stores resources uri
+     * Stores resources uri.
      * 
      * @since 1.0.0
      * @var array
@@ -33,7 +33,7 @@ class Resources {
   
 
     /**
-     * Stores preview data
+     * Stores preview data.
      * 
      * @since 1.0.0
      * @var array
@@ -42,9 +42,9 @@ class Resources {
 
 
     /**
-     * Call this method to get singleton
+     * Call this method to get singleton.
      *
-     * @return Manager
+     * @return Resources
      */
     public static function instance() {
 
@@ -69,7 +69,7 @@ class Resources {
 
 
     /**
-     * Load resources
+     * Load resources.
      * 
      * @since 1.0.0
      * @return object
@@ -83,7 +83,7 @@ class Resources {
 
 
     /**
-     * Load resources
+     * Load resources.
      * 
      * @since 1.0.0
      * @return object

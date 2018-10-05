@@ -40,29 +40,4 @@ class Screens extends Collection {
         parent::add( $name, new Screen( $name, $value ) );
     }
 
-    
-    /**
-     * Get the screen.
-     *
-     * @since  1.0.0
-     * @access public
-     * @param  string  $name
-     * @return object
-     */
-    public function get( $name  ) {
-        return parent::get( $name );
-    }
-
-
-    /**
-     * Get all screens.
-     *
-     * @since  1.0.0
-     * @access public
-     * @return array
-     */
-    public function all() {
-        return parent::all();
-    }    
-
 }

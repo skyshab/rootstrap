@@ -294,5 +294,6 @@ class Rootstrap implements Rootstrap_Interface {
      */
     public function add_js_data( $key = false, $data ) {
         if( $key ) $this->js_data[$key] = $data;        
-    }     
+    }    
+     
 } 
