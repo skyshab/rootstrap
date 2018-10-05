@@ -70,8 +70,7 @@ composer require skyshab/rootstrap
 
 ## Documentation
 
-Read the project wiki:
-(https://github.com/skyshab/rootstrap/wiki)
+Read the project wiki: https://github.com/skyshab/rootstrap/wiki
 
 
 ## Notes

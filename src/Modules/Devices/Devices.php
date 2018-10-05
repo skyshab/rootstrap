@@ -12,10 +12,9 @@
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
-namespace Rootstrap\Modules\Screens;
+namespace Rootstrap\Modules\Devices;
 
-use Rootstrap\Utilities\Collection;
-use Rootstrap\Modules\Screens\Device;
+use Rootstrap\Abstracts\Collection;
 
 
 /**
@@ -61,7 +60,7 @@ class Devices extends Collection {
      * @access public
      * @return array
      */
-    public function all( ) {
+    public function all() {
         return parent::all();
     }    
 

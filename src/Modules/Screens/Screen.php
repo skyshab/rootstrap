@@ -4,17 +4,16 @@
  *
  * This class creates a screen object.
  *
- * @package    HybridCore
- * @subpackage Includes
- * @author     Justin Tadlock <justintadlock@gmail.com>
- * @copyright  Copyright (c) 2008 - 2017, Justin Tadlock
- * @link       https://themehybrid.com/hybrid-core
- * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @package   Rootstrap
+ * @author    Sky Shabatura
+ * @copyright Copyright (c) 2018, Sky Shabatura
+ * @link      https://github.com/skyshab/rootstrap
+ * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
 namespace Rootstrap\Modules\Screens;
 
-use Rootstrap\Modules\Screens\Screen_Contract as Contract;
+use Rootstrap\Abstracts\Screen_Interface;
 
 
 /**
@@ -23,46 +22,36 @@ use Rootstrap\Modules\Screens\Screen_Contract as Contract;
  * @since  1.0.0
  * @access public
  */
-class Screen implements Contract {
+class Screen implements Screen_Interface {
 
-
+    
     /**
      * Screen name.
      *
      * @since  1.0.0
-     * @access protected
+     * @access private
      * @var    string
      */
-    protected $name = '';
+    private $name = '';
 
     /**
      * Min screen width.
      *
      * @since  1.0.0
-     * @access protected
+     * @access private
      * @var    string
      */
-    protected $min = false;
+    private $min = false;
 
     /**
      * Max screen width.
      *
      * @since  1.0.0
-     * @access protected
+     * @access private
      * @var    string
      */
-    protected $max = false;
-
-    /**
-     * Styles that may be attached to this screen.
-     * Used by the Styles object
-     *
-     * @since  1.0.0
-     * @access protected
-     * @var    string
-     */
-    protected $styles;    
-    
+    private $max = false;
+ 
 
     /**
      * Register a new screen object.
@@ -74,12 +63,12 @@ class Screen implements Contract {
      * @return void
      */
     public function __construct( $name = false, array $args = [] ) {
-
         if( ! $name ) return false;
-
         $this->name = $name;
-        $this->min = ( isset( $args['min'] ) ) ? $args['min'] : false;
-        $this->max = ( isset( $args['max'] ) ) ? $args['max'] : false;
+        foreach( $args as $property => $value ) {
+            if( property_exists( $this, $property ) )
+                $this->$property = $value;            
+        }        
     }
 
 
@@ -106,7 +95,7 @@ class Screen implements Contract {
         return $this->min;
     }
 
-    
+
     /**
      * Returns the screen max width.
      *
@@ -116,7 +105,7 @@ class Screen implements Contract {
      */
     public function max() {
         return $this->max;
-    }
+    }    
 
 
     /**
@@ -129,6 +118,7 @@ class Screen implements Contract {
      */
     public function __toString() {
         return $this->name();
-    }    
+    }
 
 }
+

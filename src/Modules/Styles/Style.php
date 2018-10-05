@@ -4,17 +4,16 @@
  *
  * This class creates a screen object.
  *
- * @package    HybridCore
- * @subpackage Includes
- * @author     Justin Tadlock <justintadlock@gmail.com>
- * @copyright  Copyright (c) 2008 - 2017, Justin Tadlock
- * @link       https://themehybrid.com/hybrid-core
- * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @package   Rootstrap
+ * @author    Sky Shabatura
+ * @copyright Copyright (c) 2018, Sky Shabatura
+ * @link      https://github.com/skyshab/rootstrap
+ * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
 namespace Rootstrap\Modules\Styles;
 
-use Rootstrap\Modules\Styles\Style_Contract as Contract;
+use Rootstrap\Abstracts\Style_Interface;
 
 
 /**
@@ -23,7 +22,7 @@ use Rootstrap\Modules\Styles\Style_Contract as Contract;
  * @since  1.0.0
  * @access public
  */
-class Style implements Contract {
+class Style implements Style_Interface {
 
 
     /**

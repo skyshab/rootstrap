@@ -11,7 +11,7 @@
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
-namespace Rootstrap\Core;
+namespace Rootstrap\Abstracts;
 
 
 /**
@@ -20,7 +20,7 @@ namespace Rootstrap\Core;
  * @since  1.0.0
  * @access public
  */
-interface Module_Contract {
+interface Module_Interface {
 
     
     /**

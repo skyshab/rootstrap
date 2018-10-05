@@ -17,7 +17,7 @@
  * 
  */
 
-namespace Rootstrap\Utilities;
+namespace Rootstrap\Abstracts;
 
 use ArrayObject;
 

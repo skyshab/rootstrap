@@ -11,7 +11,7 @@
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
-namespace Rootstrap\Modules\Screens;
+namespace Rootstrap\Abstracts;
 
 
 /**
@@ -20,7 +20,7 @@ namespace Rootstrap\Modules\Screens;
  * @since  1.0.0
  * @access public
  */
-interface Screen_Contract {
+interface Screen_Interface {
 
     /**
      * Returns the screen name.

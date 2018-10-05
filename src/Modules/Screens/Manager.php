@@ -16,7 +16,7 @@ namespace Rootstrap\Modules\Screens;
 
 use function Rootstrap\rootstrap;
 use function Rootstrap\add_js_data;
-
+use function Rootstrap\Modules\Devices\get_devices;
 
 /**
  * Screen manager class.
@@ -60,44 +60,12 @@ class Manager {
      * @return void
      */
     public function boot() {
-
-        // Add registration callback for devices.
-        add_action( 'init', [ $this, 'register_devices' ], 95 );
         
         // Add registration callback for screens.
         add_action( 'init', [ $this, 'register_screens' ], 100 );    
         
         // Add registration callback for screens.
         add_action( 'init', [ $this, 'register_js_data' ], 100 );            
-
-        // Set Customizer Devices
-        add_filter( 'customize_previewable_devices', [ $this, 'customize_previewable_devices' ] );
-
-        // Add Customizer Screen Styles
-        add_action( 'customize_controls_print_styles', [ $this, 'customize_controls_print_styles' ] ); 
-
-    }
-
-
-    /**
-     * Creates intial devices as defined in Rootstrap config
-     * Executes the action hook for plugins or themes to register their devices.
-     *
-     * @since  1.0.0
-     * @access public
-     * @return void
-     */
-    public function register_devices() {
-
-        $devices = rootstrap()->get_config( 'devices' );
-
-        // create our intial screens as defined in Rootstrap config
-        foreach( $devices as $device => $args ) {
-            add_device( $device, [ 'min' => $args['min'], 'max'=> $args['max'], 'icon' => $args['icon'] ] );
-        }
-
-        // action hook for plugins and child themes to add or remove devices
-        do_action( 'rootstrap/devices/register', devices() );        
     }
 
 
@@ -131,7 +99,6 @@ class Manager {
      * @return void
      */
     public function register_js_data() {        
-        add_js_data( 'devices', get_devices_array() );
         add_js_data( 'screens', get_screens_array() );
     }
 
@@ -198,7 +165,6 @@ class Manager {
                     if( $outer_min_value <= $inner_min_value && $outer_min_value < $inner_max_value ) {
 
                         $id = ( $outer_name === $inner_name ) ? $outer_name : sprintf( '%s-%s', $outer_name, $inner_name );
-
                         $screens[$id]['min'] = $outer_min;
                         $screens[$id]['max'] = $inner_max;
 
@@ -216,46 +182,5 @@ class Manager {
 
     } // end expand_screens
 
-
-    /**
-     * Add custom devices to customizer
-     *
-     * @since 1.0.0
-     * @param array $devices - array of registered devices
-     * @return array
-     */
-    public function customize_previewable_devices( $defaults ) {
-
-        $devices = get_devices();
-
-        // if no custom devices, use wp defaults
-        if( !$devices ) return $defaults;
-
-        $device_array = [];
-
-        // generate a label for each device button
-        foreach ($devices as $name => $device) {
-
-            $device_array[$name]['label'] = sprintf( esc_html__('Enter %s preview mode'), $name );
-
-            // if no max, assume this is 'desktop' or equivalent, set as default
-            if( !$device->max() )
-                $device_array[$name]['default'] = true;
-        }
-
-        // return our custom device array
-        return $device_array;
-    }
-
-
-    /**
-     * Print custom screen size styles to customizer head
-     * 
-     * @since 1.0.0
-     * @return void
-     */
-    public function customize_controls_print_styles() {
-        print_customize_controls_styles();
-    }
     
 }

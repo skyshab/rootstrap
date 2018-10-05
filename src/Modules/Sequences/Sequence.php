@@ -14,7 +14,7 @@
 namespace Rootstrap\Modules\Sequences;
 
 use Sequence_Control;
-use function Rootstrap\section_hider;
+use Rootstrap\Abstracts\Section_Group as Group; 
 
 
 /**
@@ -23,124 +23,26 @@ use function Rootstrap\section_hider;
  * @since  1.0.0
  * @access public
  */
-class Sequence {
+class Sequence extends Group {
 
 
     /**
-     * Stores the wp_customize object.
-     *
-     * @since  1.0.0
-     * @access protected
-     * @var    array 
-     */
-    protected $customize;   
-
-    /**
-     * Sections array.
-     *
-     * @since  1.0.0
-     * @access protected
-     * @var    array 
-     */
-    protected $sections;
-    
-    /**
-     * Sections array.
-     *
-     * @since  1.0.0
-     * @access protected
-     * @var    bool 
-     */
-    protected $reverse;
-    
-    /**
-     * Sections array.
-     *
-     * @since  1.0.0
-     * @access protected
-     * @var    string 
-     */
-    protected $previous;
-    
-    /**
-     * Sections array.
-     *
-     * @since  1.0.0
-     * @access protected
-     * @var    string 
-     */
-    protected $next;
-   
-
-    /**
-     * Register a new sequence object.
+     * Previous label.
      *
      * @since  1.0.0
      * @access public
-     * @param  object   $wp_customize
-     * @param  array    $sections
-     * @return void
+     * @var    string 
      */
-    public function __construct( $wp_customize, $args = [] ) {
-
-        // store the customizer object
-        $this->customize = $wp_customize;
-
-        // store the reverse order flag
-        $this->reverse = ( isset( $args['reverse'] ) ) ? $args['reverse'] : false;
-
-        // store the previous label
-        $this->previous = ( isset( $args['previous'] ) ) ? $args['previous'] : false;
-
-        // store the next label
-        $this->next = ( isset( $args['next'] ) ) ? $args['next'] : false;
-
-        // store the sections
-        $this->sections = ( isset( $args['sections'] ) ) ? $args['sections'] : [];
-
-        // if reverse order is specified, flip the sections
-        if( $this->reverse ) $this->sections = array_reverse( $this->sections );
-        
-        // add control for hiding sequence sections
-        section_hider( $this->customize,  $this->get_panel() );
-        
-        // build the sequence
-        $this->sequence_loop();
-    }
-
-
+    public $previous;
+    
     /**
-     * Loop through sequence
+     * Next label.
      *
      * @since  1.0.0
      * @access public
-     * @return void
+     * @var    string 
      */
-    private function sequence_loop() {
-
-        // if there's no sections, take off eh.
-        if( !$this->sections ) return;
-
-        foreach( $this->sections as $id => $args ) {
-            
-            // if hide flag enabled, set priority 
-            if( isset( $args['hide'] ) && $args['hide'] ) {
-                $section = $this->customize->get_section( $id );
-                $section->priority = 1000;
-            }
-
-            // if device is set, add custom section type
-            $device = ( isset( $args['device'] ) ) ? $args['device'] : false;
-
-            if( $device ) {
-                $section = $this->customize->get_section( $id );
-                $section->type = sprintf( 'rootstrap-device--%s', $device );
-            }
-    
-            // create setting and control
-            $this->control( $id, $device );
-        }
-    }
+    public $next;
 
 
     /**
@@ -150,7 +52,7 @@ class Sequence {
      * @access public
      * @return void
      */
-    private function control( $id, $device ) {
+   public function control( $id ) {
 
         $setting = sprintf( 'sequence-nav-%s', $id );
 
@@ -176,20 +78,6 @@ class Sequence {
             ]
         ));
     }
-
-
-    /**
-     * Get panel
-     *
-     * @since  1.0.0
-     * @access public
-     * @return string
-     */
-    private function get_panel() {        
-        $section = $this->customize->get_section( key( $this->sections ) );
-        return $section->panel;
-    }
-    
 
     /**
      * Get Sections List
@@ -228,6 +116,6 @@ class Sequence {
         $sections = $this->get_sections_list();
         $index = array_search( $current, $sections );
         return ( isset( $sections[$index + 1] ) ) ? $sections[$index + 1] : false;
-    }
+    }    
 
 }

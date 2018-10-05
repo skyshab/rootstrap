@@ -1,8 +1,8 @@
 <?php
 /**
- * Screen interface.
+ * Style interface.
  *
- * Defines the interface that Screen class must use.
+ * Defines the interface that Style class must use.
  *
  * @package   Rootstrap
  * @author    Sky Shabatura
@@ -11,7 +11,7 @@
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
-namespace Rootstrap\Modules\Styles;
+namespace Rootstrap\Abstracts;
 
 
 /**
@@ -20,7 +20,7 @@ namespace Rootstrap\Modules\Styles;
  * @since  1.0.0
  * @access public
  */
-interface Style_Contract {
+interface Style_Interface {
 
 
     /**

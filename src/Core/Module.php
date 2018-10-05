@@ -13,7 +13,7 @@
 
 namespace Rootstrap\Core;
 
-use Rootstrap\Core\Module_Contract as Contract;
+use Rootstrap\Abstracts\Module_Interface;
 
 
 /**
@@ -22,7 +22,7 @@ use Rootstrap\Core\Module_Contract as Contract;
  * @since  1.0.0
  * @access public
  */
-class Module implements Contract {
+class Module implements Module_Interface {
 
 
     /**

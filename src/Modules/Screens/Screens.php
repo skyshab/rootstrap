@@ -14,7 +14,7 @@
 
 namespace Rootstrap\Modules\Screens;
 
-use Rootstrap\Utilities\Collection;
+use Rootstrap\Abstracts\Collection;
 use Rootstrap\Modules\Screens\Screen;
 
 
@@ -61,7 +61,7 @@ class Screens extends Collection {
      * @access public
      * @return array
      */
-    public function all( ) {
+    public function all() {
         return parent::all();
     }    
 

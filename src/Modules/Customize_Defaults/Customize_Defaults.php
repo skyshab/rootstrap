@@ -15,7 +15,7 @@
 namespace Rootstrap\Modules\Customize_Defaults;
 
 use Rootstrap\Modules\Customize_Defaults\Customize_Default;
-use Rootstrap\Utilities\Collection;
+use Rootstrap\Abstracts\Collection;
 
 
 /**

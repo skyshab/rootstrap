@@ -14,9 +14,8 @@
 
 namespace Rootstrap\Core;
 
-use Rootstrap\Core\Rootstrap_Contract as Contract;
-use Rootstrap\Core\Resources as Resources;
-use function Rootstrap\Modules\Screens\get_devices_array;
+use Rootstrap\Abstracts\Rootstrap_Interface;
+use Rootstrap\Core\Resources;
 
 
 /**
@@ -25,7 +24,7 @@ use function Rootstrap\Modules\Screens\get_devices_array;
  * @since  1.0.0
  * @access public
  */
-class Rootstrap implements Contract {
+class Rootstrap implements Rootstrap_Interface {
 
 
     /**

@@ -14,14 +14,15 @@ $rootstrap_modules = [];
 // Configure Screens Module 
 $rootstrap_modules['Screens'] = [
     'boot' => ['Manager'],
-    'includes' => [
-        'functions-screens',
-        'functions-customize'
-    ],
-    'instances' => [
-        'Devices',
-        'Screens'
-    ]
+    'includes' => ['functions-screens'],
+    'instances' => ['Screens']
+];
+
+// Configure Screens Module 
+$rootstrap_modules['Devices'] = [
+    'boot' => ['Manager'],
+    'includes' => ['functions-devices'],
+    'instances' => ['Devices']
 ];
 
 
