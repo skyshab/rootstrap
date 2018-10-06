@@ -158,13 +158,22 @@ class Manager {
 
         foreach ( get_devices() as $name => $device ) {
 
-            // add icon :before content
+            // add icon to preview button
             $styles->add([
                 'selector' => sprintf( 'button.preview-%s:before', $name ),
                 'styles' => [
                     'content' => $device->icon() 
                 ]
             ]);
+
+            // add icon to section title
+            $styles->add([
+                'selector' => sprintf( '.control-section-rootstrap-device--%s .customize-section-title h3:after', $name ),
+                'styles' => [
+                    'content' => $device->icon() 
+                ]
+            ]); 
+
 
             // build selector for overlay styles
             $overlay_selector .= sprintf('.preview-%s #customize-preview.wp-full-overlay-main,', $name );

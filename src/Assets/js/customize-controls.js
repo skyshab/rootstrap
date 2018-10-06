@@ -23,20 +23,11 @@ class Rootstrap {
         // define registered devices
         this.devices = rootstrapData.devices;
 
-        // do our thang
-        this.init();
-    }
-
-
-    /**
-     * Let's get to it
-     */    
-    init() {
         // initialize tab functionality
-        this.initializeNavLink();
+        this.initializeNavLinks();
 
         // setup device data
-        this.setDeviceData();        
+        this.bindDevices();  
     }
 
 
@@ -52,9 +43,7 @@ class Rootstrap {
      * Get a device id from a specified width
      */
     getDevice( width ) {
-
         var device = false;
-
         for (const [name, data] of Object.entries( this.devices ) ) {
 
             if( !name || !data ) continue;
@@ -89,51 +78,33 @@ class Rootstrap {
 
 
     /**
-     * When opening a section, open the associated device in preview.This requires 
-     * the section "type" to be set to a specific value, which is then used to determine 
-     * the device by its class name. This is sloppy. We need to figure out how to add 
-     * a data value on sections of any type. 
+     * When opening a section, open the associated device in preview.
      */
-    setDeviceData() {
-
+    bindDevices() {
         const api = this.api;
-
-        document.querySelectorAll('.accordion-section-title').forEach( ( title ) => {
-            title.addEventListener("click", (e) => { 
-                var classNames = e.target.parentElement.classList;
-                for ( let className of classNames ) {
-                    if( className.indexOf('rootstrap-device--') !== -1 )
-                        api.previewedDevice.set( className.replace('control-section-rootstrap-device--', '') );                    
-                        return false;                                   
-                }  
-            });
-        });      
+        const devices = this.getDeviceList();
+        api.section.each( ( section ) => { 
+            var type = section.params.type;
+            devices.forEach( ( device ) => {
+                if( type && type === `rootstrap-device--${device}` )
+                    section.expanded.bind( () => {
+                        api.previewedDevice.set( device );                                                         
+                    });                    
+            });               
+        });     
     }
 
 
     /**
-     * Add click handler to rootstrap tabs controls in the customizer
+     * Add click handler to tabs and sequence navigation
      */
-    initializeNavLink() {
-
+    initializeNavLinks() {
         const api = this.api;
-
-        document.querySelectorAll('.rootstrap-nav-link').forEach( function( elem ) {
-            
-            var section = elem.dataset.section;
-            var device = elem.dataset.device;
-
-            elem.addEventListener("click", (e) => { 
+        document.querySelectorAll('.rootstrap-nav-link').forEach( ( link ) => {            
+            var section = link.dataset.section;
+            link.addEventListener("click", (e) => { 
                 if( api.section( section ) )
-                    api.section( section ).activate();
                     api.section( section ).focus();
-    
-                    if( device )                  
-                        api.previewedDevice.set( device );
-                    else
-                        var type = api.section( section ).params.type;
-                        if( type && type.indexOf('rootstrap-device--') !== -1 )
-                            api.previewedDevice.set( type.replace('rootstrap-device--', '') );                            
             });
         });
     }
@@ -141,8 +112,8 @@ class Rootstrap {
 
  
 /**
- * Create our Rootstrap Instance on document ready
+ * Create our Rootstrap Instance on customize ready
  */
-document.addEventListener( "DOMContentLoaded", function() {
+wp.customize.bind('ready', () => {
     const rootstrap = new Rootstrap();
 });

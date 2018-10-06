@@ -23,7 +23,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
-/*
+/**
  * Main Rootstrap Class
  */
 var Rootstrap =
@@ -37,33 +37,23 @@ function () {
 
     if (!this.api) return false; // define registered devices
 
-    this.devices = rootstrapData.devices; // do our thang
+    this.devices = rootstrapData.devices; // initialize tab functionality
 
-    this.init();
+    this.initializeNavLinks(); // setup device data
+
+    this.bindDevices();
   }
-  /*
-   * Let's get to it
+  /**
+   * Get list of device names
    */
 
 
   _createClass(Rootstrap, [{
-    key: "init",
-    value: function init() {
-      // initialize tab functionality
-      this.initializeNavLink(); // setup device data
-
-      this.setDeviceData();
-    }
-    /*
-     * Get list of device names
-     */
-
-  }, {
     key: "getDeviceList",
     value: function getDeviceList() {
       return Object.keys(this.devices);
     }
-    /*
+    /**
      * Get a device id from a specified width
      */
 
@@ -88,7 +78,7 @@ function () {
 
       return device;
     }
-    /*
+    /**
      * Get the device id that matches the current preview screen width
      */
 
@@ -97,7 +87,7 @@ function () {
     value: function getCurrentDevice() {
       return getDevice(this.getPreviewWidth());
     }
-    /*
+    /**
      * Get the current preview screen width
      */
 
@@ -108,63 +98,36 @@ function () {
       var iframeDoc = iframe.contentDocument ? iframe.contentDocument : iframe.contentWindow.document;
       return iframeDoc.body.offsetWidth();
     }
-    /*
-     * When opening a section, open the associated device in preview.This requires 
-     * the section "type" to be set to a specific value, which is then used to determine 
-     * the device by its class name. This is sloppy. We need to figure out how to add 
-     * a data value on sections of any type. 
+    /**
+     * When opening a section, open the associated device in preview.
      */
 
   }, {
-    key: "setDeviceData",
-    value: function setDeviceData() {
+    key: "bindDevices",
+    value: function bindDevices() {
       var api = this.api;
-      document.querySelectorAll('.accordion-section-title').forEach(function (title) {
-        title.addEventListener("click", function (e) {
-          var classNames = e.target.parentElement.classList;
-          var _iteratorNormalCompletion = true;
-          var _didIteratorError = false;
-          var _iteratorError = undefined;
-
-          try {
-            for (var _iterator = classNames[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-              var className = _step.value;
-              if (className.indexOf('rootstrap-device--') !== -1) api.previewedDevice.set(className.replace('control-section-rootstrap-device--', ''));
-              return false;
-            }
-          } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion && _iterator.return != null) {
-                _iterator.return();
-              }
-            } finally {
-              if (_didIteratorError) {
-                throw _iteratorError;
-              }
-            }
-          }
+      var devices = this.getDeviceList();
+      api.section.each(function (section) {
+        var type = section.params.type;
+        devices.forEach(function (device) {
+          if (type && type === "rootstrap-device--".concat(device)) section.expanded.bind(function () {
+            api.previewedDevice.set(device);
+          });
         });
       });
     }
-    /*
-     * Add click handler to rootstrap tabs controls in the customizer
+    /**
+     * Add click handler to tabs and sequence navigation
      */
 
   }, {
-    key: "initializeNavLink",
-    value: function initializeNavLink() {
+    key: "initializeNavLinks",
+    value: function initializeNavLinks() {
       var api = this.api;
-      document.querySelectorAll('.rootstrap-nav-link').forEach(function (elem) {
-        var section = elem.dataset.section;
-        var device = elem.dataset.device;
-        elem.addEventListener("click", function (e) {
-          if (api.section(section)) api.section(section).activate();
-          api.section(section).focus();
-          if (device) api.previewedDevice.set(device);else var type = api.section(section).params.type;
-          if (type && type.indexOf('rootstrap-device--') !== -1) api.previewedDevice.set(type.replace('rootstrap-device--', ''));
+      document.querySelectorAll('.rootstrap-nav-link').forEach(function (link) {
+        var section = link.dataset.section;
+        link.addEventListener("click", function (e) {
+          if (api.section(section)) api.section(section).focus();
         });
       });
     }
@@ -172,11 +135,11 @@ function () {
 
   return Rootstrap;
 }();
-/*
- * Create our Rootstrap Instance on document ready
+/**
+ * Create our Rootstrap Instance on customize ready
  */
 
 
-document.addEventListener("DOMContentLoaded", function () {
+wp.customize.bind('ready', function () {
   var rootstrap = new Rootstrap();
 });

@@ -12,43 +12,32 @@
  */
 class Styles {
 
-    
     constructor( data ) {
         if ( !data.id || !data.selector ) return false;
         this.screen = data.screen;
         this.id = ( this.screen ) ? `${data.id}--${data.screen}` : data.id;
         this.selector = data.selector;
         this.styles = data.styles;
-        this.init();
-    }
-
-
-    init() {
         this.removeStyleblock();
         this.insertStyleblock();
     }
-
 
     removeStyleblock() {
         const oldBlock = document.getElementById( this.getHook() );
         if( oldBlock !== null ) oldBlock.remove();             
     }
     
-
     insertStyleblock() {
         document.head.insertBefore( this.getStyleBlock(), this.getHook() );            
     } 
 
-
     openQuery() {
-
         if( !this.screen ) return '';
         const screens = parent.rootstrapData.screens;
         const screen = screens[this.screen];
         var query = '';
 
         if( screen.min || screen.max ) {
-
             query += '@media ';
 
             if( screen.min )
@@ -64,26 +53,20 @@ class Styles {
         return query;
     }
 
-
     getStyles() {
-
         var styles = this.selector + '{';
-
         for (const [property, value] of Object.entries(this.styles) ) {
             if( !property || !value ) continue;
             styles += `${property}: ${value};`;
         }
-
         styles += '}';
 
         return styles;
     }
 
-
     closeQuery() {
         return ( this.screen ) ? '}' : '';
     }
-
 
     getStyleBlock() {
         const styleblock = document.createElement("style");
@@ -92,25 +75,10 @@ class Styles {
         return styleblock;
     }
 
-
     getHook() {
         return document.getElementById( "rootstrap-style-hook--" + this.screen );
     }
-
 }
-
-
-/**
- * Object for interfacing with rootstrap
- */
-const rootstrap = {
-    screens : () => {
-        return Object.entries( parent.rootstrapData.screens );
-    },
-    style : (data) => {
-        const style = new Styles( data );
-    }
-};
 
 
 /**
@@ -125,3 +93,16 @@ document.addEventListener( "DOMContentLoaded", function() {
         document.head.appendChild(hook); 
     } 
 });
+
+
+/**
+ * Object for interfacing with rootstrap
+ */
+const rootstrap = {
+    screens : () => {
+        return Object.entries( parent.rootstrapData.screens );
+    },
+    style : (data) => {
+        const style = new Styles( data );
+    }
+};

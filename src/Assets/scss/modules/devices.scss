@@ -1,0 +1,16 @@
+/*
+ * Styles for devices module related functionality
+ */
+
+/* setup section titles for sections bound to a device */
+[class*="control-section-rootstrap-device--"] .customize-section-title h3:after {
+    display: block;
+    -webkit-font-smoothing: antialiased;
+    font: 400 20px dashicons;
+    margin: 0;
+    padding: 0 4px 0 4px;
+    color: #656a6f;
+    line-height: 1em;
+    float: right;
+    transform: translateY(3px)
+}

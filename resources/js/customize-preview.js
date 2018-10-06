@@ -23,7 +23,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
-/*
+/**
  * Class for adding styles
  */
 var Styles =
@@ -37,16 +37,11 @@ function () {
     this.id = this.screen ? "".concat(data.id, "--").concat(data.screen) : data.id;
     this.selector = data.selector;
     this.styles = data.styles;
-    this.init();
+    this.removeStyleblock();
+    this.insertStyleblock();
   }
 
   _createClass(Styles, [{
-    key: "init",
-    value: function init() {
-      this.removeStyleblock();
-      this.insertStyleblock();
-    }
-  }, {
     key: "removeStyleblock",
     value: function removeStyleblock() {
       var oldBlock = document.getElementById(this.getHook());
@@ -116,22 +111,10 @@ function () {
 
   return Styles;
 }();
-/*
- * Object for interfacing with rootstrap
- */
-
-
-var rootstrap = {
-  screens: function screens() {
-    return Object.entries(parent.rootstrapData.screens);
-  },
-  style: function style(data) {
-    var style = new Styles(data);
-  }
-};
-/*
+/**
  * Add style hooks on document ready
  */
+
 
 document.addEventListener("DOMContentLoaded", function () {
   var _iteratorNormalCompletion = true;
@@ -162,3 +145,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 });
+/**
+ * Object for interfacing with rootstrap
+ */
+
+var rootstrap = {
+  screens: function screens() {
+    return Object.entries(parent.rootstrapData.screens);
+  },
+  style: function style(data) {
+    var style = new Styles(data);
+  }
+};

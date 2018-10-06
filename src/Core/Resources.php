@@ -103,7 +103,7 @@ class Resources {
      */
     public function customize_resources() {
         if ( !$this->resources ) return;        
-        wp_enqueue_script( 'rootstrap-customize-controls', $this->resources . '/js/customize-controls.min.js' );
+        wp_enqueue_script( 'rootstrap-customize-controls', $this->resources . '/js/customize-controls.min.js', ['customize-controls', 'jquery'], "1.2", true );
         wp_localize_script( 'rootstrap-customize-controls', 'rootstrapData', $this->js_data );   
         wp_enqueue_style( 'rootstrap-customize-controls', $this->resources . '/css/customize-controls.min.css' );    
     }   

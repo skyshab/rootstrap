@@ -71,16 +71,13 @@ class Tabs_Control extends WP_Customize_Control {
                  
                  if( $callback && function_exists( $callback ) && false === $callback() ) continue;
 
-                 $label = ( isset( $tab['label'] ) &&  $tab['label'] ) ? $tab['label'] : 'Tab';
+                 $label = ( isset( $tab['label'] ) &&  $tab['label'] ) ? $tab['label'] : '';
              }
              else $label = ( $tab ) ? $tab : 'Tab';
 
-             $device = ( isset( $tab['device'] ) &&  $tab['device'] ) ? $tab['device'] : '';
-
-             printf( '<a id="%s" data-section="%s" data-device="%s" class="rootstrap-nav-link rootstrap-nav-link__tabs rootstrap-tab%s%s" href="#">%s</a>',
+             printf( '<a id="%s" data-section="%s" class="rootstrap-nav-link rootstrap-nav-link__tabs rootstrap-tab%s%s" href="#">%s</a>',
                  esc_attr( $id ),
                  esc_attr( $section ),
-                 esc_attr( $device ),
                  esc_attr( $current ),
                  esc_attr( $root ),
                  esc_html( $label )
