@@ -31,6 +31,7 @@ function rootstrap() {
  *
  * @since  1.0.0
  * @access public
+ * @param string    $data
  * @return array
  */
 function get_config( $data = false ) {
@@ -43,11 +44,12 @@ function get_config( $data = false ) {
  *
  * @since  1.0.0
  * @access public
- * @param  string            $config
+ * @param  string   $config
+ * @param  array    $data
  * @return void
  */
-function set_config( $config ) {
-    rootstrap()->set_config( $config );
+function set_config( $config, $data = false ) {
+    rootstrap()->set_config( $config, $data );
 }
 
 
@@ -56,6 +58,7 @@ function set_config( $config ) {
  *
  * @since  1.0.0
  * @access public
+ * @param string    $class
  * @return object
  */
 function get_instance( $class ) {
@@ -68,7 +71,7 @@ function get_instance( $class ) {
  *
  * @since  1.0.0
  * @access public
- * @param  string            $uri
+ * @param  string    $uri
  * @return void
  */
 function set_resources_uri( $uri ) {
@@ -77,7 +80,7 @@ function set_resources_uri( $uri ) {
 
 
 /**
- * Get the resources URI.
+ * Get the resources uri.
  * Used to load scripts and styles.
  *
  * @since  1.0.0
@@ -96,7 +99,7 @@ function get_resources_uri() {
  *
  * @since  1.0.0
  * @access public
- * @return string
+ * @return array
  */
 function get_js_data() {
     return rootstrap()->get_js_data();
@@ -109,6 +112,8 @@ function get_js_data() {
  *
  * @since  1.0.0
  * @access public
+ * @param string    $key
+ * @param array     $data
  * @return void
  */
 function add_js_data( $key, $data ) {

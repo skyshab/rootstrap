@@ -12,7 +12,7 @@ Rootstrap is a collection of utilities for managing WordPress Customizer control
 ## Features
 
 Rootstrap is a collection of tools for use when implementing the WordPress Customize API in 
-your theme or plugin. Certain project variables can be defined within a config file and utilized 
+your theme or plugin. Certain project variables can be defined and then utilized 
 when creating customizer sections and controls or rendering out the related styles.
 
 * Devices

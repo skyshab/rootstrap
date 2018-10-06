@@ -215,28 +215,36 @@ class Rootstrap implements Rootstrap_Interface {
 
 
     /**
-     * Initialize the config.
-     * Allow config to be filtered.
+     * Initialize the config. Can be passed in as a single 
+     * array, or just for an individual module's data.
      * 
      * @since 1.0.0
-     * @return array
+     * @param mixed     $config
+     * @param array     $data
+     * @return void
      */
-    public function set_config( array $config ) {
-        $this->config = apply_filters( 'rootstrap/config', $config );
+    public function set_config( $config, $data = false  ) {
+        if( is_array( $config ) && !$data )
+            $this->config = $config;
+        elseif( is_array($data) )
+            $this->config[$config] = $data;
     }
 
     
     /**
-     * Get the config settings
+     * Get the config settings. If a specific module is not defined,
+     * return entire config. Allow values to be filtered. 
      * 
      * @since 1.0.0
      * @return array
      */
     public function get_config( $data = false ) {
+        $filtered = apply_filters('rootstrap/config', $this->config );
         if( $data )
-            if( !isset( $this->config[$data] ) ) return [];
-            return $this->config[$data];
-        return $this->config;
+            $config = ( isset( $filtered[$data] ) ) ? $filtered[$data] : [];
+        else
+            $config = $filtered;
+        return $config;
     }
 
 
@@ -295,5 +303,5 @@ class Rootstrap implements Rootstrap_Interface {
     public function add_js_data( $key = false, $data ) {
         if( $key ) $this->js_data[$key] = $data;        
     }    
-     
+
 } 

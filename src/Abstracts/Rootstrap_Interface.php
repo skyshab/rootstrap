@@ -29,7 +29,7 @@ interface Rootstrap_Interface {
      * @since 1.0.0
      * @return array
      */
-    public function set_config( array $config );
+    public function set_config( $config, $data = false );
 
 
     /**
