@@ -113,7 +113,10 @@ class Manager {
 
 
     /**
-     * Add custom devices to customizer
+     * Add custom devices to customizer.
+     * These are output in the order they occur in the array,
+     * and there is no width associated with the defaults here.
+     * Unfortunately, this means this is an all or nothing thing.
      *
      * @since 1.0.0
      * @param array $devices - array of registered devices

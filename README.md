@@ -71,6 +71,7 @@ composer require skyshab/rootstrap
 ## Documentation
 
 Read the project wiki: https://github.com/skyshab/rootstrap/wiki
+Quick screencast of devices, tabs and section sequences: https://youtu.be/htPsjFDnnXQ
 
 
 ## Notes
