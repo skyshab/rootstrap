@@ -37,20 +37,19 @@ function () {
     this.id = this.screen ? "".concat(data.id, "--").concat(data.screen) : data.id;
     this.selector = data.selector;
     this.styles = data.styles;
-    this.removeStyleblock();
     this.insertStyleblock();
   }
 
   _createClass(Styles, [{
-    key: "removeStyleblock",
-    value: function removeStyleblock() {
-      var oldBlock = document.getElementById(this.getHook());
-      if (oldBlock !== null) oldBlock.remove();
-    }
-  }, {
     key: "insertStyleblock",
     value: function insertStyleblock() {
-      document.head.insertBefore(this.getStyleBlock(), this.getHook());
+      var oldBlock = document.getElementById(this.id);
+
+      if (oldBlock) {
+        oldBlock.innerHTML = this.getStyleBlockContent();
+      } else {
+        document.head.insertBefore(this.getStyleBlock(), this.getHook());
+      }
     }
   }, {
     key: "openQuery",
@@ -62,9 +61,19 @@ function () {
 
       if (screen.min || screen.max) {
         query += '@media ';
-        if (screen.min) query += "(min-width: ".concat(screen.min, ")");
-        if (screen.max) query += ' and ';
-        if (screen.max) query += "(max-width: ".concat(screen.max, ")");
+
+        if (screen.min) {
+          query += "(min-width: ".concat(screen.min, ")");
+
+          if (screen.max) {
+            query += ' and ';
+          }
+        }
+
+        if (screen.max) {
+          query += "(max-width: ".concat(screen.max, ")");
+        }
+
         query += '{';
       }
 
@@ -95,59 +104,127 @@ function () {
       return this.screen ? '}' : '';
     }
   }, {
+    key: "getStyleBlockContent",
+    value: function getStyleBlockContent() {
+      return this.openQuery() + this.getStyles() + this.closeQuery();
+    }
+  }, {
     key: "getStyleBlock",
     value: function getStyleBlock() {
       var styleblock = document.createElement("style");
       styleblock.setAttribute("id", this.id);
-      styleblock.textContent = this.openQuery() + this.getStyles() + this.closeQuery();
+      styleblock.textContent = this.getStyleBlockContent();
       return styleblock;
     }
   }, {
     key: "getHook",
     value: function getHook() {
-      return document.getElementById("rootstrap-style-hook--" + this.screen);
+      var screen = this.screen ? this.screen : 'default';
+      return document.getElementById("rootstrap-style-hook--" + screen);
     }
   }]);
 
   return Styles;
 }();
 /**
- * Add style hooks on document ready
+ * Class for adding CSS variables
  */
 
 
-document.addEventListener("DOMContentLoaded", function () {
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
+var StyleVar =
+/*#__PURE__*/
+function () {
+  function StyleVar(data) {
+    _classCallCheck(this, StyleVar);
 
-  try {
-    for (var _iterator = rootstrap.screens()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var screen = _step.value;
-      var hook = document.createElement("meta");
-      var hookID = "rootstrap-style-hook--".concat(screen[0]);
-      hook.setAttribute("id", hookID);
-      hook.setAttribute("name", hookID);
-      document.head.appendChild(hook);
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return != null) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
+    if (!data.name || !data.value) return false;
+    this.screen = data.screen;
+    this.name = data.name;
+    this.id = this.screen ? "".concat(data.name, "--").concat(data.screen) : data.name;
+    this.value = data.value;
+    this.insertStyleblock();
   }
-});
+
+  _createClass(StyleVar, [{
+    key: "insertStyleblock",
+    value: function insertStyleblock() {
+      var oldBlock = document.getElementById(this.id);
+
+      if (oldBlock) {
+        oldBlock.innerHTML = this.getStyleBlockContent();
+      } else {
+        document.head.insertBefore(this.getStyleBlock(), this.getHook());
+      }
+    }
+  }, {
+    key: "openQuery",
+    value: function openQuery() {
+      if (!this.screen) return '';
+      var screens = parent.rootstrapData.screens;
+      var screen = screens[this.screen];
+      var query = '';
+
+      if (screen.min || screen.max) {
+        query += '@media ';
+
+        if (screen.min) {
+          query += "(min-width: ".concat(screen.min, ")");
+
+          if (screen.max) {
+            query += ' and ';
+          }
+        }
+
+        if (screen.max) {
+          query += "(max-width: ".concat(screen.max, ")");
+        }
+
+        query += '{';
+      }
+
+      return query;
+    }
+  }, {
+    key: "getVar",
+    value: function getVar() {
+      if (!this.name || !this.value) return '';
+      var output = ':root {';
+      output += "--".concat(this.name, ": ").concat(this.value, ";");
+      output += '}';
+      return output;
+    }
+  }, {
+    key: "closeQuery",
+    value: function closeQuery() {
+      return this.screen && 'default' !== this.screen ? '}' : '';
+    }
+  }, {
+    key: "getStyleBlockContent",
+    value: function getStyleBlockContent() {
+      return this.openQuery() + this.getVar() + this.closeQuery();
+    }
+  }, {
+    key: "getStyleBlock",
+    value: function getStyleBlock() {
+      var styleblock = document.createElement("style");
+      styleblock.setAttribute("id", this.id);
+      styleblock.textContent = this.getStyleBlockContent();
+      return styleblock;
+    }
+  }, {
+    key: "getHook",
+    value: function getHook() {
+      var screen = this.screen ? this.screen : 'default';
+      return document.getElementById("rootstrap-style-hook--" + screen);
+    }
+  }]);
+
+  return StyleVar;
+}();
 /**
  * Object for interfacing with rootstrap
  */
+
 
 var rootstrap = {
   screens: function screens() {
@@ -155,5 +232,8 @@ var rootstrap = {
   },
   style: function style(data) {
     var style = new Styles(data);
+  },
+  var: function _var(data) {
+    var styleVar = new StyleVar(data);
   }
 };

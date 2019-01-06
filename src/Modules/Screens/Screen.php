@@ -13,7 +13,7 @@
 
 namespace Rootstrap\Modules\Screens;
 
-use Rootstrap\Abstracts\Screen_Interface;
+use Rootstrap\Contracts\Screen as Contract;
 
 
 /**
@@ -22,7 +22,7 @@ use Rootstrap\Abstracts\Screen_Interface;
  * @since  1.0.0
  * @access public
  */
-class Screen implements Screen_Interface {
+class Screen implements Contract {
 
     
     /**

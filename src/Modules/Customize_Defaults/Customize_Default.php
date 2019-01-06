@@ -13,7 +13,7 @@
 
 namespace Rootstrap\Modules\Customize_Defaults;
 
-use Rootstrap\Abstracts\Customize_Default_Interface;
+use Rootstrap\Contracts\Customize_Default as Contract;
 
 
 /**
@@ -22,7 +22,7 @@ use Rootstrap\Abstracts\Customize_Default_Interface;
  * @since  1.0.0
  * @access public
  */
-class Customize_Default implements Customize_Default_Interface {
+class Customize_Default implements Contract {
 
 
     /**
@@ -32,7 +32,7 @@ class Customize_Default implements Customize_Default_Interface {
      * @access protected
      * @var    string
      */
-    protected $id = '';
+    protected $id;
 
     /**
      * Customize control default value. 
@@ -41,11 +41,15 @@ class Customize_Default implements Customize_Default_Interface {
      * @access protected
      * @var    array
      */
-    protected $value = false;
+    protected $value;
     
 
     /**
      * Register a new customize control default.
+     * 
+     * If a single value is passed in, treat it as the default value.
+     * An array can also be passed in with the default value and an additional
+     * attribute for controlling whether the default value renders in get_theme_mod()
      *
      * @since  1.0.0
      * @access public
@@ -54,8 +58,17 @@ class Customize_Default implements Customize_Default_Interface {
      * @return void
      */
     public function __construct( $id = false, $value = false ) {
-        if( ! $id ) return false;
+
+        // If no id, then what are we even doing here?
+        if( !$id || !$value ) return false; 
+
+        // if value is not set, bail
+        if( is_bool($value) && ! $value ) return false; 
+
+        // Ok this is for real. store the ID
         $this->id = $id;
+
+        // store the value
         $this->value = $value;
     }
 

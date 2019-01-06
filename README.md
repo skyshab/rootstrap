@@ -33,25 +33,25 @@ when creating customizer sections and controls or rendering out the related styl
   Styles for customizer settings can be created cleanly within PHP, organized by screen, 
   and stored in a variable or echoed out when needed. Each style can be associated with a Screen, 
   and all styles of each screen will be output together in a single media query. There is also a
-  javascript api for controlling responsive styles in the customize preview.
+  javascript api for controlling responsive styles in the customize preview. 
+  The Styles module also has full support for CSS variables. 
 
 * Customizer defaults
 
-  Define the default values for customizer controls in the Rootstrap config file. The initial 
-  values will be set in the customizer. Styles for these values can be output automatically 
-  so that the settings match the way the site displays. Use cases would be setting the default 
-  theme styles, or child theme styles. 
+  Define the default values to be used for customizer control defaults, and use these values as 
+  the fallback value when using Rootstrap's custom get_theme_mod function. This allows defaults 
+  for both to be managed from a single place.  
 
-* Post Customizer
+* Post Mods
 
-  The Post Customizer will check the post meta for matching Customizer setting ids. If found, 
-  the post values will supercede the customizer settings. This functionality can be enabled 
-  on any post types, but is set to posts only by default.
+  The Post Mods will check within the post meta for matching Customizer setting ids. If found, 
+  the post mod values will supercede the customizer settings that are rendered with Rootstrap/get_theme_mod. 
+  This functionality is disabled by default, but can be enabled for any registered post types. 
 
 * Customizer Section Tabs 
 
   Allows you to create a tabbed interface within sections in the customizer control panel, 
- with the ption to add a preview device trigger when opening a tab. 
+  with the option to add a preview device trigger when opening a tab. 
 
 * Customizer Section Sequences 
 

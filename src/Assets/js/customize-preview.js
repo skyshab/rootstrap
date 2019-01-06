@@ -18,18 +18,19 @@ class Styles {
         this.id = ( this.screen ) ? `${data.id}--${data.screen}` : data.id;
         this.selector = data.selector;
         this.styles = data.styles;
-        this.removeStyleblock();
         this.insertStyleblock();
     }
 
-    removeStyleblock() {
-        const oldBlock = document.getElementById( this.getHook() );
-        if( oldBlock !== null ) oldBlock.remove();             
+    insertStyleblock() {        
+        const oldBlock = document.getElementById( this.id );
+
+        if( oldBlock ) {
+            oldBlock.innerHTML = this.getStyleBlockContent();
+        }
+        else {
+            document.head.insertBefore( this.getStyleBlock(), this.getHook() );    
+        }        
     }
-    
-    insertStyleblock() {
-        document.head.insertBefore( this.getStyleBlock(), this.getHook() );            
-    } 
 
     openQuery() {
         if( !this.screen ) return '';
@@ -40,12 +41,16 @@ class Styles {
         if( screen.min || screen.max ) {
             query += '@media ';
 
-            if( screen.min )
+            if( screen.min ) {
                 query += `(min-width: ${screen.min})`;
-                if( screen.max ) 
+                if( screen.max ) {
                     query += ' and ';
-            if( screen.max ) 
+                }
+            }
+
+            if( screen.max ) {
                 query += `(max-width: ${screen.max})`;
+            }
 
             query += '{';
         }
@@ -68,31 +73,103 @@ class Styles {
         return ( this.screen ) ? '}' : '';
     }
 
+    getStyleBlockContent() {
+        return this.openQuery() + this.getStyles() + this.closeQuery();
+    }
+
     getStyleBlock() {
         const styleblock = document.createElement("style");
         styleblock.setAttribute("id", this.id);
-        styleblock.textContent = this.openQuery() + this.getStyles() + this.closeQuery();
+        styleblock.textContent = this.getStyleBlockContent();
         return styleblock;
-    }
+    }    
 
     getHook() {
-        return document.getElementById( "rootstrap-style-hook--" + this.screen );
+        var screen = (this.screen) ? this.screen : 'default';
+        return document.getElementById( "rootstrap-style-hook--" + screen );
     }
 }
 
 
 /**
- * Add style hooks on document ready
+ * Class for adding CSS variables
  */
-document.addEventListener( "DOMContentLoaded", function() {
-    for ( let screen of rootstrap.screens() ) {
-        var hook = document.createElement("meta");
-        var hookID = `rootstrap-style-hook--${screen[0]}`;
-        hook.setAttribute("id", hookID);
-        hook.setAttribute("name", hookID);
-        document.head.appendChild(hook); 
-    } 
-});
+class StyleVar {
+
+    constructor( data ) {
+        if ( !data.name || !data.value ) return false;
+        this.screen = data.screen;
+        this.name = data.name;
+        this.id = ( this.screen ) ? `${data.name}--${data.screen}` : data.name;
+        this.value = data.value;
+        this.insertStyleblock();
+    }
+
+    insertStyleblock() {        
+        const oldBlock = document.getElementById( this.id );
+
+        if( oldBlock ) {
+            oldBlock.innerHTML = this.getStyleBlockContent();
+        }
+        else {
+            document.head.insertBefore( this.getStyleBlock(), this.getHook() );    
+        }        
+    }
+
+    openQuery() {
+        if( !this.screen ) return '';
+        const screens = parent.rootstrapData.screens;
+        const screen = screens[this.screen];
+        var query = '';
+
+        if( screen.min || screen.max ) {
+            query += '@media ';
+
+            if( screen.min ) {
+                query += `(min-width: ${screen.min})`;
+                if( screen.max ) {
+                    query += ' and ';
+                }
+            }
+
+            if( screen.max ) {
+                query += `(max-width: ${screen.max})`;
+            }
+
+            query += '{';
+        }
+        
+        return query;
+    }
+
+    getVar() {
+        if( !this.name || !this.value ) return '';
+        var output = ':root {';
+        output += `--${this.name}: ${this.value};`;
+        output += '}';
+        return output;
+    }
+
+    closeQuery() {
+        return ( this.screen && 'default' !== this.screen ) ? '}' : '';
+    }
+
+    getStyleBlockContent() {
+        return this.openQuery() + this.getVar() + this.closeQuery();
+    }
+
+    getStyleBlock() {
+        const styleblock = document.createElement("style");
+        styleblock.setAttribute("id", this.id);
+        styleblock.textContent = this.getStyleBlockContent();
+        return styleblock;
+    }    
+
+    getHook() {
+        var screen = (this.screen) ? this.screen : 'default';
+        return document.getElementById( "rootstrap-style-hook--" + screen );
+    }
+}
 
 
 /**
@@ -104,5 +181,8 @@ const rootstrap = {
     },
     style : (data) => {
         const style = new Styles( data );
-    }
+    },
+    var : (data) => {
+        const styleVar = new StyleVar( data );
+    }    
 };

@@ -15,7 +15,6 @@ namespace Rootstrap\Modules\Devices;
 
 use function Rootstrap\rootstrap;
 
-
 /**
  * Get site Devices instance.
  *
@@ -147,4 +146,37 @@ function get_device_min( $device ) {
 function get_device_max( $device ) {
     $device = get_device( $device );
     return $device->max();
+}
+
+
+
+function get_device_defaults() {
+
+    $defaults = [];
+
+    $defaults['mobile'] = array(
+        'min' => '',
+        'max' => '767px',
+        'icon' => '"\\f470"',
+        'preview_width' => '375px',
+        'preview_height' => '677px'
+    );
+
+    $defaults['tablet'] = array(
+        'min' => '768px',
+        'max' => '1024px',
+        'icon' => '"\\f471"',
+        'preview_width' => '768px',
+        'preview_height' => '100%'
+    );
+
+    $defaults['desktop'] = array(
+        'min' => '1025px',
+        'max' => '',
+        'icon' => '"\\f472"',
+        'preview_width' => '100%',
+        'preview_height' => '100%'
+    );
+
+    return $defaults;
 }

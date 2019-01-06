@@ -21,7 +21,7 @@ class Styles {
     
     
     /**
-     * Stores style objects.
+     * Stores style objects
      *
      * @since  1.0.0
      * @access protected
@@ -30,7 +30,16 @@ class Styles {
     protected $styles;
 
     /**
-     * Stores Screens object
+     * Stores Vars objects
+     *
+     * @since  1.0.0
+     * @access protected
+     * @var    array
+     */
+    protected $vars;
+
+    /**
+     * Stores Screens
      *
      * @since  1.0.0
      * @access protected
@@ -44,6 +53,7 @@ class Styles {
      *
      * @since 1.0.0   
      * @param object $screens - a Screens object
+     * @return void     
      */
     public function __construct( $screens = null ) {
         if( $screens === null ) {
@@ -52,6 +62,179 @@ class Styles {
         }
         $this->screens = $screens;
     }
+
+
+    /**
+     * Sort the screens by min widths
+     *
+     * @since 1.0.0  
+     * @return void 
+     */
+    private function sorted_screens() {   
+        
+        $min_array = [];
+ 
+        // create a new array with min value to be sorted
+        foreach ( $this->screens->all() as $name => $screen ) {
+            $min = ( 'default' === $name ) ? 0 : $screen->min();
+            $min_array[$name] = floatval( $min );
+        }
+
+        // sort min array by value
+        asort( $min_array );
+
+        return array_keys( $min_array );
+    }
+
+
+    /**
+     * Wrap styles with media query, when applicable
+     *
+     * @since 1.0.0   
+     * @param string $styles - the styles to wrap
+     * @param string $screen - the screen to use for query
+     * @return string
+     */
+    private function query( $styles = false, $screen_name = 'default' ) {
+
+        // if there are no styles to work with, return empty string
+        if( !$styles || '' === $styles ) return '';
+
+        // get the screen object
+        $screen = $this->screens->get( $screen_name );
+
+        // set our min and max widths
+        if( 'default' !== $screen_name && $screen ) {
+            $min = $screen->min();
+            $max = $screen->max();
+        }
+        else {
+            $min = $max = false;
+        }
+
+        // initiate our output string
+        $output = '';
+
+        // if there's a media query for our string, 
+        // wrap our styles
+        if( $min || $max ) {
+
+            // begin query
+            $output .= '@media ';
+
+            // add min width
+            if( $min ) {
+                $output .= sprintf( '(min-width: %s)', esc_attr( $min ) );
+                // if also a max with, add 'and'
+                if( $max ) $output .= esc_attr( ' and ' );
+            }
+
+            // add max width
+            if( $max ) $output .= sprintf( '(max-width: %s)', esc_attr( $max ) );
+
+            // wrap styles
+            $output .= sprintf( '{%s}', $styles );
+
+            // return our styles wrapped in query
+            return $output;
+        }
+
+        // otherwise, return the styles with no query
+        else return $styles;
+    }
+
+
+    /**
+     * Get the styles from a particular screen
+     *
+     * @since 1.0.0   
+     * @param string    $screen - the screen name
+     * @return string 
+     */
+    private function screen_styles( $screen = 'default' ) {
+
+        $has_styles = ( isset( $this->styles[$screen] ) && is_array( $this->styles[$screen] ) ) ? true : false;
+        $has_vars = ( isset( $this->vars[$screen] ) && is_array( $this->vars[$screen] ) ) ? true : false;
+
+        // Check if this screen has any styles or vars set. If not return empty string 
+        if( !$has_styles && !$has_vars  ) return '';
+
+        // initiate outputy string
+        $output = '';
+
+        // if there are styles, add each to the output string
+        if( $has_styles ) {
+            foreach( $this->styles[$screen] as $style ) {
+                $output .= $style->get();
+            }            
+        }
+
+        // if there are vars, add each to the output string
+        if( $has_vars ) {
+
+            $root_vars = '';
+            $contextual_vars = '';
+
+            // loop through variable declarations
+            foreach( $this->vars[$screen] as $var ) {
+
+                if( $var->has_selector() ) {
+                    $contextual_vars .= $var->get();
+                }
+                else {
+                    $root_vars .= $var->get();
+                }
+            }
+
+            // add root level vars
+            if( '' !== $root_vars ) {
+                $output .= sprintf( ':root { %s }', $root_vars );        
+            }
+
+            // add contextual vars
+            if( '' !== $contextual_vars ) {
+                $output .= $contextual_vars;        
+            }
+        }
+
+        // return the styles wrapped in a media query
+        return $this->query( $output, $screen );
+    }
+
+
+    /**
+     * Wrap styles in style element
+     *
+     * @since 1.0.0   
+     * @param string $id - the id to add to the styleblock
+     * @return string 
+     */
+    private function make_styleblock( $styles, $id = false  ) {
+
+        // open styleblock
+        $block = ($id) ? sprintf( '<style id="%s">', esc_attr( $id ) ) : '<style>';
+
+        // get styles
+        $block .= $styles;
+
+        // close styleblock
+        $block .= '</style>';
+
+        // return styleblock
+        return $block;
+    }
+
+
+    /**
+     * Get Customizer Meta Placeholder
+     *
+     * @since 1.0.0   
+     * @param string $id - the id to add to the styleblock
+     */
+    private function customize_placeholder( $name ) {    
+        $block_meta = sprintf( 'rootstrap-style-hook--%s', $name );
+        return sprintf('<meta id="%s" name="%s">', $block_meta, $block_meta );        
+    }    
 
 
     /**
@@ -69,6 +252,20 @@ class Styles {
 
 
     /**
+     * Add a new var.
+     *
+     * @since  1.0.0
+     * @access public
+     * @param  array   $args
+     * @return void
+     */
+    public function var( $args ) {
+        $var = new CSS_Var( $args );
+        $this->vars[$var->screen()][] = $var;
+    }
+
+
+    /**
      * Add a new screen.
      *
      * @since  1.0.0
@@ -77,110 +274,82 @@ class Styles {
      * @param  array    $args
      * @return void
      */
-    public function add_screen( $name = false, $args = []) {
-        if( !$name ) return;
+    public function add_screen( $name, $args = []) {
         $this->screens->add( $name, $args );
     }
 
 
     /**
-     * Build opening of media query block, when applicable
+     * Get the styles from all screens
      *
      * @since 1.0.0   
-     * @param string $min - the min width of our query
-     * @param string $max - the max width of our query
+     * @access public
+     * @return string
      */
-    private function open( $min = false, $max = false ) {
+    public function get_styles() {
 
-        $open = '';
+        $styles = '';
 
-        if( $min || $max ) {
+        // loop through each screen
+        foreach ( $this->sorted_screens() as $name ) {
 
-            $open .= '@media ';
+            // if no styles or vars for this screen, skip to next one
+            if( !isset($this->styles[$name]) && !isset($this->vars[$name]) ) continue;
 
-            if( $min ) {
+            // add the styles
+            $styles .= $this->screen_styles( $name );
+        } 
 
-                $open .= sprintf( '(min-width: %s)', esc_attr( $min ) );
-                
-                if( $max ) $open .= ' and ';
-            }
-
-            if( $max ) $open .= sprintf( '(max-width: %s)', esc_attr( $max ) );
-
-            $open .= '{';
-        }
-        
-        return $open;
+        return $styles;
     }
 
 
     /**
-     * Print closing tag of media query block, when applicable
+     * Get the styles from all screens
      *
      * @since 1.0.0   
-     * @param string $min - the min width of our query
-     * @param string $max - the max width of our query
+     * @access public
+     * @return string
      */
-    private function close( $min = false, $max = false ) {
-        return ( $min || $max ) ? '}' : '';
+    public function get_styleblock( $id = false ) {
+
+        // set the block id
+        $block_id = ($id) ? sprintf( 'rootstrap-%s', $id ) : false;
+
+        // add the styleblock
+        return $this->make_styleblock( $this->get_styles(), $block_id );
     }
 
 
     /**
-     * Print the styles from all screens
+     * Print the styles by screen when in customize preview
      *
      * @since 1.0.0   
+     * @access public
      * @param string $id - the id to add to the styleblock
+     * @return string
      */
-    public function get( $id = false ) {
+    public function get_customize_preview() {
 
         $block = '';
 
-        // open styleblock
-        if( $id ) $block .= sprintf( '<style id="rootstrap-%s">', esc_attr( $id ) );
+        // print styles and placeholder for each screen
+        foreach ( $this->sorted_screens() as $name ) {
 
-        // print styles for each screen
-        foreach ( $this->styles as $name => $styles ) {
+            // get the styles
+            $screen_styles = $this->screen_styles( $name );
 
-            $screen = ($this->screens)->get($name);
+            // set the block id
+            $block_id = sprintf( 'rootstrap-customize-%s', $name );
 
-            if( $screen && 'default' !== $screen ) {
+            // add the styleblock
+            $block .= $this->make_styleblock( $screen_styles, $block_id );
+            
+            // add the placeholder
+            $block .= $this->customize_placeholder( $name );
+        }
 
-                // set our min and max widths
-                $min = $screen->min();
-                $max = $screen->max();
-            }
-            else $min = $max = false;
-
-            // open screen query
-            $block .= $this->open( $min, $max );
-
-            // add styles
-            foreach ($styles as $style) {
-                $block .= $style->get();
-            }
-
-            // close screen query
-            $block .= $this->close( $min, $max );
-
-        } // end foreach
-
-        // close styleblock
-        if( $id ) $block .= '</style>';
-
-        // return styleblock
         return $block;
-    }
-
-
-    /**
-     * Print the styles from all screens
-     *
-     * @since 1.0.0   
-     * @param string $id - the id to add to the styleblock
-     */
-    public function print( $id = false ) {    
-        echo $this->get( $id );
     }
 
 } 

@@ -33,7 +33,7 @@ class Customize_Defaults extends Collection {
      * @since  1.0.0
      * @access public
      * @param  string  $id
-     * @param  mixed   $value
+     * @param  string  $value
      * @return void
      */
      public function add( $id, $value ) {

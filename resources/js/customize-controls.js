@@ -39,7 +39,9 @@ function () {
 
     this.devices = rootstrapData.devices; // initialize tab functionality
 
-    this.initializeNavLinks(); // setup device data
+    this.initializeNavLinks(); // initialize sequence devices
+
+    this.initializeDeviceLinks(); // setup device data
 
     this.bindDevices();
   }
@@ -128,6 +130,21 @@ function () {
         var section = link.dataset.section;
         link.addEventListener("click", function (e) {
           if (api.section(section)) api.section(section).focus();
+        });
+      });
+    }
+    /**
+     * Add click handler to sequence navigation for devices
+     */
+
+  }, {
+    key: "initializeDeviceLinks",
+    value: function initializeDeviceLinks() {
+      var api = this.api;
+      document.querySelectorAll('.rootstrap-nav-link').forEach(function (link) {
+        var device = link.dataset.device;
+        link.addEventListener("click", function (e) {
+          if (device) api.previewedDevice.set(device);
         });
       });
     }

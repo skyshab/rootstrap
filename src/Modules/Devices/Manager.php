@@ -89,9 +89,24 @@ class Manager {
 
         $devices = rootstrap()->get_config( 'devices' );
 
+        if( count($devices) < 1  )
+            $devices = get_device_defaults();
+
         // create our intial screens as defined in Rootstrap config
         foreach( $devices as $device => $args ) {
-            add_device( $device, [ 'min' => $args['min'], 'max'=> $args['max'], 'icon' => $args['icon'] ] );
+            $min = ( isset( $args['min'] ) ) ? $args['min'] : false;
+            $max = ( isset( $args['max'] ) ) ? $args['max'] : false;
+            $icon = ( isset( $args['icon'] ) ) ? $args['icon'] : false;
+            $preview_width = ( isset( $args['preview_width'] ) ) ? $args['preview_width'] : false;
+            $preview_height = ( isset( $args['preview_height'] ) ) ? $args['preview_height'] : false;
+
+            add_device( $device, [ 
+                'min' => $min, 
+                'max'=> $max, 
+                'icon' => $icon, 
+                'preview_width' => $preview_width, 
+                'preview_height' => $preview_height
+            ]);
         }
 
         // action hook for plugins and child themes to add or remove devices
@@ -157,8 +172,6 @@ class Manager {
         $styles = new Styles();
         $styles->add_screen( 'mobile-devices-only', ['max' => '1024px'] );
 
-        $overlay_selector = '';
-
         foreach ( get_devices() as $name => $device ) {
 
             // add icon to preview button
@@ -177,45 +190,16 @@ class Manager {
                 ]
             ]); 
 
-
-            // build selector for overlay styles
-            $overlay_selector .= sprintf('.preview-%s #customize-preview.wp-full-overlay-main,', $name );
-
-
             // set customize preview screen max width
             $styles->add([
-                'selector' => sprintf( 'body .preview-%s #customize-preview iframe', $name ),
+                'selector' => sprintf( '.preview-%s #customize-preview', $name ),
                 'styles' => [
-                    'width' => $device->max() . '!important'
+                    'width' => $device->preview_width() . '!important',
+                    'height' => $device->preview_height() . '!important',                    
                 ],
-                'callback' => $device->max()
             ]);
 
         } // end foreach
-
-        // remove comma from last selector
-        $overlay_selector = rtrim( $overlay_selector, ',' );
-
-        $styles->add([
-            'selector' => $overlay_selector,
-            'styles' => [
-                'background-color' => 'rgba(0, 0, 0, 0)',
-                'width' =>  '100%',
-                'height' => '100%',
-                'max-width' => '100%',
-                'max-height' => '100%',
-                'margin' => 'auto',
-                'left' => 'auto',
-                'text-align' => 'center',
-            ],
-        ]);
-
-        $styles->add([
-            'selector' => '#customize-preview iframe',
-            'styles' => [
-                'transition' => 'all 0.5s ease-in-out'
-            ],
-        ]);
 
         $styles->add([
             'screen' =>'mobile-devices-only',
@@ -233,7 +217,8 @@ class Manager {
         ]);
 
         // print styles
-        $styles->print( 'customize-controls' );
+        echo $styles->get_styleblock( 'customize-controls' );
+
     }
     
 }

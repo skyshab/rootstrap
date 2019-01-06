@@ -66,10 +66,12 @@ class Sequence_Control extends WP_Customize_Control {
             $class = 'rootstrap-nav-link rootstrap-nav-link__sequence rootstrap-nav-link__sequence--previous alignleft';
             $target_section = sprintf( 'data-section="%s"', $this->prev['section'] );
             $label = ( isset( $this->prev['label'] ) ) ? $this->prev['label'] : '';
-                
-            printf( '<a href="#" class="%s" %s><span>%s</span></a>',
+            $device = ( isset( $this->prev['device'] ) ) ? sprintf( 'data-device="%s"', $this->prev['device'] ) : '';    
+
+            printf( '<a href="#" class="%s" %s %s><span>%s</span></a>',
                 $class,
                 $target_section, 
+                $device,
                 $label
             );
         }
@@ -79,10 +81,12 @@ class Sequence_Control extends WP_Customize_Control {
             $class = 'rootstrap-nav-link rootstrap-nav-link__sequence rootstrap-nav-link__sequence--next alignright';
             $target_section = sprintf( 'data-section="%s"', $this->next['section'] );
             $label = ( isset( $this->next['label'] ) ) ? $this->next['label'] : '';
+            $device = ( isset( $this->next['device'] ) ) ? sprintf( 'data-device="%s"', $this->next['device'] ) : '';    
                 
-            printf( '<a href="#" class="%s" %s><span>%s</span></a>',
+            printf( '<a href="#" class="%s" %s %s><span>%s</span></a>',
                 $class,
                 $target_section, 
+                $device,
                 $label
             );
         }

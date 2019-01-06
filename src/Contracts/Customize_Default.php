@@ -1,8 +1,8 @@
 <?php
 /**
- * Style interface.
+ * Customize Default interface.
  *
- * Defines the interface that Style class must use.
+ * Defines the interface that Customize Default classes must use.
  *
  * @package   Rootstrap
  * @author    Sky Shabatura
@@ -11,34 +11,35 @@
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
-namespace Rootstrap\Abstracts;
+namespace Rootstrap\Contracts;
 
 
 /**
- * Screen interface.
+ * Customizer Default interface.
  *
  * @since  1.0.0
  * @access public
  */
-interface Style_Interface {
+interface Customize_Default {
 
 
     /**
-     * Returns the screen name.
+     * Returns the customizer default id.
      *
      * @since  1.0.0
      * @access public
      * @return string
      */
-    public function screen();
+    public function id();
+
 
     /**
-     * Returns the styleblock.
+     * Returns the customizer default value.
      *
      * @since  1.0.0
      * @access public
      * @return string
      */
-    public function get();
+    public function value();
 
 }

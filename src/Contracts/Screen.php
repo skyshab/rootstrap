@@ -11,7 +11,7 @@
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
-namespace Rootstrap\Abstracts;
+namespace Rootstrap\Contracts;
 
 
 /**
@@ -20,7 +20,7 @@ namespace Rootstrap\Abstracts;
  * @since  1.0.0
  * @access public
  */
-interface Screen_Interface {
+interface Screen {
 
     /**
      * Returns the screen name.

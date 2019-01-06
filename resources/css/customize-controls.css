@@ -67,30 +67,60 @@
   background-color: #fff;
   text-align: right; }
 
+.customize-control-rootstrap-sequence + .customize-control-rootstrap-tabs {
+  margin: -12px -12px 12px -12px; }
+
+.rootstrap-tabs-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end; }
+
 .rootstrap-tab {
-  background: #ccc;
-  border: 1px solid transparent;
-  color: white;
-  padding: .6em 1em;
+  font-size: 12px;
+  line-height: 32px;
   margin: 0;
-  margin-right: 12px;
-  z-index: 2;
+  margin-right: 10px;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 33%;
+          flex: 0 1 33%;
+  padding: 0 5px;
   position: relative;
   display: inline-block;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  z-index: 2;
+  border: 1px solid transparent;
+  background: #ccc;
+  color: white;
   text-transform: capitalize;
   -webkit-transition: color 0.5s ease-in-out;
   transition: color 0.5s ease-in-out;
-  text-decoration: none; }
+  text-decoration: none;
+  text-align: center; }
   .rootstrap-tab:hover {
     color: inherit; }
   .rootstrap-tab.current-tab {
     background: #EEEEEE;
     color: inherit;
     cursor: default; }
+  .rootstrap-tab:first-child {
+    margin-left: 10px; }
 
 /*
  * Styles for devices module related functionality
  */
+/* setup preview container styles */
+.wp-full-overlay-main {
+  margin: auto 0 !important;
+  max-height: 100%;
+  max-width: 100%;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%); }
+
 /* setup section titles for sections bound to a device */
 [class*="control-section-rootstrap-device--"] .customize-section-title h3:after {
   display: block;

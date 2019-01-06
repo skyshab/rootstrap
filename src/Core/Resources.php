@@ -118,7 +118,7 @@ class Resources {
      */
     public function customize_preview() {
         if ( !$this->resources ) return;        
-        wp_enqueue_script( 'rootstrap-customize-preview', $this->resources . '/js/customize-preview.min.js' );
+        wp_enqueue_script( 'rootstrap-customize-preview', $this->resources . '/js/customize-preview.min.js', array(), filemtime( get_template_directory().'/style.css' ) );
     }
 
 } 

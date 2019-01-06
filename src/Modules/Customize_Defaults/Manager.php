@@ -59,13 +59,13 @@ class Manager {
     public function boot() {
 
         // Create initial collection and add registration callback.
-        add_action( 'init', [ $this, 'register' ], 95 );
+        add_action( 'init', [ $this, 'register' ], 110 );
 
         // Set defaults in customizer
-        add_action( 'customize_register', [ $this, 'customize_register' ], 1000 );   
+        add_action( 'customize_register', [ $this, 'customize_register' ], 500 );   
 
-        // apply customizer output filters for defaults 
-        add_action( 'wp', [ $this, 'customizer_default_filters' ], 100 );          
+        // apply customizer output filters for defaults on the front end
+        add_action( 'wp_loaded', [ $this, 'customizer_default_filters' ] );          
     }
 
 
@@ -100,29 +100,29 @@ class Manager {
 
             $setting = $wp_customize->get_setting( $id );
 
-            // if setting exists, default isn't already defined with value, set the control default
-            if( $setting && !$setting->default && isset( $value ) ) {
-                $setting->default = $value->value();
-            }
+            // if setting exists, set the control default
+            if( $setting && isset( $value ) )
+                $setting->default = $value->value();          
         }
     }  
 
 
     /**
-     * Filter customizer default output.
+     * Filter customizer defaults.
      * 
-     * Adds a filter for every one of our registered defaults. 
+     * Adds a filter for every one of our registered defaults
+     * in our custom get_theme_mod function. 
      * 
      * @since 1.0.0
      * @return void
      */
     public function customizer_default_filters() {
 
-        foreach ( get_customize_defaults() as $id => $default ) {
-            add_filter( "theme_mod_{$id}", function( $value ) use ( $default ) { 
-                return ( $value && '' !==  $value ) ? $value : $default->value();
-            });
+        foreach( get_customize_defaults() as $id => $default ) { 
+            add_filter( "rootstrap/mods/{$id}/default", function( $fallback ) use ( $default ) { 
+                return ( $default->value() && '' !== $default->value() ) ? $default->value() : $fallback;
+            }); 
         }
     } 
-    
+
 }

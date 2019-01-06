@@ -26,6 +26,9 @@ class Rootstrap {
         // initialize tab functionality
         this.initializeNavLinks();
 
+        // initialize sequence devices
+        this.initializeDeviceLinks();        
+
         // setup device data
         this.bindDevices();  
     }
@@ -108,6 +111,22 @@ class Rootstrap {
             });
         });
     }
+
+
+    /**
+     * Add click handler to sequence navigation for devices
+     */
+    initializeDeviceLinks() {
+        const api = this.api;
+        document.querySelectorAll('.rootstrap-nav-link').forEach( ( link ) => {            
+            var device = link.dataset.device;
+            link.addEventListener("click", (e) => { 
+                if( device )
+                    api.previewedDevice.set( device );
+            });
+        });
+    }
+
 }
 
  

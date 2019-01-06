@@ -13,18 +13,16 @@
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
-namespace Rootstrap\Modules\Post_Customizer;
-
-use function Rootstrap\get_post_meta_value;
+namespace Rootstrap\Modules\Post_Mods;
 
 
 /**
- * Post Customizer class.
+ * Post Mods class.
  *
  * @since  1.0.0
  * @access public
  */
-class Post_Customizer {
+class Post_Mods {
 
 
     /**
@@ -33,13 +31,13 @@ class Post_Customizer {
      * @since 1.0.0
      * @var array
      */ 
-    public $post_types = array('post');
+    public $post_types = [];
 
 
     /**
      * Call this method to get singleton
      *
-     * @return Post_Customizer
+     * @return Post_Mods
      */
     public static function instance() {
 
@@ -69,7 +67,7 @@ class Post_Customizer {
      * @return void
      */
     public function boot() {
-        add_action( 'wp', [ $this, 'customizer_filters' ], 500 );           
+        add_action( 'wp', [ $this, 'post_mods' ], 500 );           
     }
     
 
@@ -122,35 +120,35 @@ class Post_Customizer {
 
 
     /**
-     * Filters for customizer output.
+     * Filters for customizer output on single post
      * 
-     * Override customizer output if post has meta with same id.
+     * Override customizer output if a post mod is set.
      *
-     * @since 0.8.2
+     * @since 1.0.0
      * @return void
      */
-    public function customizer_filters() {
+    public function post_mods() {
 
-        $supported_post_type = $this->is_supported_post_type( get_post_type() );
-        $post_meta = get_post_meta( get_the_ID() );
+        // if not a single post or if not a supported post type, bail
+        if( !is_singular() || !$this->is_supported_post_type( get_post_type() ) ) return;
 
-        if( !is_singular() || !$supported_post_type || !$post_meta ) return;
+        // get the post mods
+        $post_mods = get_post_mods( get_the_ID() );
 
-        foreach( $post_meta as $id => $value ) {
+        // if no post mods, nothing to see here
+        if( !$post_mods ) return;
 
-            add_filter( "theme_mod_{$id}", function( $value ) use ( $id ) { 
+        // You've got mods! loop through em
+        foreach( $post_mods as $id => $value ) {
 
-                if( get_post_meta_value( $id ) && 
-                    '' !==  get_post_meta_value( $id ) && 
-                    'default' !==  get_post_meta_value( $id ) 
-                ) {
-                    $value = get_post_meta_value( $id );
-                }   
+            // if no value, take off eh
+            if( empty( $value ) ) continue;
 
-                return $value; 
+            // add filter to override the customizer value with our mod
+            add_filter( "rootstrap/mods/{$id}/value", function() use ( $value ) { 
+                return $value;
             });
-
-        } // end foreach
+        } 
     }
-    
+
 }

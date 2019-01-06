@@ -61,18 +61,49 @@ class Sequence extends Group {
             'sanitize_callback' => 'sanitize_text_field',
         ]);
 
+
+        $prev_section = $this->previous_section( $id );
+        $prev_label = $this->previous;
+        $next_section = $this->next_section( $id );
+        $next_label = $this->next;
+
+
+        $section_prev = ( isset( $this->sections[$id]['prev'] ) ) ? $this->sections[$id]['prev'] : false;
+
+        if( $section_prev ) {
+            
+            if( isset( $section_prev['link'] ) )
+                $prev_section = $section_prev['link'];
+
+            if( isset( $section_prev['label'] ) )
+                $prev_label = $section_prev['label'];
+        }
+
+
+        $section_next = ( isset( $this->sections[$id]['next'] ) ) ? $this->sections[$id]['next'] : false;
+
+        if( $section_next ) {
+            
+            if( isset( $section_next['link'] ) )
+                $next_section = $section_next['link'];
+
+            if( isset( $section_next['label'] ) )
+                $next_label = $section_next['label'];
+        }
+
+
         $this->customize->add_control( 
             new Sequence_Control( $this->customize, $setting, [
                 'section' => $id,
                 'prev' => [
-                    'section' => $this->previous_section( $id ),
-                    'label' => $this->previous,
-                    'device' => $this->sections[$this->previous_section( $id )]['device']
+                    'section' => $prev_section,
+                    'label' => $prev_label,
+                    'device' => $this->sections[$id]['prev']['device']
                 ],
                 'next' => [
-                    'section' => $this->next_section( $id ),
-                    'label' => $this->next,
-                    'device' => $this->sections[$this->next_section( $id )]['device']
+                    'section' => $next_section,
+                    'label' => $next_label,
+                    'device' => $this->sections[$id]['next']['device']
                 ],                
                 'priority' => -20,
             ]

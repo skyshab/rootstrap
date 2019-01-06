@@ -35,6 +35,28 @@ class Device extends Screen {
     public $icon = false;    
 
 
+
+    /**
+     * Device Icon
+     *
+     * @since  1.0.0
+     * @access protected
+     * @var    string
+     */
+    public $preview_width = false;    
+
+
+
+    /**
+     * Device Icon
+     *
+     * @since  1.0.0
+     * @access protected
+     * @var    string
+     */
+    public $preview_height = false;  
+
+
     /**
      * Returns the device icon markup.
      *
@@ -44,6 +66,34 @@ class Device extends Screen {
      */
     public function icon() {
         return $this->icon;
-    }   
+    }  
+    
+    
+
+
+
+    /**
+     * Returns the device icon markup.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return bool
+     */
+    public function preview_width() {
+        return $this->preview_width;
+    } 
+
+
+    /**
+     * Returns the device icon markup.
+     *
+     * @since  1.0.0
+     * @access public
+     * @return bool
+     */
+    public function preview_height() {
+        return $this->preview_height;
+    } 
+
 
 }

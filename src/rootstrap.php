@@ -24,7 +24,7 @@ if ( ! defined( 'ROOTSTRAPPED' ) ) {
 
     define( 'ROOTSTRAPPED', true );
 
-    // Load our custom functions files that are not loaded via the class loader.
-    require_once( 'Core/functions-rootstrap.php');
-    require_once( 'Utilities/functions-utilities.php');
+    // Load our custom functions files that are not loaded via the module loader.
+    require_once( 'Core/functions.php');
+    require_once( 'functions-rootstrap.php');
 }

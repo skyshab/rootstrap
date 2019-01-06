@@ -34,11 +34,11 @@ $rootstrap_modules['Customize_Defaults'] = [
 ];
 
 
-// Configure Post Customizer Module 
-$rootstrap_modules['Post_Customizer'] = [
-    'boot' => ['Post_Customizer'],  
-    'includes' => ['functions-post-customizer'],
-    'instances' => ['Post_Customizer'] 
+// Configure Post Mods Module 
+$rootstrap_modules['Post_Mods'] = [
+    'boot' => ['Post_Mods'],  
+    'includes' => ['functions-post-mods'],
+    'instances' => ['Post_Mods'] 
 ];
 
 

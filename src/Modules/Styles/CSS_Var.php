@@ -1,6 +1,6 @@
 <?php
 /**
- * Style class.
+ * Var class.
  *
  * This class creates a screen object.
  *
@@ -13,44 +13,44 @@
 
 namespace Rootstrap\Modules\Styles;
 
-use Rootstrap\Contracts\Style as Contract;
+use Rootstrap\Contracts\CSS_Var as Contract;
 
 
 /**
- * Creates a new object screen.
+ * Creates a new object var.
  *
  * @since  1.0.0
  * @access public
  */
-class Style implements Contract {
+class CSS_Var implements Contract {
 
 
     /**
-     * Screen for these styles.
+     * Variable Name
+     *
+     * @since  1.0.0
+     * @access protected
+     * @var    array
+     */
+    protected $name;
+
+    /**
+     * Variable value
+     *
+     * @since  1.0.0
+     * @access protected
+     * @var    array
+     */
+    protected $value;
+
+    /**
+     * Screen for this variable.
      *
      * @since  1.0.0
      * @access protected
      * @var    string
      */
     protected $screen;
-
-    /**
-     * Selector.
-     *
-     * @since  1.0.0
-     * @access protected
-     * @var    string
-     */
-    protected $selector;
-
-    /**
-     * Styles.
-     *
-     * @since  1.0.0
-     * @access protected
-     * @var    array
-     */
-    protected $styles;
 
     /**
      * Callback for styleblock.
@@ -72,12 +72,13 @@ class Style implements Contract {
      */
     public function __construct( $args = [] ) {
 
+        $this->name = ( isset( $args['name'] ) ) ? $args['name'] : false;
         $this->selector = ( isset( $args['selector'] ) ) ? $args['selector'] : false;
-        $this->styles = ( isset( $args['styles'] ) ) ? $args['styles'] : false;
+        $this->value = ( isset( $args['value'] ) ) ? $args['value'] : false;
         $this->screen = ( isset( $args['screen'] ) ) ? $args['screen'] : 'default';
         $this->callback = ( isset( $args['callback'] ) && '' !==  $args['callback'] ) ? $args['callback'] : true;
 
-        if( !$this->selector || !$this->styles ) return false;
+        if( !$this->name || !$this->value ) return false;
     }
 
 
@@ -93,6 +94,18 @@ class Style implements Contract {
         return $this->screen;
     }
 
+
+    /**
+     * Does this var have a selector?
+     *
+     * @since  1.0.0
+     * @access public
+     * @return boolean
+     */
+    public function has_selector() {
+        return ( $this->selector && '' !== $this->selector ) ? true : false;
+    }
+
     
     /**
      * Assemble styles and return string
@@ -102,24 +115,13 @@ class Style implements Contract {
      */
     public function get() {
 
-        $styles = '';
+        if( !$this->callback || !$this->name || !$this->value ) return '';
 
-        if( !$this->callback || !is_array( $this->styles ) ) return $styles;
-        foreach ( $this->styles as $property => $value ) {
-
-            $property = ( isset( $property ) && '' !==  $property ) ? $property : false;
-            $value = ( isset( $value ) && '' !==  $value ) ? $value : false;
-
-            // having issues with $value when it is '0', it fails the boolean check. Use "0px" instead for now?
-            // if we remove this check here, styles are output when they have no value at all.
-            if( !$property || !$value ) continue;
-
-            $styles  .= sprintf( '%s: %s;', $property, $value);
+        if( $this->has_selector() ) {
+            return sprintf( '%s{--%s: %s;}', $this->selector, $this->name, $this->value );
         }
 
-        if( '' === $styles ) return '';
-
-        return sprintf( '%s{%s}', $this->selector, $styles );
+        return sprintf( '--%s: %s;', $this->name, $this->value );
     }
 
 

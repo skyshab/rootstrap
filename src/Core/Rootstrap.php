@@ -14,7 +14,7 @@
 
 namespace Rootstrap\Core;
 
-use Rootstrap\Abstracts\Rootstrap_Interface;
+use Rootstrap\Contracts\Rootstrap as Contract;
 use Rootstrap\Core\Resources;
 
 
@@ -24,7 +24,7 @@ use Rootstrap\Core\Resources;
  * @since  1.0.0
  * @access public
  */
-class Rootstrap implements Rootstrap_Interface {
+class Rootstrap implements Contract {
 
 
     /**
