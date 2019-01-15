@@ -14,8 +14,8 @@
 
 namespace Rootstrap\Core;
 
-use Rootstrap\Contracts\Rootstrap as Contract;
-use Rootstrap\Core\Resources;
+use Rootstrap\Abstracts\Bootable;
+use Rootstrap\Modules\Modules;
 
 
 /**
@@ -24,24 +24,8 @@ use Rootstrap\Core\Resources;
  * @since  1.0.0
  * @access public
  */
-class Rootstrap implements Contract {
+class Rootstrap extends Bootable {
 
-
-    /**
-     * Stores configuration data
-     * 
-     * @since 1.0.0
-     * @var array
-     */ 
-    private $config;
-
-    /**
-     * Stores resources uri
-     * 
-     * @since 1.0.0
-     * @var array
-     */ 
-    private $resources = false;
 
     /**
      * Stores Modules object
@@ -57,47 +41,42 @@ class Rootstrap implements Contract {
      * @since 1.0.0
      * @var array
      */ 
-    private $instances = array();     
+    private $instances = [];     
+    
 
     /**
-     * Stores preview data
+     * Load resources.
      * 
      * @since 1.0.0
-     * @var array
-     */ 
-    private $js_data = array();     
-
-
-    /**
-     * Call this method to get singleton
-     *
-     * @return Rootstrap
+     * @return object
      */
-    public static function instance() {
-
-        static $instance = null;
-
-        if( is_null( $instance ) ) 
-            $instance = new self;
-
-        return $instance;
-    }
+    public function boot() {
+        add_action( 'init', [ $this, 'init' ], 110 );
+    } 
 
 
     /**
-     * Register a new Rootstrap object.
-     *
-     * @since  1.0.0
-     * @access public
-     * @param  array   $config
+     * Load Rootstrap Modules when required
+     * 
+     * @since 1.0.0
      * @return void
      */
-    public function __construct() {
+    public function init() {
+
         $this->register_modules();
-        $this->register_instances();
-        $this->register_includes();
-        $this->register_boots();
-        $this->boot();
+        $this->load_modules();
+
+        // everything is loaded. this is where any actions can be 
+        // registered to make changes before modules are booted.
+        do_action( 'rootstrap/loaded' );
+
+        // our modules will register their boot and registration actions here
+        do_action( 'rootstrap/register' );
+
+        // resources url should be defined by this point. add customizer actions
+        add_action( 'customize_controls_enqueue_scripts', [ $this, 'customize_resources' ] );
+        add_action( 'customize_preview_init', [ $this, 'customize_preview'  ] );
+        add_action( 'customize_save_after', [ $this, 'clear_cache' ] );         
     }
 
 
@@ -109,72 +88,26 @@ class Rootstrap implements Contract {
      */
     private function register_modules() {
 
-        // Create and store the Screens object 
+        // Create Modules object
         $this->modules = new Modules();
 
         // grab our modules config
-        $config = include( ROOTSTRAP_DIR . '/Modules/rootstrap-modules.php' );
+        $modules = include( ROOTSTRAP_DIR . '/Modules/rootstrap-modules.php' );
 
         // create modules
-        foreach ( $config as $module => $components ) {
+        foreach ( $modules as $module => $components ) {
             $this->modules->add( $module, $components );
         }
     }
 
 
     /**
-     * Instantiate and store module Class instances 
+     * Load the modules
      * 
      * @since 1.0.0
      * @return void
      */
-    private function register_instances() {
-
-        $modules = $this->modules->all();
-
-        foreach ( $modules as $module ) {
-
-            if( !$module->instances() ) continue;
-
-            $namespace = $module->namespace();
-
-            foreach ( $module->instances() as $instance ) {
-                $Class = $namespace . "\\" . $instance;
-                $this->instances[ $instance ] = new $Class;         
-            }
-        }     
-    }
-
-
-    /**
-     * Instantiate and store module Class instances 
-     * 
-     * @since 1.0.0
-     * @return void
-     */
-    private function register_includes() {
-
-        $modules = $this->modules->all();
-
-        foreach ( $modules as $module ) {
-
-            if( !$module->includes() ) continue;
-
-            foreach ( $module->includes() as $include ) {
-                $file = sprintf( '%s/Modules/%s/%s.php', ROOTSTRAP_DIR, $module, $include );
-                require_once( $file );      
-            }
-        }     
-    }
-
-
-    /**
-     * Boot any classes needed by our modules
-     * 
-     * @since 1.0.0
-     * @return void
-     */
-    private function register_boots() {
+    private function load_modules() {
 
         $modules = $this->modules->all();
 
@@ -182,98 +115,35 @@ class Rootstrap implements Contract {
 
             $namespace = $module->namespace();
 
-            foreach ( $module->boot() as $class ) {
-                $boot = $namespace . "\\" . $class;
-                ( $boot::instance() )->boot();                 
+            // load module functions
+            if( $module->includes() ) {
+                foreach ( $module->includes() as $include ) {
+                    $file = sprintf( '%s/Modules/%s/%s.php', ROOTSTRAP_DIR, $module, $include );
+                    require_once( $file );      
+                }
             }
-        }       
-    }
-
-
-    /** 
-     * Add our actions
-     * 
-     * @since 1.0.0
-     * @return void
-     */
-    private function boot() {
-        add_action('init', [$this, 'register_resources' ], 100 );
-    }
-
-
-    /*
-     * Initiate the class that loads our resources
-     * 
-     * @since 1.0.0
-     * @return void
-     */
-    public function register_resources() {
-        if( !$this->get_resources() ) return false;
-        $resources = Resources::instance();
-        $resources->boot( $this->get_resources(), $this->get_js_data() );
-    }
-
-
-    /**
-     * Initialize the config. Can be passed in as a single 
-     * array, or just for an individual module's data.
-     * 
-     * @since 1.0.0
-     * @param mixed     $config
-     * @param array     $data
-     * @return void
-     */
-    public function set_config( $config, $data = false  ) {
-        if( is_array( $config ) && !$data )
-            $this->config = $config;
-        elseif( is_array($data) )
-            $this->config[$config] = $data;
-    }
-
     
-    /**
-     * Get the config settings. If a specific module is not defined,
-     * return entire config. Allow values to be filtered. 
-     * 
-     * @since 1.0.0
-     * @return array
-     */
-    public function get_config( $data = false ) {
-        $filtered = apply_filters('rootstrap/config', $this->config );
-        if( $data )
-            $config = ( isset( $filtered[$data] ) ) ? $filtered[$data] : [];
-        else
-            $config = $filtered;
-        return $config;
+            // instantiate module classes
+            if( $module->instances() ) {
+                foreach ( $module->instances() as $instance ) {
+                    $Class = $namespace . "\\" . $instance;
+                    $this->instances[ $instance ] = new $Class;         
+                }
+            }
+
+            // boot classes
+            if( $module->boot() ) {
+                foreach ( $module->boot() as $class ) {
+                    $boot = $namespace . "\\" . $class;
+                    ( $boot::instance() )->boot();                 
+                }
+            }            
+        }     
     }
 
 
     /**
-     * Set resources URI.
-     * Used to load module scripts and styles.
-     * 
-     * @since 1.0.0
-     * @return array
-     */
-    public function set_resources( $uri ) {
-        $this->resources = $uri;
-    }
-
-    
-    /**
-     * Get resources URI.
-     * Used to load module scripts and styles.
-     * 
-     * @since 1.0.0
-     * @return array
-     */
-    public function get_resources() {
-        return $this->resources;
-    }    
-
-
-    /**
-     * Get Stored Class instance
+     * Get Stored Module Class instance
      * 
      * @since 1.0.0
      * @return object
@@ -284,24 +154,52 @@ class Rootstrap implements Contract {
 
 
     /**
-     * Get Preview Data
+     * Enqueue scripts and styles.
+     *
+     *  If filters are applied defining file locations, load scripts and styles. 
      * 
      * @since 1.0.0
-     * @return object
      */
-    public function get_js_data() {
-        return $this->js_data;
-    } 
+    public function customize_resources() {
 
+        $resources = apply_filters( 'rootstrap/resources/location', false );
+        if ( !$resources ) return;    
+
+        wp_enqueue_script( 'rootstrap-customize-controls', $resources . '/js/customize-controls.min.js', ['customize-controls', 'jquery'], "1.2", true );
+        
+        $js_data = apply_filters( 'rootstrap/resources/js-data', [] );
+
+        wp_localize_script( 'rootstrap-customize-controls', 'rootstrapData', $js_data );   
+
+        wp_enqueue_style( 'rootstrap-customize-controls', $resources . '/css/customize-controls.min.css' );    
+    }   
+    
 
     /**
-     * Set Preview Data
+     * Enqueue customize preview scripts
+     *
+     * If filters are applied defining file locations, load scripts.
      * 
      * @since 1.0.0
+     */
+    public function customize_preview() {
+
+        $resources = apply_filters( 'rootstrap/resources/location', false );
+        if ( !$resources ) return;    
+
+        wp_enqueue_script( 'rootstrap-customize-preview', $resources . '/js/customize-preview.min.js', array(), filemtime( get_template_directory().'/style.css' ) );
+    }
+
+    
+    /**
+     * Clears cached styles when saving customizer
+     *
+     * @since  1.0.0
+     * @access public
      * @return void
      */
-    public function add_js_data( $key = false, $data ) {
-        if( $key ) $this->js_data[$key] = $data;        
-    }    
+    public function clear_cache() {   
+        remove_theme_mod( 'rootstrap-theme-mods' );
+    }
 
 } 

@@ -20,7 +20,7 @@
 			"Rootstrap\\" : "src/"
 		},
 		"files" : [
-			"src/rootstrap.php"
+			"src/rootstrap-init.php"
 		]
 	},
 	"require"     : {

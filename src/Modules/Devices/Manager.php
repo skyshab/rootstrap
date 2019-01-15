@@ -14,9 +14,8 @@
 
 namespace Rootstrap\Modules\Devices;
 
+use Rootstrap\Abstracts\Bootable;
 use Rootstrap\Modules\Styles\Styles;
-use function Rootstrap\rootstrap;
-use function Rootstrap\add_js_data;
 
 
 /**
@@ -25,32 +24,7 @@ use function Rootstrap\add_js_data;
  * @since  1.0.0
  * @access public
  */
-class Manager {
-
-
-    /**
-     * Call this method to get singleton
-     *
-     * @return Manager
-     */
-    public static function instance() {
-
-        static $instance = null;
-
-        if( is_null( $instance ) ) 
-            $instance = new self;
-
-        return $instance;
-    }
-
-
-    /**
-     * Private constructor 
-     * 
-     * @since  1.0.0
-     * @access private
-     */
-    private function __construct(){}
+class Manager extends Bootable {
 
 
     /**
@@ -63,11 +37,11 @@ class Manager {
     public function boot() {
 
         // Add registration callback for devices.
-        add_action( 'init', [ $this, 'register_devices' ], 95 );
-                
-        // Add registration callback for screens.
-        add_action( 'init', [ $this, 'register_js_data' ], 100 );            
-
+        add_action( 'rootstrap/register', [ $this, 'register' ] );    
+        
+        // Register JS data for devices.        
+        add_filter( 'rootstrap/resources/js-data', [ $this, 'js_data' ] );          
+        
         // Set Customizer Devices
         add_filter( 'customize_previewable_devices', [ $this, 'customize_previewable_devices' ] );
 
@@ -78,21 +52,20 @@ class Manager {
 
 
     /**
-     * Creates intial devices as defined in Rootstrap config
-     * Executes the action hook for plugins or themes to register their devices.
+     * Register devices
      *
      * @since  1.0.0
      * @access public
      * @return void
      */
-    public function register_devices() {
+    public function register() {
 
-        $devices = rootstrap()->get_config( 'devices' );
-
-        if( count($devices) < 1  )
-            $devices = get_device_defaults();
+        // get default devices
+        $devices = get_device_defaults();
 
         // create our intial screens as defined in Rootstrap config
+        // why check all the args here? can we just pass in our args?
+        // can we do the checks in the "add_device" function?
         foreach( $devices as $device => $args ) {
             $min = ( isset( $args['min'] ) ) ? $args['min'] : false;
             $max = ( isset( $args['max'] ) ) ? $args['max'] : false;
@@ -110,22 +83,27 @@ class Manager {
         }
 
         // action hook for plugins and child themes to add or remove devices
-        do_action( 'rootstrap/devices/register', devices() );        
+        do_action( 'rootstrap/register/devices', devices() );        
     }
-
 
 
     /**
-     * Registers devices and screens in our customizer js
+     * Makes data about our devices available in customizer js
      *
      * @since  1.0.0
      * @access public
-     * @return void
+     * @param  array  $data - the data array to filter
+     * @return array  returns modified data
      */
-    public function register_js_data() {        
-        add_js_data( 'devices', get_devices_array() );
-    }
+    public function js_data( $data ) {   
+        
+        // add device data
+        $data['devices'] = get_devices_array();
 
+        // return modified data
+        return $data;
+    }
+    
 
     /**
      * Add custom devices to customizer.

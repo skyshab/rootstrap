@@ -14,9 +14,9 @@
 
 namespace Rootstrap\Modules\Screens;
 
-use function Rootstrap\rootstrap;
-use function Rootstrap\add_js_data;
+use Rootstrap\Abstracts\Bootable;
 use function Rootstrap\Modules\Devices\get_devices;
+
 
 /**
  * Screen manager class.
@@ -24,32 +24,7 @@ use function Rootstrap\Modules\Devices\get_devices;
  * @since  1.0.0
  * @access public
  */
-class Manager {
-
-
-    /**
-     * Call this method to get singleton
-     *
-     * @return Manager
-     */
-    public static function instance() {
-
-        static $instance = null;
-
-        if( is_null( $instance ) ) 
-            $instance = new self;
-
-        return $instance;
-    }
-
-
-    /**
-     * Private constructor 
-     * 
-     * @since  1.0.0
-     * @access private
-     */
-    private function __construct(){}
+class Manager extends Bootable {
 
 
     /**
@@ -61,11 +36,11 @@ class Manager {
      */
     public function boot() {
         
-        // Add registration callback for screens.
-        add_action( 'init', [ $this, 'register_screens' ], 100 );    
+        // Register screens
+        add_action( 'rootstrap/register', [ $this, 'register' ], 20 );    
         
-        // Add registration callback for screens.
-        add_action( 'init', [ $this, 'register_js_data' ], 100 );            
+        // add js data
+        add_filter( 'rootstrap/resources/js-data', [ $this, 'js_data' ] );          
     }
 
 
@@ -77,41 +52,37 @@ class Manager {
      * @access public
      * @return void
      */
-    public function register_screens() {
+    public function register() {
 
-        $screens = $this->screens();
+        // Create initial screens from registered devices
+        $screens = $this->generate_screens();
 
         // create our intial screens as defined in Rootstrap config
+        // why are why checking the min/max like this here? 
+        // why not just pass in the args and check in "add_screen"?
         foreach( $screens as $screen => $args ) {
-            add_screen( $screen, [ 'min' => $args['min'], 'max'=> $args['max'] ] );
+
+            $min = ( isset( $args['min'] ) ) ? $args['min'] : null;
+            $max = ( isset( $args['max'] ) ) ? $args['max'] : null;
+
+            add_screen( $screen, [ 'min' => $min, 'max'=> $max ] );
         }
 
         // action hook for plugins and child themes to add or remove screens
-        do_action( 'rootstrap/screens/register', screens() );
+        do_action( 'rootstrap/register/screens', screens() );
     }
 
 
     /**
-     * Registers devices and screens in our customizer js
-     *
-     * @since  1.0.0
-     * @access public
-     * @return void
-     */
-    public function register_js_data() {        
-        add_js_data( 'screens', get_screens_array() );
-    }
-
-
-    /**
-     * Expand devices into all possible screen combinations.
+     * Expand registered devices into all possible screen combinations.
      * 
      * @since 1.0.0   
      * @access private
      * @return array
      */
-    private function screens() {
+    private function generate_screens() {
 
+        // should we do this, or add a hook/filter
         $devices = get_devices();
         $screens = [ 'default' => [] ];
 
@@ -182,5 +153,22 @@ class Manager {
 
     } // end expand_screens
 
-    
+
+    /**
+     * Makes data about our screens available in customizer js
+     *
+     * @since  1.0.0
+     * @access public
+     * @param  array  $data - the data array to filter
+     * @return array  returns modified data
+     */
+    public function js_data( $data ) {   
+        
+        // add screen data
+        $data['screens'] = get_screens_array();
+
+        // return modified data
+        return $data;
+    }
+
 }

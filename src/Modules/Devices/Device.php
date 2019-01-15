@@ -34,8 +34,6 @@ class Device extends Screen {
      */
     public $icon = false;    
 
-
-
     /**
      * Device Icon
      *
@@ -44,8 +42,6 @@ class Device extends Screen {
      * @var    string
      */
     public $preview_width = false;    
-
-
 
     /**
      * Device Icon
@@ -68,9 +64,6 @@ class Device extends Screen {
         return $this->icon;
     }  
     
-    
-
-
 
     /**
      * Returns the device icon markup.
@@ -94,6 +87,5 @@ class Device extends Screen {
     public function preview_height() {
         return $this->preview_height;
     } 
-
 
 }

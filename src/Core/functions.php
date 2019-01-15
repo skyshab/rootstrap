@@ -34,9 +34,9 @@ function rootstrap() {
  * @param string    $data
  * @return array
  */
-function get_config( $data = false ) {
-    return rootstrap()->get_config( $data );
-}
+// function get_config( $data = false ) {
+//     return rootstrap()->get_config( $data );
+// }
 
 
 /**
@@ -48,13 +48,13 @@ function get_config( $data = false ) {
  * @param  array    $data
  * @return void
  */
-function set_config( $config, $data = false ) {
-    rootstrap()->set_config( $config, $data );
-}
+// function set_config( $config, $data = false ) {
+//     rootstrap()->set_config( $config, $data );
+// }
 
 
 /**
- * Get object instance 
+ * Get object instance ? why tf
  *
  * @since  1.0.0
  * @access public
@@ -63,59 +63,4 @@ function set_config( $config, $data = false ) {
  */
 function get_instance( $class ) {
     return rootstrap()->get_instance( $class );
-}
-
-/**
- * Set the resources URI.
- * Used to load scripts and styles.
- *
- * @since  1.0.0
- * @access public
- * @param  string    $uri
- * @return void
- */
-function set_resources_uri( $uri ) {
-    rootstrap()->set_resources( $uri );
-}
-
-
-/**
- * Get the resources uri.
- * Used to load scripts and styles.
- *
- * @since  1.0.0
- * @access public
- * @return string
- */
-function get_resources_uri() {
-    return rootstrap()->get_resources();
-}
-
-
-/**
- * Get the JS data.
- * Used to make data available in js
- * when performing actions in the customizer.
- *
- * @since  1.0.0
- * @access public
- * @return array
- */
-function get_js_data() {
-    return rootstrap()->get_js_data();
-}
-
-
-/**
- * Set the JS data.
- * Used by modules to add js data.
- *
- * @since  1.0.0
- * @access public
- * @param string    $key
- * @param array     $data
- * @return void
- */
-function add_js_data( $key, $data ) {
-    rootstrap()->add_js_data( $key, $data );
 }

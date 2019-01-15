@@ -14,6 +14,8 @@
 
 namespace Rootstrap\Modules\Customize_Defaults;
 
+use Rootstrap\Abstracts\Bootable;
+
 
 /**
  * Customize_Default manager class.
@@ -21,32 +23,7 @@ namespace Rootstrap\Modules\Customize_Defaults;
  * @since  1.0.0
  * @access public
  */
-class Manager {
-
-
-    /**
-     * Call this method to get singleton
-     *
-     * @return Manager
-     */
-    public static function instance() {
-
-        static $instance = null;
-
-        if( is_null( $instance ) ) 
-            $instance = new self;
-
-        return $instance;
-    }
-
-
-    /**
-     * Private constructor 
-     * 
-     * @since  1.0.0
-     * @access private
-     */
-    private function __construct(){}
+class Manager extends Bootable {
 
 
     /**
@@ -58,14 +35,11 @@ class Manager {
      */
     public function boot() {
 
-        // Create initial collection and add registration callback.
-        add_action( 'init', [ $this, 'register' ], 110 );
+        // Register defaults
+        add_action( 'rootstrap/register', [ $this, 'register' ], 30 );   
 
         // Set defaults in customizer
-        add_action( 'customize_register', [ $this, 'customize_register' ], 500 );   
-
-        // apply customizer output filters for defaults on the front end
-        add_action( 'wp_loaded', [ $this, 'customizer_default_filters' ] );          
+        add_action( 'customize_register', [ $this, 'customize_register' ], 500 );          
     }
 
 
@@ -79,13 +53,11 @@ class Manager {
      */
     public function register() {
 
-        // add defaults from Rootstrap
-        foreach( get_defaults() as $id => $value ) {
-            add_customize_default( $id, $value );
-        }
-
         // action for theme or plugins to add or remove defaults
-        do_action( 'rootstrap/customize_defaults/register', customize_defaults() );
+        do_action( 'rootstrap/register/defaults', customize_defaults() );
+
+        // apply customizer output filters
+        $this->theme_mod_filters();           
     }
 
 
@@ -116,8 +88,7 @@ class Manager {
      * @since 1.0.0
      * @return void
      */
-    public function customizer_default_filters() {
-
+    public function theme_mod_filters() {
         foreach( get_customize_defaults() as $id => $default ) { 
             add_filter( "rootstrap/mods/{$id}/default", function( $fallback ) use ( $default ) { 
                 return ( $default->value() && '' !== $default->value() ) ? $default->value() : $fallback;
