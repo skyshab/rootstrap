@@ -78,15 +78,3 @@ function get_customize_default_value( $id ) {
 function get_customize_defaults() {
     return customize_defaults()->all();
 }
-
-
-/**
- * Get customizer defaults rootstrap data
- *
- * @since  1.0.0
- * @access public
- * @return array
- */
-function get_defaults() {
-    return rootstrap()->get_config( 'defaults' );
-}

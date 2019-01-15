@@ -15,6 +15,8 @@
 
 namespace Rootstrap\Modules\Post_Mods;
 
+use Rootstrap\Abstracts\Bootable;
+
 
 /**
  * Post Mods class.
@@ -22,7 +24,7 @@ namespace Rootstrap\Modules\Post_Mods;
  * @since  1.0.0
  * @access public
  */
-class Post_Mods {
+class Post_Mods extends Bootable {
 
 
     /**
@@ -35,31 +37,6 @@ class Post_Mods {
 
 
     /**
-     * Call this method to get singleton
-     *
-     * @return Post_Mods
-     */
-    public static function instance() {
-
-        static $instance = null;
-
-        if( is_null( $instance ) ) 
-            $instance = new self;
-
-        return $instance;
-    }
-
-
-    /**
-     * Public constructor 
-     * 
-     * @since  1.0.0
-     * @access public
-     */
-    public function __construct(){}
-
-
-    /**
      * Sets up the post customizer manager actions and filters.
      *
      * @since  1.0.0
@@ -67,7 +44,7 @@ class Post_Mods {
      * @return void
      */
     public function boot() {
-        add_action( 'wp', [ $this, 'post_mods' ], 500 );           
+        add_action( 'template_redirect', [ $this, 'post_mods' ] );           
     }
     
 

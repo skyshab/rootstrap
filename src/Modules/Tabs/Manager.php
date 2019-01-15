@@ -13,6 +13,8 @@
 
 namespace Rootstrap\Modules\Tabs;
 
+use Rootstrap\Abstracts\Bootable;
+
 
 /**
  * Tabs manager class.
@@ -20,36 +22,7 @@ namespace Rootstrap\Modules\Tabs;
  * @since  1.0.0
  * @access public
  */
-class Manager {
-
-
-    /**
-     * Call this method to get singleton
-     *
-     * @since  1.0.0
-     * @access public
-     * @return Manager
-     */
-    public static function instance() {
-
-        static $instance = null;
-
-        if( is_null( $instance ) ) 
-            $instance = new self;
-
-        return $instance;
-    }
-
-
-    /**
-     * Private constructor 
-     * 
-     * @since  1.0.0
-     * @access private
-     * @return void
-     */
-    private function __construct(){}
-
+class Manager extends Bootable {
 
     /**
      * Sets up the tabs manager actions and filters.
@@ -59,7 +32,8 @@ class Manager {
      * @return void
      */
     public function boot() {
-        add_action( 'customize_register', [ $this, 'load' ] );
+        // this needs to fire AFTER customizer sections have been registered
+        add_action( 'customize_register', [ $this, 'load' ], 500 );
     }
 
 
@@ -68,15 +42,21 @@ class Manager {
      *
      * @since 1.0.0
      * @access public
-     * @param object $wp_customize - the WordPress customizer object
+     * @param object    $manager - the WordPress customizer object
      */
-    public function load( $wp_customize ) {
+    public function load( $manager ) {
        
         // The file that contains our customizer control. 
         require_once ROOTSTRAP_DIR . '/Modules/Tabs/class-tabs-control.php';
 
         // The file that contains helper function for creating tabs. 
         require_once ROOTSTRAP_DIR . '/Modules/Tabs/functions-tabs.php';
+
+        $tabs = apply_filters( 'rootstrap/tabs', [] ); 
+
+        foreach( $tabs as $args ) {
+            tabs( $manager, $args );
+        }
     }
 
 }

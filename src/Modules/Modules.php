@@ -11,7 +11,7 @@
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
-namespace Rootstrap\Core;
+namespace Rootstrap\Modules;
 
 use Rootstrap\Abstracts\Collection;
 
