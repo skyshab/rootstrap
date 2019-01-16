@@ -17,7 +17,7 @@ use function Rootstrap\rootstrap;
 
 
 /**
- * Returns a Screens object.
+ * Returns a Post Mods object.
  *
  * @since  1.0.0
  * @access public
@@ -29,11 +29,11 @@ function post_mods() {
 
 
 /**
- * Add a screen
+ * Add post type support for post mods
  *
  * @since  1.0.0
  * @access public
- * @param  string            $post_type
+ * @param  string   $post_type
  * @return void
  */
 function add_post_type_support( $post_type ) {
@@ -42,11 +42,11 @@ function add_post_type_support( $post_type ) {
 
 
 /**
- * Get all Screens
+ * Remove post type support for post mods
  *
  * @since  1.0.0
  * @access public
- * @param  string            $post_type
+ * @param  string   $post_type
  * @return void
  */
 function remove_post_type_support( $post_type ) {
@@ -57,21 +57,18 @@ function remove_post_type_support( $post_type ) {
 /**
  * Get post mods
  * 
- * These will be used to override customizer styles
- * and settings for the individual post. 
+ * These will be used to override customizer 
+ * styles and settings for the individual post. 
  *
  * @since  1.0.0
  * @access public
  * @param  string   $id
- * @return void
+ * @return array
  */
 function get_post_mods( $post_id ) {
-
     $mods = get_post_meta( $post_id, 'rootstrap-post-mods' );
-
     return ( is_array( $mods ) && !empty( $mods ) ) ? $mods : false;
 }
-
 
 
 /**
@@ -81,13 +78,11 @@ function get_post_mods( $post_id ) {
  *
  * @since  1.0.0
  * @access public
- * @param  string   $id
- * @return void
+ * @param  string   $key
+ * @return string
  */
 function get_post_mod( $key ) {
-
     $mods = get_post_mods( get_the_ID() );
-
     return ( isset( $mods[$key] ) && $mods[$key] ) ? $mods[$key] : false;
 }
 

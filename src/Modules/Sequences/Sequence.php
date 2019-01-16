@@ -66,7 +66,8 @@ class Sequence extends Group {
         $prev_label = $this->previous;
         $next_section = $this->next_section( $id );
         $next_label = $this->next;
-
+        $prev_device = false;
+        $next_device = false;
 
         $section_prev = ( isset( $this->sections[$id]['prev'] ) ) ? $this->sections[$id]['prev'] : false;
 
@@ -77,6 +78,8 @@ class Sequence extends Group {
 
             if( isset( $section_prev['label'] ) )
                 $prev_label = $section_prev['label'];
+
+            $prev_device = ( isset( $section_prev['device'] ) ) ?: false;
         }
 
 
@@ -89,8 +92,9 @@ class Sequence extends Group {
 
             if( isset( $section_next['label'] ) )
                 $next_label = $section_next['label'];
-        }
 
+            $next_device = ( isset( $section_next['device'] ) ) ?: false;               
+        }
 
         $this->customize->add_control( 
             new Sequence_Control( $this->customize, $setting, [
@@ -98,12 +102,12 @@ class Sequence extends Group {
                 'prev' => [
                     'section' => $prev_section,
                     'label' => $prev_label,
-                    'device' => $this->sections[$id]['prev']['device']
+                    'device' => $prev_device
                 ],
                 'next' => [
                     'section' => $next_section,
                     'label' => $next_label,
-                    'device' => $this->sections[$id]['next']['device']
+                    'device' => $next_device
                 ],                
                 'priority' => -20,
             ]

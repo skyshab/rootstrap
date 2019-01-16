@@ -50,6 +50,8 @@ class Styles {
 
     /**
      * Setup our Styles object
+     * 
+     * Todo: make this only accept instances of a screens object
      *
      * @since 1.0.0   
      * @param object $screens - a Screens object

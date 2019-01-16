@@ -12,17 +12,18 @@ $rootstrap_modules = [];
 
 
 // Configure Screens Module 
-$rootstrap_modules['Screens'] = [
-    'boot' => ['Manager'],
-    'includes' => ['functions-screens'],
-    'instances' => ['Screens']
-];
-
-// Configure Screens Module 
 $rootstrap_modules['Devices'] = [
     'boot' => ['Manager'],
     'includes' => ['functions-devices'],
     'instances' => ['Devices']
+];
+
+
+// Configure Screens Module 
+$rootstrap_modules['Screens'] = [
+    'boot' => ['Manager'],
+    'includes' => ['functions-screens'],
+    'instances' => ['Screens']
 ];
 
 
@@ -38,7 +39,6 @@ $rootstrap_modules['Customize_Defaults'] = [
 $rootstrap_modules['Post_Mods'] = [
     'boot' => ['Post_Mods'],  
     'includes' => ['functions-post-mods'],
-    'instances' => ['Post_Mods'] 
 ];
 
 
