@@ -7,7 +7,7 @@
  *
  * @package   Rootstrap
  * @author    Sky Shabatura
- * @copyright Copyright (c) 2018, Sky Shabatura
+ * @copyright Copyright (c) 2019, Sky Shabatura
  * @link      https://github.com/skyshab/rootstrap
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
@@ -58,14 +58,8 @@ class Manager extends Bootable {
         $screens = $this->generate_screens();
 
         // create our intial screens as defined in Rootstrap config
-        // why are why checking the min/max like this here? 
-        // why not just pass in the args and check in "add_screen"?
         foreach( $screens as $screen => $args ) {
-
-            $min = ( isset( $args['min'] ) ) ? $args['min'] : null;
-            $max = ( isset( $args['max'] ) ) ? $args['max'] : null;
-
-            add_screen( $screen, [ 'min' => $min, 'max'=> $max ] );
+            add_screen( $screen, $args );
         }
 
         // action hook for plugins and child themes to add or remove screens

@@ -3,7 +3,7 @@
  *
  * @package   Rootstrap
  * @author    Sky Shabatura
- * @copyright Copyright (c) 2018, Sky Shabatura
+ * @copyright Copyright (c) 2019, Sky Shabatura
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 

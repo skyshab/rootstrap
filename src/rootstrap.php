@@ -7,12 +7,12 @@
  *
  * @package   Rootstrap
  * @author    Sky Shabatura
- * @copyright Copyright (c) 2018, Sky Shabatura
+ * @copyright Copyright (c) 2019, Sky Shabatura
  * @link      https://github.com/skyshab/rootstrap
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
-namespace Rootstrap\Core;
+namespace Rootstrap;
 
 use Rootstrap\Abstracts\Bootable;
 use Rootstrap\Modules\Modules;

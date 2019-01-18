@@ -4,7 +4,7 @@
  *
  * @package   Rootstrap
  * @author    Sky Shabatura
- * @copyright Copyright (c) 2018, Sky Shabatura
+ * @copyright Copyright (c) 2019, Sky Shabatura
  * @link      https://github.com/skyshab/rootstrap
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
@@ -47,7 +47,7 @@ function get_instance( $class ) {
  * @param   bool   $render - should we render the value when it matches the default
  * @return  string - outputs the value for the mod
  */
-function get_theme_mod( $id, $fallback = false, $render = false ) {
+function get_theme_mod( $id, $fallback = null, $render = false ) {
 
     // here's a chance to force the output, no matter what else is going on
     $mod_override = apply_filters( "rootstrap/mods/{$id}/value", false, $id );
@@ -56,43 +56,43 @@ function get_theme_mod( $id, $fallback = false, $render = false ) {
     if( $mod_override ) 
         return $mod_override;
 
-    // If a single argument is passed in, and it's a boolean,
-    // treat the value as the render conditional.
-    if( is_bool( $fallback ) && !$render ) {
-        $render = $fallback;
-    }
+    // if a fallback was set, assume it should be rendered by default.
+    // this is to make this function behave more like the WordPress default.
+    // this can still be filtered below. 
+    if( isset( $fallback ) )
+        $render = true;
 
-    // allow a default value to be set
+    // allow fallback to be filtered
     $default = apply_filters( "rootstrap/mods/{$id}/default", $fallback, $id );
 
-    // allow the render conditional to be overridden
+    // allow the "render when default" flag to be filtered
     $render = apply_filters( "rootstrap/mods/{$id}/default/render", $render, $id );
 
-    // get the stored theme mods
-    $mods = get_theme_mods();
+    // get the stored theme mod.
+    // using the default "get_theme_mod" function here allows 
+    // the values to be updated in the customize preview
+    $mod = \get_theme_mod( $id );
 
-    // if there's a value set, check if it's the default and whether we should return it.
-    if ( isset( $mods[$id] ) && $mods[$id] ) {
+    // if there's a value saved, check if it's the default and whether we should return it.
+    // checking against false here allows values of '0' to be respected. 
+    if ( $mod !== false ) {
 
         // if the value and default match 
         // and we're not supposed to render, bail
-        if( !$render && $default === $mods[$id] )
+        if( !$render && $default === $mod )
             return false;
 
         // otherwise, return the value
-        return $mods[$id];
+        return $mod;
     }
-    // no value is set, so see if there's a default to return.
+    // no value is set. If the "render default" flag is set
+    // and there's a default value, return the default
     elseif( $render && $default ) {
-        return $default;
-    }
-    // If a fallback was passed in, output that. 
-    elseif( $fallback && is_string( $fallback ) ) {
-        return $fallback;
+        return false;
     }
 
-    // we're in a universe where logic doesn't apply.
-    return false;
+    // no value or default, so return null
+    return null;
 }
 
 
@@ -130,7 +130,7 @@ function rootstrap_register_styles( $handle, $src = '', $deps = [], $ver = false
     else {        
         
         // Get the theme_mod from the database
-        $output = get_theme_mod( 'rootstrap-theme-mods', false );
+        $output = get_theme_mod( 'rootstrap-theme-mods' );
 
         // If styles not cached yet, save them
         if ( !$output ) {
@@ -147,14 +147,8 @@ function rootstrap_register_styles( $handle, $src = '', $deps = [], $ver = false
 
         // Add the mods
         wp_add_inline_style( $handle, $output );           
-    }
-
-
-        // // Add the mods
-        // wp_add_inline_style( $handle, $output );        
-    
+    }          
 }
-
 
 
 
@@ -168,5 +162,5 @@ function rootstrap_register_styles( $handle, $src = '', $deps = [], $ver = false
  * @return  bool
  */
 function is_cached() {
-    return( get_theme_mod( 'rootstrap-theme-mods', false ) ) ? true : false;
+    return(  get_theme_mod( 'rootstrap-theme-mods' ) ) ? true : false;
 }

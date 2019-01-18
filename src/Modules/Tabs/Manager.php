@@ -6,7 +6,7 @@
  *
  * @package   Rootstrap
  * @author    Sky Shabatura
- * @copyright Copyright (c) 2018, Sky Shabatura
+ * @copyright Copyright (c) 2019, Sky Shabatura
  * @link      https://github.com/skyshab/rootstrap
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
@@ -23,6 +23,7 @@ use Rootstrap\Abstracts\Bootable;
  * @access public
  */
 class Manager extends Bootable {
+
 
     /**
      * Sets up the tabs manager actions and filters.

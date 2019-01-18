@@ -6,7 +6,7 @@
  *
  * @package   Rootstrap
  * @author    Sky Shabatura
- * @copyright Copyright (c) 2018, Sky Shabatura
+ * @copyright Copyright (c) 2019, Sky Shabatura
  * @link      https://github.com/skyshab/rootstrap
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
@@ -153,45 +153,6 @@ class Module implements Contract {
     public function boot() {
         return $this->boot;
     }
-
-
-
-    /**
-     * Load the Module
-     * 
-     * @since 1.0.0
-     * @return void
-     */
-    // public function load() {
-
-    //     $namespace = $this->namespace();
-
-    //     // load module functions
-    //     if( $this->includes() ) {
-    //         foreach ( $this->includes() as $include ) {
-    //             $file = sprintf( '%s/Modules/%s/%s.php', ROOTSTRAP_DIR, $this, $include );
-    //             require_once( $file );      
-    //         }
-    //     }
-
-    //     // instantiate module classes
-    //     if( $this->instances() ) {
-    //         foreach ( $this->instances() as $instance ) {
-    //             $Class = $namespace . "\\" . $instance;
-    //             $this->instances[ $instance ] = new $Class;         
-    //         }
-    //     }
-
-    //     // boot classes
-    //     if( $this->boot() ) {
-    //         foreach ( $this->boot() as $class ) {
-    //             $boot = $namespace . "\\" . $class;
-    //             ( $boot::instance() )->boot();                 
-    //         }
-    //     }
-    // }
-
-
 
 
     /**

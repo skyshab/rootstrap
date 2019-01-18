@@ -6,7 +6,7 @@
  *
  * @package   Rootstrap
  * @author    Sky Shabatura
- * @copyright Copyright (c) 2018, Sky Shabatura
+ * @copyright Copyright (c) 2019, Sky Shabatura
  * @link      https://github.com/skyshab/rootstrap
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
@@ -33,8 +33,8 @@ function customize_defaults() {
  *
  * @since  1.0.0
  * @access public
- * @param  string            $id
- * @param  array|string      $value
+ * @param  string   $id
+ * @param  mixed    value
  * @return void
  */
 function add_customize_default( $id, $value ) {
@@ -47,7 +47,7 @@ function add_customize_default( $id, $value ) {
  *
  * @since  1.0.0
  * @access public
- * @param  string            $id
+ * @param  string   $id
  * @return object
  */
 function get_customize_default( $id ) {
@@ -60,8 +60,8 @@ function get_customize_default( $id ) {
  *
  * @since  1.0.0
  * @access public
- * @param  string            $id
- * @return string|array
+ * @param  string   $id
+ * @return mixed
  */
 function get_customize_default_value( $id ) {
     return get_customize_default( $id )->value();

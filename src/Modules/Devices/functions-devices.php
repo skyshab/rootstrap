@@ -6,7 +6,7 @@
  *
  * @package   Rootstrap
  * @author    Sky Shabatura
- * @copyright Copyright (c) 2018, Sky Shabatura
+ * @copyright Copyright (c) 2019, Sky Shabatura
  * @link      https://github.com/skyshab/rootstrap
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
@@ -14,6 +14,7 @@
 namespace Rootstrap\Modules\Devices;
 
 use function Rootstrap\rootstrap;
+
 
 /**
  * Get site Devices instance.
@@ -32,8 +33,8 @@ function devices() {
  *
  * @since  1.0.0
  * @access public
- * @param  string            $name
- * @param  array             $args
+ * @param  string   $name
+ * @param  array    $args
  * @return void
  */
 function add_device( $name, $args ) {
@@ -46,7 +47,7 @@ function add_device( $name, $args ) {
  *
  * @since  1.0.0
  * @access public
- * @param  string            $name
+ * @param  string   $name
  * @return object
  */
 function get_device( $name ) {
@@ -99,7 +100,7 @@ function get_devices_list() {
  * Get the device immediately before specified device
  *
  * @since 1.0.0
- * @param string             $current
+ * @param string    $current
  * @return string
  */
 function get_previous_device( $current ) {
@@ -113,7 +114,7 @@ function get_previous_device( $current ) {
  * Get the device immediately after specified device
  *
  * @since 1.0.0
- * @param string             $current
+ * @param string    $current
  * @return string
  */
 function get_next_device( $current ) {
@@ -127,7 +128,7 @@ function get_next_device( $current ) {
  * Get the device min width
  *
  * @since 1.0.0
- * @param  string             $device
+ * @param  string   $device
  * @return string
  */
 function get_device_min( $device ) {
@@ -140,7 +141,7 @@ function get_device_min( $device ) {
  * Get the device max width
  *
  * @since 1.0.0
- * @param string               $device
+ * @param string    $device
  * @return string
  */
 function get_device_max( $device ) {
@@ -149,7 +150,12 @@ function get_device_max( $device ) {
 }
 
 
-
+/**
+ * Get the default devices
+ *
+ * @since 1.0.0
+ * @return array
+ */
 function get_device_defaults() {
 
     $defaults = [];

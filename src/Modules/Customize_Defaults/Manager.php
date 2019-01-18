@@ -7,7 +7,7 @@
  *
  * @package   Rootstrap
  * @author    Sky Shabatura
- * @copyright Copyright (c) 2018, Sky Shabatura
+ * @copyright Copyright (c) 2019, Sky Shabatura
  * @link      https://github.com/skyshab/rootstrap
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
@@ -82,7 +82,7 @@ class Manager extends Bootable {
     /**
      * Filter customizer defaults.
      * 
-     * Adds a filter for every one of our registered defaults
+     * Adds a filter for our registered defaults
      * in our custom get_theme_mod function. 
      * 
      * @since 1.0.0
