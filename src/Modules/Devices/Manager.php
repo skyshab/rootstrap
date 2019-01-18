@@ -7,7 +7,7 @@
  *
  * @package   Rootstrap
  * @author    Sky Shabatura
- * @copyright Copyright (c) 2018, Sky Shabatura
+ * @copyright Copyright (c) 2019, Sky Shabatura
  * @link      https://github.com/skyshab/rootstrap
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
@@ -47,7 +47,6 @@ class Manager extends Bootable {
 
         // Add Customizer Screen Styles
         add_action( 'customize_controls_print_styles', [ $this, 'customize_controls_print_styles' ] ); 
-
     }
 
 
@@ -64,22 +63,8 @@ class Manager extends Bootable {
         $devices = get_device_defaults();
 
         // create our intial screens as defined in Rootstrap config
-        // why check all the args here? can we just pass in our args?
-        // can we do the checks in the "add_device" function?
         foreach( $devices as $device => $args ) {
-            $min = ( isset( $args['min'] ) ) ? $args['min'] : false;
-            $max = ( isset( $args['max'] ) ) ? $args['max'] : false;
-            $icon = ( isset( $args['icon'] ) ) ? $args['icon'] : false;
-            $preview_width = ( isset( $args['preview_width'] ) ) ? $args['preview_width'] : false;
-            $preview_height = ( isset( $args['preview_height'] ) ) ? $args['preview_height'] : false;
-
-            add_device( $device, [ 
-                'min' => $min, 
-                'max'=> $max, 
-                'icon' => $icon, 
-                'preview_width' => $preview_width, 
-                'preview_height' => $preview_height
-            ]);
+            add_device( $device, $args );
         }
 
         // action hook for plugins and child themes to add or remove devices
@@ -196,7 +181,6 @@ class Manager extends Bootable {
 
         // print styles
         echo $styles->get_styleblock( 'customize-controls' );
-
     }
     
 }

@@ -7,7 +7,7 @@
  *
  * @package   Rootstrap
  * @author    Sky Shabatura
- * @copyright Copyright (c) 2018, Sky Shabatura
+ * @copyright Copyright (c) 2019, Sky Shabatura
  * @link      https://github.com/skyshab/rootstrap
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
@@ -25,6 +25,5 @@ if ( ! defined( 'ROOTSTRAPPED' ) ) {
     define( 'ROOTSTRAPPED', true );
 
     // Load our custom functions files that are not loaded via the module loader.
-    require_once( 'Core/functions.php');
     require_once( 'functions-rootstrap.php');
 }
