@@ -113,7 +113,7 @@ class Rootstrap extends Bootable {
 
         foreach ( $modules as $module ) {
 
-            $namespace = $module->namespace();
+            $namespace = $module->get_namespace();
 
             // load module functions
             if( $module->includes() ) {
