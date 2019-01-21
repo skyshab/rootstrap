@@ -114,7 +114,7 @@ class Module implements Contract {
      * @access public
      * @return string
      */
-    public function namespace() {
+    public function get_namespace() {
         return $this->namespace;
     }  
 

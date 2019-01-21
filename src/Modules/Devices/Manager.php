@@ -112,7 +112,8 @@ class Manager extends Bootable {
         // generate a label for each device button
         foreach ($devices as $name => $device) {
 
-            $device_array[$name]['label'] = sprintf( esc_html__('Enter %s preview mode'), $name );
+            // this should have a translation
+            $device_array[$name]['label'] =  esc_html( sprintf('Enter %s preview mode', $name ) );
 
             // if no max, assume this is 'desktop' or equivalent, set as default
             if( !$device->max() )

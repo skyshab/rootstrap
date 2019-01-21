@@ -51,7 +51,7 @@ function add_customize_default( $id, $value ) {
  * @return object
  */
 function get_customize_default( $id ) {
-    return customize_defaults()->get( $id );;
+    return customize_defaults()->get( $id );
 }
 
 

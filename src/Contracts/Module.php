@@ -40,7 +40,7 @@ interface Module {
      * @access public
      * @return bool
      */
-    public function namespace();      
+    public function get_namespace();      
 
 
     /**

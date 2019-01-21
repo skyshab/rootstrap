@@ -261,7 +261,7 @@ class Styles {
      * @param  array   $args
      * @return void
      */
-    public function var( $args ) {
+    public function add_var( $args ) {
         $var = new CSS_Var( $args );
         $this->vars[$var->screen()][] = $var;
     }
