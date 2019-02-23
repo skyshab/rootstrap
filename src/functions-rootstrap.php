@@ -88,7 +88,7 @@ function get_theme_mod( $id, $fallback = null, $render = false ) {
     // no value is set. If the "render default" flag is set
     // and there's a default value, return the default
     elseif( $render && $default ) {
-        return false;
+        return $default;
     }
 
     // no value or default, so return null
