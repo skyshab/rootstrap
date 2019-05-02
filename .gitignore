@@ -6,3 +6,5 @@ package-lock\.json
 package\.json
 
 gulpfile\.js
+
+composer\.lock
