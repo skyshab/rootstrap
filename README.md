@@ -40,29 +40,6 @@ when creating customizer sections and controls or rendering out the related styl
   javascript api for controlling responsive styles in the customize preview.
   The Styles module also has full support for CSS variables.
 
-* Customizer defaults
-
-  Define the default values to be used for customizer control defaults, and use these values as
-  the fallback value when using Rootstrap's custom get_theme_mod function. This allows defaults
-  for both to be managed from a single place.
-
-* Post Mods
-
-  The Post Mods will check within the post meta for matching Customizer setting ids. If found,
-  the post mod values will supercede the customizer settings that are rendered with Rootstrap/get_theme_mod.
-  This functionality is disabled by default, but can be enabled for any registered post types.
-
-* Customizer Section Tabs
-
-  Allows you to create a tabbed interface within sections in the customizer control panel,
-  with the option to add a preview device trigger when opening a tab.
-
-* Customizer Section Sequences
-
-  Allows you to add a navigation bar with arrow navigation to the top of customizer sections.
-  Has options to show or hide the sections in the panel, reverse the order of the navigation, display
-  prev/next labels, and add a preview device trigger.
-
 
 ### Installation
 
