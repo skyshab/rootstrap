@@ -93,9 +93,9 @@ class Styles {
 
 
 /**
- * Class for adding CSS variables
+ * Class for adding CSS custom properties
  */
-class StyleVar {
+class CustomProperty {
 
     constructor( data ) {
         if ( !data.name ) return false;
@@ -155,7 +155,7 @@ class StyleVar {
         return query;
     }
 
-    getVar() {
+    getStyles() {
         if( !this.name || !this.value ) return '';
         var output = ':root {';
         output += `--${this.name}: ${this.value};`;
@@ -168,7 +168,7 @@ class StyleVar {
     }
 
     getStyleBlockContent() {
-        return this.openQuery() + this.getVar() + this.closeQuery();
+        return this.openQuery() + this.getStyles() + this.closeQuery();
     }
 
     getStyleBlock() {
@@ -195,7 +195,7 @@ const rootstrap = {
     style : (data) => {
         const style = new Styles( data );
     },
-    var : (data) => {
-        const styleVar = new StyleVar( data );
+    customProperty : (data) => {
+        const customProperty = new CustomProperty( data );
     }
 };
