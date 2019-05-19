@@ -17,6 +17,8 @@ namespace Rootstrap;
 
 use Rootstrap\Abstracts\Bootable;
 use Rootstrap\Styles\Styles;
+use Rootstrap\Devices\Devices;
+use Rootstrap\Screens\Screens;
 use function Rootstrap\Devices\get_devices;
 use function Rootstrap\Devices\get_devices_array;
 use function Rootstrap\Screens\get_screens_array;
