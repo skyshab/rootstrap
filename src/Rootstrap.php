@@ -95,14 +95,8 @@ class Rootstrap extends Bootable {
         // Store resources path
         $this->resources = $this->getVendorPath() . '/skyshab/rootstrap/resources';
 
-        // Initialize devices
-        $this->devicesInit();
-
-        // Initialize screens
-        $this->screensInit();
-
-        // Actions to perform once core modules are inititialized
-        do_action( 'rootstrap/loaded', $this );
+        // Initiate Core Modules
+        add_action( 'after_setup_theme', [ $this, 'init' ], PHP_INT_MAX );
 
         // Enqueue controls scripts
         add_action( 'customize_controls_enqueue_scripts', [ $this, 'customize_resources' ] );
@@ -118,6 +112,25 @@ class Rootstrap extends Bootable {
 
         // Add Customizer Screen Styles
         add_action( 'customize_controls_print_styles', [ $this, 'customize_controls_print_styles' ] );
+    }
+
+
+    /**
+     * Initiate Core Modules
+     *
+     * @since 1.1.0
+     * @return object
+     */
+    public function init() {
+
+        // Initialize devices
+        $this->devicesInit();
+
+        // Initialize screens
+        $this->screensInit();
+
+        // Actions to perform once core modules are inititialized
+        do_action( 'rootstrap/loaded', $this );
     }
 
 
