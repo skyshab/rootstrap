@@ -195,7 +195,7 @@ const rootstrap = {
     style : (data) => {
         const style = new Styles( data );
     },
-    customProperty : (data) => {
+    var : (data) => {
         const customProperty = new CustomProperty( data );
     }
 };
