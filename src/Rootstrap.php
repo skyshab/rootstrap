@@ -18,7 +18,7 @@ use Hybrid\Contracts\Bootable;
 /**
  * Creates a new Rootstrap object.
  *
- * @since  1.0.0
+ * @since  2.0.0
  * @access public
  */
 class Rootstrap implements Bootable {
@@ -26,7 +26,7 @@ class Rootstrap implements Bootable {
     /**
      * Stores Vendor Path.
      *
-     * @since 1.0.0
+     * @since 2.0.0
      * @var array
      */
     private $vendor_path;
@@ -34,7 +34,7 @@ class Rootstrap implements Bootable {
     /**
      * Load resources.
      *
-     * @since 1.0.0
+     * @since 2.0.0
      * @return object
      */
     public function boot() {
@@ -55,7 +55,7 @@ class Rootstrap implements Bootable {
     /**
      * Load any classes and functions that will be needed in and out of the customizer.
      *
-     * @since  1.0.0
+     * @since  2.0.0
      * @access public
      * @return void
      */
@@ -66,7 +66,7 @@ class Rootstrap implements Bootable {
     /**
      * Load any classes or functions needed only in the customize register hook.
      *
-     * @since  1.0.0
+     * @since  2.0.0
      * @access public
      * @return void
      */
@@ -88,7 +88,7 @@ class Rootstrap implements Bootable {
     /**
      * Modify registered components.
      *
-     * @since  1.0.0
+     * @since  2.0.0
      * @access public
      * @return void
      */
@@ -99,7 +99,7 @@ class Rootstrap implements Bootable {
     /**
      * Set the path to the vendor directory.
      *
-     * @since  1.0.0
+     * @since  2.0.0
      * @access public
      * @return void
      */
@@ -112,7 +112,7 @@ class Rootstrap implements Bootable {
     /**
      * Get the path to the vendor directory.
      *
-     * @since  1.0.0
+     * @since  2.0.0
      * @access public
      * @return void
      */

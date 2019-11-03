@@ -1,7 +1,7 @@
 # Rootstrap: a WordPress Development Toolkit
 
 Version: 2.0.0
-Released: 10/29/2019
+Released: 11/03/2019
 
 ## Description
 

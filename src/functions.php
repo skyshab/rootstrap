@@ -14,7 +14,7 @@ namespace Rootstrap;
 /**
  * Returns the path to the vendor directory.
  *
- * @since  1.0.0
+ * @since  2.0.0
  * @access public
  * @return string
  */
