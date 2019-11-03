@@ -11,14 +11,13 @@
 
 namespace Rootstrap;
 
-
 /**
- * Returns the Rootstrap object instance.
+ * Returns the path to the vendor directory.
  *
- * @since  1.0.0
+ * @since  2.0.0
  * @access public
- * @return Rootstrap
+ * @return string
  */
-function rootstrap() {
-    return Rootstrap::instance();
+function vendor_path() {
+    return apply_filters('rootstrap/vendor', get_template_directory_uri() . '/vendor');
 }

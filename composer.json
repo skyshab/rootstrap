@@ -12,18 +12,18 @@
 			"role"     : "Developer"
 		}
 	],
-	"support"     : {
+	"support" : {
 		"issues" : "https://github.com/skyshab/rootstrap/issues"
 	},
-	"autoload"    : {
+	"autoload" : {
 		"psr-4" : {
 			"Rootstrap\\" : "src/"
 		},
 		"files" : [
-			"src/rootstrap-init.php"
+			"src/functions.php"
 		]
 	},
-	"require"     : {
-		"php" : ">=5.6"
-	}	
+	"require" : {
+        "justintadlock/hybrid-core" : ">=5.1"
+    }
 }

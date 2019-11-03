@@ -1,45 +1,23 @@
 # Rootstrap: a WordPress Development Toolkit
 
-Version: 1.2.0
-Released: 08/25/2019
+Version: 2.0.0
+Released: 11/03/2019
 
 ## Description
 
-Rootstrap is a collection of utilities for managing WordPress Customizer controls, settings, responsive breakpoints and styles.
+Rootstrap is a toolkit for managing WordPress Customizer related functionality when using the Hybrid Core library in a theme or plugin.
 
 ## Requirements
 
 * WordPress 5.0+.
-* PHP 7.0+
+* Hybrid Core 5.1+
 * [Composer](https://getcomposer.org/) for managing PHP dependencies.
-
 
 ## Features
 
-Rootstrap is a collection of tools for use when implementing the WordPress Customize API in
-your theme or plugin.
+Rootstrap provides a more nuanced set of action hooks for interacting with the WordPress Customizer. Having more specific hooks for 'customize_register' creates a standard to use when extending the Customizer's functionality through specialized modules.
 
-* Devices
-
-  In the WordPress customizer, there are three device buttons for the Customize Preview,
-  mobile, tablet and desktop. Rootstrap devices lets you easily register new devices to
-  the Cusomtizer Control bar, and set the minimum and maximum screen widths for each device.
-
-* Screens
-
-  Screens represent the responsive breakpoints that a website uses to determine when
-  changes occur with layouts, components and other styles. Screens are generated from
-  the registered devices into all possible combinations, but custom screens can also
-  be defined. Screens can then have styles associated with them and output when needed.
-
-* Styles
-
-  Styles for customizer settings can be created cleanly within PHP, organized by screen,
-  and stored in a variable or echoed out when needed. Each style can be associated with a Screen,
-  and all styles of each screen will be output together in a single media query. There is also a
-  javascript api for controlling responsive styles in the customize preview.
-  The Styles module also has full support for CSS custom properties.
-
+This package on its own does not add any functionaliy. It only provides a foundation for other modules to add to.
 
 ### Installation
 
@@ -52,10 +30,6 @@ composer require skyshab/rootstrap
 ## Documentation
 
 Read the project wiki: https://github.com/skyshab/rootstrap/wiki
-
-## Notes
-
-Thanks to Justin Tadlock for the Collections class.
 
 ## Copyright and License
 
