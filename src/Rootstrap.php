@@ -40,7 +40,7 @@ class Rootstrap implements Bootable {
     public function boot() {
 
         // Set the default vendor path
-        add_filter( 'rootstrap/vendor', [$this, 'getVendorPath'] );
+        add_filter( 'rootstrap/vendor',   [$this, 'getVendorPath'] );
 
         // Load any classes and functions that will be needed in and out of the customizer.
         add_action( 'after_setup_theme',  [$this, 'setup'],                 PHP_INT_MAX );
@@ -74,12 +74,6 @@ class Rootstrap implements Bootable {
 
         // Modify registered components
         add_action( 'customize_register', [$this, 'after'],                 PHP_INT_MAX );
-
-        // Add global Rootstrap data in the Customizer
-        add_action('customize_controls_print_scripts', [$this, 'customize_controls_data'] );
-
-        // Add global Rootstrap data in the Customize Preview
-        add_action('wp_print_scripts', [$this, 'customize_preview_data'] );
     }
 
     /**
@@ -201,41 +195,6 @@ class Rootstrap implements Bootable {
      */
     public function after($manager) {
         do_action('rootstrap/customize-register/after', $manager);
-    }
-
-    /**
-     * Add Customize Controls Data
-     *
-     * @since  1.0.0
-     * @access public
-     * @return void
-     */
-    public function customize_controls_data() {
-        $data = apply_filters('rootstrap/customize-controls/data', []);
-        if( empty($data) ) return;
-        ?>
-        <script>
-            var rootstrapCustomizeControlsData = <?php echo json_encode($data); ?>;
-        </script>
-        <?php
-    }
-
-    /**
-     * Add Customize Preview Data
-     *
-     * @since  1.0.0
-     * @access public
-     * @return void
-     */
-    public function customize_preview_data() {
-        if( !is_customize_preview() ) return;
-        $data = apply_filters('rootstrap/customize-preview/data', []);
-        if( empty($data) ) return;
-        ?>
-        <script>
-            var rootstrapCustomizePreviewData = <?php echo json_encode($data); ?>;
-        </script>
-        <?php
     }
 
     /**
